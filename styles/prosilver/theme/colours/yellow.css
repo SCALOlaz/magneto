@@ -1,0 +1,6 @@
+/* Yellow stylesheet. Override everything here. 
+This is called after phpBB's stylesheet, so !important shouldn't be required in most cases */
+
+html, body {
+	background-color: #FF0FF0;
+}
