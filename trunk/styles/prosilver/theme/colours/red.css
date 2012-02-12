@@ -5,9 +5,11 @@
 body {color: #a60808;}
 
 fieldset.quick-login input.inputbox, input.inputbox:hover, input.inputbox:focus, #message-box textarea:hover, #message-box textarea:focus, a.button1, input.button1, input.button3, a.button2, input.button2, a.button1, a.button1:link, a.button1:visited, a.button1:active, a.button2, a.button2:link, a.button2:visited, a.button2:active, a.button1:hover, input.button1:hover, a.button2:hover, input.button2:hover, input.button3:hover, input.search, input.search:hover, input.search:focus {color: #C50000;}
-input.inputbox:hover, input.inputbox:focus, #message-box textarea:hover, #message-box textarea:focus, textarea.inputbox:hover {border-color: #C50000;}
+input.inputbox:hover, input.inputbox:focus, #search-box input, #message-box textarea:hover, #message-box textarea:focus, textarea.inputbox:hover {border-color: #C50000;}
 
-.sn-nli-form, fieldset.quick-login input.inputbox, a.button1, input.button1, a.button2, input.button2, input.button3, a.button1:hover, input.button1:hover, a.button2:hover, input.button2:hover, input.button3:hover, input.search, input.search:hover, input.search:focus {border-color: #f5c1c1;}
+#search-box input {border: 1px solid #b0b0b0;}
+
+fieldset.quick-login input.inputbox, a.button1, input.button1, a.button2, input.button2, input.button3, a.button1:hover, input.button1:hover, a.button2:hover, input.button2:hover, input.button3:hover, input.search, input.search:hover, input.search:focus {border-color: #f5c1c1;}
 
 .mini-profile span a {color: #FFFFFF;}
 
