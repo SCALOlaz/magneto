@@ -37,6 +37,8 @@ if (empty($lang) || !is_array($lang))
 
 // Forum Admin
 $lang = array_merge($lang, array(
+	'ALLOW_TOPICS_IMAGES'			=> 'Topic images',
+	'ALLOW_TOPICS_IMAGES_EXPLAIN'	=> 'Enable topic images',
 	'AUTO_PRUNE_DAYS'			=> 'Auto-prune post age',
 	'AUTO_PRUNE_DAYS_EXPLAIN'	=> 'Number of days since last post after which topic is removed.',
 	'AUTO_PRUNE_FREQ'			=> 'Auto-prune frequency',

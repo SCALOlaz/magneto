@@ -953,7 +953,7 @@ function delete_attachments($mode, $ids, $resync = true)
 	$post_ids = $message_ids = $topic_ids = $physical = array();
 
 	// Collect post and topic ids for later use if we need to touch remaining entries (if resync is enabled)
-	$sql = 'SELECT post_msg_id, topic_id, in_message, physical_filename, thumbnail, filesize, is_orphan
+	$sql = 'SELECT post_msg_id, topic_id, in_message, physical_filename, thumbnail, filesize, is_orphan, topic_image
 			FROM ' . ATTACHMENTS_TABLE . '
 			WHERE ' . $db->sql_in_set($sql_id, $ids);
 
@@ -977,7 +977,7 @@ function delete_attachments($mode, $ids, $resync = true)
 			}
 		}
 
-		$physical[] = array('filename' => $row['physical_filename'], 'thumbnail' => $row['thumbnail'], 'filesize' => $row['filesize'], 'is_orphan' => $row['is_orphan']);
+		$physical[] = array('filename' => $row['physical_filename'], 'thumbnail' => $row['thumbnail'], 'filesize' => $row['filesize'], 'is_orphan' => $row['is_orphan'], 'topic_image' => $row['topic_image']);
 	}
 	$db->sql_freeresult($result);
 
@@ -1006,6 +1006,11 @@ function delete_attachments($mode, $ids, $resync = true)
 			$files_removed++;
 		}
 
+		if ($file_ary['topic_image'])
+		{
+			phpbb_unlink($file_ary['filename'], 'topic_image', true);
+		}
+		
 		if ($file_ary['thumbnail'])
 		{
 			phpbb_unlink($file_ary['filename'], 'thumbnail', true);
@@ -1258,7 +1263,14 @@ function phpbb_unlink($filename, $mode = 'file', $entry_removed = false)
 		return false;
 	}
 
-	$filename = ($mode == 'thumbnail') ? 'thumb_' . utf8_basename($filename) : utf8_basename($filename);
+//	$filename = ($mode == 'thumbnail') ? 'thumb_' . utf8_basename($filename) : utf8_basename($filename);
+	switch($mode)
+	{
+		case 'thumbnail': $filename = 'thumb_' . utf8_basename($filename); break;
+		case 'topic_image': $filename = 'topic_image_' . utf8_basename($filename); break;
+		default: $filename = utf8_basename($filename); break;
+	}
+	
 	return @unlink($phpbb_root_path . $config['upload_path'] . '/' . $filename);
 }
 

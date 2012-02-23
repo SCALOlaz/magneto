@@ -238,6 +238,11 @@
 				<label><input type="radio" class="radio" name="display_recent" value="0"<!-- IF not S_DISPLAY_ACTIVE_TOPICS --> id="display_recent" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 		</dl>
 		<dl>
+			<dt><label for="forum_allow_topic_image">{L_ALLOW_TOPICS_IMAGES}:</label><br /><span>{L_ALLOW_TOPICS_IMAGES_EXPLAIN}</span></dt>
+			<dd><label><input type="radio" class="radio" name="forum_allow_topic_image" value="1"<!-- IF S_ALLOW_TOPICS_IMAGES --> id="forum_allow_topic_image" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label><input type="radio" class="radio" name="forum_allow_topic_image" value="0"<!-- IF not S_ALLOW_TOPICS_IMAGES --> id="forum_allow_topic_image" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+		</dl>		
+		<dl>
 			<dt><label for="topics_per_page">{L_FORUM_TOPICS_PAGE}:</label><br /><span>{L_FORUM_TOPICS_PAGE_EXPLAIN}</span></dt>
 			<dd><input type="text" id="topics_per_page" name="topics_per_page" value="{TOPICS_PER_PAGE}" size="4" maxlength="4" /></dd>
 		</dl>

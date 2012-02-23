@@ -524,6 +524,18 @@ function upload_attachment($form_name, $forum_id, $local = false, $local_storage
 /**
 * Calculate the needed size for Thumbnail
 */
+function get_img_size_format_for_topic_image($pw, $ph)
+{
+	global $config;
+
+	$nw = ($config['img_max_topic_image_width']) ? $config['img_max_topic_image_width'] : 40;
+	$nh = ($config['img_max_topic_image_height']) ? $config['img_max_topic_image_height'] : 53;
+
+	$wr = $nw/$pw;
+	$hr = $nh/$ph;
+	return array(round(min($wr,$hr)*$pw),round(min($wr,$hr)*$ph));
+}
+
 function get_img_size_format($width, $height)
 {
 	global $config;
@@ -615,14 +627,15 @@ function get_supported_image_types($type = false)
 /**
 * Create Thumbnail
 */
-function create_thumbnail($source, $destination, $mimetype)
+function create_thumbnail($source, $destination, $mimetype, $for_topic_image = false)
 {
 	global $config;
 
 	$min_filesize = (int) $config['img_min_thumb_filesize'];
 	$img_filesize = (file_exists($source)) ? @filesize($source) : false;
 
-	if (!$img_filesize || $img_filesize <= $min_filesize)
+	//if (!$img_filesize || $img_filesize <= $min_filesize)
+	if (!$for_topic_image && (!$img_filesize || $img_filesize <= $min_filesize))
 	{
 		return false;
 	}
@@ -641,7 +654,8 @@ function create_thumbnail($source, $destination, $mimetype)
 		return false;
 	}
 
-	list($new_width, $new_height) = get_img_size_format($width, $height);
+	//list($new_width, $new_height) = get_img_size_format($width, $height);
+	list($new_width, $new_height) = ($for_topic_image) ? get_img_size_format_for_topic_image($width, $height) : get_img_size_format($width, $height);
 
 	// Do not create a thumbnail if the resulting width/height is bigger than the original one
 	if ($new_width >= $width && $new_height >= $height)
@@ -837,6 +851,7 @@ function posting_gen_attachment_entry($attachment_data, &$filename_data, $show_a
 				'ATTACH_ID'			=> $attach_row['attach_id'],
 				'S_IS_ORPHAN'		=> $attach_row['is_orphan'],
 				'ASSOC_INDEX'		=> $count,
+				'S_IMAGE'			=> (strpos($attach_row['mimetype'], 'image') === 0),
 
 				'U_VIEW_ATTACHMENT'	=> $download_link,
 				'S_HIDDEN'			=> $hidden)
@@ -1815,6 +1830,7 @@ function submit_post($mode, $subject, $username, $topic_type, &$poll, &$data, $u
 				'topic_type'				=> $topic_type,
 				'topic_time_limit'			=> ($topic_type == POST_STICKY || $topic_type == POST_ANNOUNCE) ? ($data['topic_time_limit'] * 86400) : 0,
 				'topic_attachment'			=> (!empty($data['attachment_data'])) ? 1 : 0,
+				'topic_image_id'			=> $data['topic_image_id'],
 			);
 
 			if (isset($poll['poll_options']) && !empty($poll['poll_options']))
@@ -1901,6 +1917,7 @@ function submit_post($mode, $subject, $username, $topic_type, &$poll, &$data, $u
 				'topic_last_view_time'		=> $current_time,
 
 				'topic_attachment'			=> (!empty($data['attachment_data'])) ? 1 : (isset($data['topic_attachment']) ? $data['topic_attachment'] : 0),
+				'topic_image_id'			=> $data['topic_image_id'],
 			);
 
 			// Correctly set back the topic replies and forum posts... only if the topic was approved before and now gets disapproved

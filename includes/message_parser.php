@@ -1362,7 +1362,8 @@ class parse_message extends bbcode_firstpass
 	/**
 	* Parse Attachments
 	*/
-	function parse_attachments($form_name, $mode, $forum_id, $submit, $preview, $refresh, $is_message = false)
+	//function parse_attachments($form_name, $mode, $forum_id, $submit, $preview, $refresh, $is_message = false)
+	function parse_attachments($form_name, $mode, $forum_id, $submit, $preview, $refresh, $is_message = false, $allow_topic_image = false)
 	{
 		global $config, $auth, $user, $phpbb_root_path, $phpEx, $db;
 
@@ -1416,6 +1417,7 @@ class parse_message extends bbcode_firstpass
 						'is_orphan'			=> 1,
 						'in_message'		=> ($is_message) ? 1 : 0,
 						'poster_id'			=> $user->data['user_id'],
+						'topic_image'		=> ($allow_topic_image && (strpos($filedata['mimetype'], 'image') === 0)) ? 1 : 0,
 					);
 
 					$db->sql_query('INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_ary));
@@ -1424,6 +1426,7 @@ class parse_message extends bbcode_firstpass
 						'attach_id'		=> $db->sql_nextid(),
 						'is_orphan'		=> 1,
 						'real_filename'	=> $filedata['real_filename'],
+						'mimetype'		=> $filedata['mimetype'],
 						'attach_comment'=> $this->filename_data['filecomment'],
 					);
 
@@ -1464,7 +1467,7 @@ class parse_message extends bbcode_firstpass
 					// delete selected attachment
 					if ($this->attachment_data[$index]['is_orphan'])
 					{
-						$sql = 'SELECT attach_id, physical_filename, thumbnail
+						$sql = 'SELECT attach_id, physical_filename, thumbnail, topic_image
 							FROM ' . ATTACHMENTS_TABLE . '
 							WHERE attach_id = ' . (int) $this->attachment_data[$index]['attach_id'] . '
 								AND is_orphan = 1
@@ -1476,6 +1479,11 @@ class parse_message extends bbcode_firstpass
 						if ($row)
 						{
 							phpbb_unlink($row['physical_filename'], 'file');
+							
+							if ($row['topic_image'])
+							{
+								phpbb_unlink($row['physical_filename'], 'topic_image');
+							}							
 
 							if ($row['thumbnail'])
 							{
@@ -1518,6 +1526,7 @@ class parse_message extends bbcode_firstpass
 							'is_orphan'			=> 1,
 							'in_message'		=> ($is_message) ? 1 : 0,
 							'poster_id'			=> $user->data['user_id'],
+							'topic_image'		=> ($allow_topic_image && (strpos($filedata['mimetype'], 'image') === 0)) ? 1 : 0,
 						);
 
 						$db->sql_query('INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_ary));
@@ -1526,6 +1535,7 @@ class parse_message extends bbcode_firstpass
 							'attach_id'		=> $db->sql_nextid(),
 							'is_orphan'		=> 1,
 							'real_filename'	=> $filedata['real_filename'],
+							'mimetype'		=> $filedata['mimetype'],
 							'attach_comment'=> $this->filename_data['filecomment'],
 						);
 
@@ -1583,7 +1593,7 @@ class parse_message extends bbcode_firstpass
 		if (sizeof($not_orphan))
 		{
 			// Get the attachment data, based on the poster id...
-			$sql = 'SELECT attach_id, is_orphan, real_filename, attach_comment
+			$sql = 'SELECT attach_id, is_orphan, real_filename, attach_comment, mimetype
 				FROM ' . ATTACHMENTS_TABLE . '
 				WHERE ' . $db->sql_in_set('attach_id', array_keys($not_orphan)) . '
 					AND poster_id = ' . $check_user_id;
@@ -1608,7 +1618,7 @@ class parse_message extends bbcode_firstpass
 		// Regenerate newly uploaded attachments
 		if (sizeof($orphan))
 		{
-			$sql = 'SELECT attach_id, is_orphan, real_filename, attach_comment
+			$sql = 'SELECT attach_id, is_orphan, real_filename, attach_comment, mimetype
 				FROM ' . ATTACHMENTS_TABLE . '
 				WHERE ' . $db->sql_in_set('attach_id', array_keys($orphan)) . '
 					AND poster_id = ' . $user->data['user_id'] . '

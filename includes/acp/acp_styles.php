@@ -128,7 +128,7 @@ parse_css_file = {PARSE_CSS_FILE}
 				'upload_bar',
 			),
 			'user'		=> array(
-				'user_icon1', 'user_icon2', 'user_icon3', 'user_icon4', 'user_icon5', 'user_icon6', 'user_icon7', 'user_icon8', 'user_icon9', 'user_icon10',
+				'user_icon1', 'user_icon2', 'user_icon3', 'user_icon4', 'user_icon5', 'user_icon6', 'user_icon7', 'user_icon8', 'user_icon9', 'user_icon10', 'topic_image_no_photo',
 			),
 		);
 

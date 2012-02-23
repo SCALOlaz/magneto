@@ -143,6 +143,8 @@ $lang = array_merge($lang, array(
 	'acl_f_icons'		=> array('lang' => 'Может использовать значки тем и сообщений', 'cat' => 'post'),
 	'acl_f_announce'	=> array('lang' => 'Может создавать объявления', 'cat' => 'post'),
 	'acl_f_sticky'		=> array('lang' => 'Может прилеплять темы', 'cat' => 'post'),
+	
+	'acl_f_topic_image'	=> array('lang' => 'Может назначать изображения темам', 'cat' => 'post'),
 
 	'acl_f_poll'		=> array('lang' => 'Может создавать опросы', 'cat' => 'polls'),
 	'acl_f_vote'		=> array('lang' => 'Может голосовать в опросах', 'cat' => 'polls'),

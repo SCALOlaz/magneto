@@ -111,7 +111,7 @@ include($phpbb_root_path . 'common.' . $phpEx);
 
 $download_id = request_var('id', 0);
 $mode = request_var('mode', '');
-$thumbnail = request_var('t', false);
+$thumbnail = request_var('t', 0);
 
 // Start session management, do not update session page.
 $user->session_begin(false);
@@ -130,7 +130,7 @@ if (!$config['allow_attachments'] && !$config['allow_pm_attach'])
 	trigger_error('ATTACHMENT_FUNCTIONALITY_DISABLED');
 }
 
-$sql = 'SELECT attach_id, in_message, post_msg_id, extension, is_orphan, poster_id, filetime
+$sql = 'SELECT attach_id, in_message, post_msg_id, extension, is_orphan, poster_id, mimetype, filetime, topic_image
 	FROM ' . ATTACHMENTS_TABLE . "
 	WHERE attach_id = $download_id";
 $result = $db->sql_query_limit($sql, 1);
@@ -141,6 +141,12 @@ if (!$attachment)
 {
 	send_status_line(404, 'Not Found');
 	trigger_error('ERROR_NO_ATTACHMENT');
+}
+
+if (!($config['img_max_topic_image_width'] > 0 && $config['img_max_topic_image_height'] > 0) || ($thumbnail == 2 && !$attachment['topic_image']))
+{
+	header('HTTP/1.0 403 Forbidden');
+	trigger_error($user->lang['LINKAGE_FORBIDDEN']);
 }
 
 if ((!$attachment['in_message'] && !$config['allow_attachments']) || ($attachment['in_message'] && !$config['allow_pm_attach']))
@@ -272,7 +278,24 @@ if ($display_cat == ATTACHMENT_CATEGORY_FLASH && !$user->optionget('viewflash'))
 	$display_cat = ATTACHMENT_CATEGORY_NONE;
 }
 
-if ($thumbnail)
+if ($thumbnail == 2)
+{
+	$filename = $phpbb_root_path . $config['upload_path'] . '/topic_image_' . $attachment['physical_filename'];
+	
+	if (!@file_exists($filename))
+	{
+		@include_once($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
+		if (create_thumbnail($phpbb_root_path . $config['upload_path'] . '/' . $attachment['physical_filename'], $filename, $attachment['mimetype'], true))
+		{
+			$attachment['physical_filename'] = 'topic_image_' . $attachment['physical_filename'];
+		}
+	}
+	else
+	{
+		$attachment['physical_filename'] = 'topic_image_' . $attachment['physical_filename'];
+	}
+}
+elseif ($thumbnail)
 {
 	$attachment['physical_filename'] = 'thumb_' . $attachment['physical_filename'];
 }
