@@ -37,6 +37,8 @@ if (empty($lang) || !is_array($lang))
 
 // Forum Admin
 $lang = array_merge($lang, array(
+	'ALLOW_TOPICS_IMAGES'			=> 'Изображения тем',
+	'ALLOW_TOPICS_IMAGES_EXPLAIN'	=> 'Включить отображение изображений, опубликованных в первом сообщении.',
 	'AUTO_PRUNE_DAYS'			=> 'Автоочистка по дате последнего сообщения',
 	'AUTO_PRUNE_DAYS_EXPLAIN'	=> 'Количество дней с последнего сообщения, по прошествии которых тема будет удалена.',
 	'AUTO_PRUNE_FREQ'			=> 'Частота автоматической очистки',

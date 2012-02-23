@@ -149,6 +149,7 @@ class acp_forums
 						'forum_password'		=> request_var('forum_password', '', true),
 						'forum_password_confirm'=> request_var('forum_password_confirm', '', true),
 						'forum_password_unset'	=> request_var('forum_password_unset', false),
+						'forum_allow_topic_image'	=> request_var('forum_allow_topic_image', false),
 					);
 
 					// On add, add empty forum_options... else do not consider it (not updating it)
@@ -444,6 +445,7 @@ class acp_forums
 							'forum_options'			=> 0,
 							'forum_password'		=> '',
 							'forum_password_confirm'=> '',
+							'forum_allow_topic_image'=> false,
 						);
 					}
 				}
@@ -641,6 +643,7 @@ class acp_forums
 					'S_ENABLE_ACTIVE_TOPICS'	=> ($forum_data['forum_type'] == FORUM_CAT) ? ($forum_data['forum_flags'] & FORUM_FLAG_ACTIVE_TOPICS) : false,
 					'S_ENABLE_POST_REVIEW'		=> ($forum_data['forum_flags'] & FORUM_FLAG_POST_REVIEW) ? true : false,
 					'S_ENABLE_QUICK_REPLY'		=> ($forum_data['forum_flags'] & FORUM_FLAG_QUICK_REPLY) ? true : false,
+					'S_ALLOW_TOPICS_IMAGES'		=> ($forum_data['forum_allow_topic_image']) ? true : false,
 					'S_CAN_COPY_PERMISSIONS'	=> ($action != 'edit' || empty($forum_id) || ($auth->acl_get('a_fauth') && $auth->acl_get('a_authusers') && $auth->acl_get('a_authgroups') && $auth->acl_get('a_mauth'))) ? true : false,
 				));
 

@@ -158,9 +158,47 @@
 			<div class="inner"><span class="corners-top"><span></span></span>
 			<h3>{L_POSTED_ATTACHMENTS}</h3>
 
-			<fieldset class="fields2">
+			<!-- IF S_ALLOW_TOPICS_IMAGES -->
+			<script type="text/javascript">
+			// <![CDATA[
+				var _topic_image_preview = "{U_PREVIEW_TOPIC_IMAGE}";
+				var _topic_image_mw = "{S_TOPIC_IMAGE_MW}";
+				var _topic_image_mh = "{S_TOPIC_IMAGE_MH}";
+				function getElementsByClassName(classname,node){if(!node)node=document.getElementsByTagName("body")[0];var a=[];var re=new RegExp('\\b'+classname+'\\b');var els=node.getElementsByTagName("*");for(var i=0,j=els.length;i<j;i++)if(re.test(els[i].className))a.push(els[i]);return a;}
+				function ti_set_selection(obj, n) {
+					var _rows = document.getElementById("atts_list").getElementsByTagName("dl");
+					for (i = 0; i < _rows.length; i++) {
+						_rows[i].className = "topic_image_row_hidden";
+						_rows[i].getElementsByTagName("dd")[0].style.marginLeft = 0;
+					}
+					
+					var _btns = getElementsByClassName("set_topic_image", document.getElementById("atts_list"));
+					for (i = 0; i < _btns.length; i++) _btns[i].style.display = "inline";
+					if (obj) {
+						obj = obj.parentNode.parentNode.parentNode.parentNode;
+						obj.className = "topic_image_row";
+						
+						var obj2 = obj.getElementsByTagName("dt")[0];
+						obj2.innerHTML = '<div class="topic_image_preview" style="width:'+_topic_image_mw+'px;height:'+_topic_image_mh+'px"><img src="'+_topic_image_preview+n+'" /></div><input type="button" style="margin-top:2px" value="{L_DELETE_TOPIC_IMAGE}" class="button2" onclick="ti_set_selection(null, 0);this.style.display='+"'"+'none'+"'"+';return false;" />';
+						obj2.style.width = (_topic_image_mw)+'px';
+						
+						var obj2 = obj.getElementsByTagName("dd")[0];
+						obj2.style.marginLeft = (parseInt(_topic_image_mw)+15)+'px';
+					}
+					obj = document.getElementById("topic_image_id");
+					if (obj) obj.value = n;
+					return false;
+				}
+			// ]]>
+			</script>
+			<!-- ENDIF -->
+			<fieldset id="atts_list" class="fields2">
 
 			<!-- BEGIN attach_row -->
+			
+			<!-- IF S_ALLOW_TOPICS_IMAGES --><dl class="topic_image_row_hidden"><dt class="_tir">
+			</dt><dd class="_tir"><!-- ENDIF -->
+			
 			<dl>
 
 				<dt><label for="comment_list_{attach_row.ASSOC_INDEX}">{L_FILE_COMMENT}:</label></dt>
@@ -169,10 +207,16 @@
 				<dd style="margin-top: 5px;">
 					<!-- IF S_INLINE_ATTACHMENT_OPTIONS --><input type="button" value="{L_PLACE_INLINE}" onclick="attach_inline({attach_row.ASSOC_INDEX}, '{attach_row.A_FILENAME}');" class="button2" />&nbsp; <!-- ENDIF -->
 					<input type="submit" name="delete_file[{attach_row.ASSOC_INDEX}]" value="{L_DELETE_FILE}" class="button2" />
+					<!-- IF S_ALLOW_TOPICS_IMAGES and attach_row.S_IMAGE --><script type="text/javascript">/*<![CDATA[*/document.write('<br /><input type="button" style="margin-top:4px" value="{L_SET_TOPIC_IMAGE}" class="set_topic_image button2"<!-- IF attach_row.ATTACH_ID eq S_TOPIC_IMAGE_ID --> id="default_topic_image"<!-- ENDIF --> onclick="ti_set_selection(this, {attach_row.ATTACH_ID});this.style.display='+"'"+'none'+"'"+';return false;" />');/*]]>*/</script><!-- ENDIF -->
 				</dd>
 			</dl>
 			{attach_row.S_HIDDEN}
 				<!-- IF not attach_row.S_LAST_ROW --><hr class="dashed" /><!-- ENDIF -->
+				
+			<!-- IF S_ALLOW_TOPICS_IMAGES --></dd></dl>
+				<!-- IF attach_row.ATTACH_ID eq S_TOPIC_IMAGE_ID --><script type="text/javascript">/*<![CDATA[*/var obj = document.getElementById('default_topic_image');ti_set_selection(obj, {S_TOPIC_IMAGE_ID});obj.style.display = "none";/*]]>*/</script><!-- ENDIF -->
+			<!-- ENDIF -->
+			
 			<!-- END attach_row -->
 
 			</fieldset>
@@ -187,6 +231,7 @@
 		<fieldset class="submit-buttons">
 			{S_HIDDEN_ADDRESS_FIELD}
 			{S_HIDDEN_FIELDS}
+			<input type="hidden" name="topic_image_id" id="topic_image_id" value="{S_TOPIC_IMAGE_ID}" />
 			<!-- IF S_HAS_DRAFTS --><input type="submit" accesskey="d" tabindex="8" name="load" value="{L_LOAD_DRAFT}" class="button2" onclick="load_draft = true;" />&nbsp; <!-- ENDIF -->
 			<!-- IF S_SAVE_ALLOWED --><input type="submit" accesskey="k" tabindex="7" name="save" value="{L_SAVE_DRAFT}" class="button2" />&nbsp; <!-- ENDIF -->
 			<input type="submit" tabindex="5" name="preview" value="{L_PREVIEW}" class="button1"<!-- IF not S_PRIVMSGS --> onclick="document.getElementById('postform').action += '#preview';"<!-- ENDIF --> />&nbsp;

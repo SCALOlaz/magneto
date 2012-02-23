@@ -324,7 +324,10 @@ $template->assign_vars(array(
 	'S_SINGLE_MODERATOR'	=> (!empty($moderators[$forum_id]) && sizeof($moderators[$forum_id]) > 1) ? false : true,
 	'S_IS_LOCKED'			=> ($forum_data['forum_status'] == ITEM_LOCKED) ? true : false,
 	'S_VIEWFORUM'			=> true,
-
+	'S_ALLOW_TOPICS_IMAGES'	=> ($config['img_max_topic_image_width'] > 0 && $config['img_max_topic_image_height'] > 0) && $forum_data['forum_allow_topic_image'] == 1,
+	'S_TOPIC_IMAGE_MW'		=> (($config['img_max_topic_image_width']) ? $config['img_max_topic_image_width'] : 40),
+	'S_TOPIC_IMAGE_MH'		=> (($config['img_max_topic_image_height']) ? $config['img_max_topic_image_height'] : 53),
+	
 	'U_MCP'				=> ($auth->acl_get('m_', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", "f=$forum_id&amp;i=main&amp;mode=forum_view", true, $user->session_id) : '',
 	'U_POST_NEW_TOPIC'	=> ($auth->acl_get('f_post', $forum_id) || $user->data['user_id'] == ANONYMOUS) ? append_sid("{$phpbb_root_path}posting.$phpEx", 'mode=post&amp;f=' . $forum_id) : '',
 	'U_VIEW_FORUM'		=> append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=$forum_id" . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($start == 0) ? '' : "&amp;start=$start")),
@@ -344,6 +347,12 @@ $sql_array = array(
 	),
 	'LEFT_JOIN'	=> array(),
 );
+
+if ($config['allow_attachments'] && $auth->acl_get('f_download', $forum_id))
+{
+	$sql_array['LEFT_JOIN'][] = array('FROM' => array(ATTACHMENTS_TABLE => 'a'), 'ON' => 'a.attach_id = t.topic_image_id AND a.topic_id = t.topic_id');
+	$sql_array['SELECT'] .= ', a.topic_image';
+}
 
 $sql_approved = ($auth->acl_get('m_approve', $forum_id)) ? '' : 'AND t.topic_approved = 1';
 
@@ -613,7 +622,8 @@ if (sizeof($topic_list))
 		}
 	}
 
-	$s_type_switch = 0;
+	//$s_type_switch = 0;
+	$s_type_switch = $ti_cnt = 0;
 	foreach ($topic_list as $topic_id)
 	{
 		$row = &$rowset[$topic_id];
@@ -649,6 +659,8 @@ if (sizeof($topic_list))
 		$posts_unapproved = ($row['topic_approved'] && $row['topic_replies'] < $row['topic_replies_real'] && $auth->acl_get('m_approve', $topic_forum_id)) ? true : false;
 		$u_mcp_queue = ($topic_unapproved || $posts_unapproved) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=queue&amp;mode=' . (($topic_unapproved) ? 'approve_details' : 'unapproved_posts') . "&amp;t=$topic_id", true, $user->session_id) : '';
 
+		if ($row['topic_image_id'] && $row['topic_image']) $ti_cnt++;
+		
 		// Send vars to template
 		$template->assign_block_vars('topicrow', array(
 			'FORUM_ID'					=> $topic_forum_id,
@@ -669,6 +681,7 @@ if (sizeof($topic_list))
 			'VIEWS'				=> $row['topic_views'],
 			'TOPIC_TITLE'		=> censor_text($row['topic_title']),
 			'TOPIC_TYPE'		=> $topic_type,
+			'TOPIC_IMAGE_LINK'	=> ($row['topic_image_id'] && $row['topic_image']) ? "{$phpbb_root_path}download/file.$phpEx?t=2&amp;id={$row['topic_image_id']}" : '',
 
 			'TOPIC_FOLDER_IMG'		=> $user->img($folder_img, $folder_alt),
 			'TOPIC_FOLDER_IMG_SRC'	=> $user->img($folder_img, $folder_alt, false, '', 'src'),
@@ -715,6 +728,11 @@ if (sizeof($topic_list))
 
 		unset($rowset[$topic_id]);
 	}
+
+	$template->assign_vars(array(
+		'S_TOPICS_WITH_IMAGES'		=> $ti_cnt,
+	)); 
+	
 }
 
 // This is rather a fudge but it's the best I can think of without requiring information

@@ -416,7 +416,7 @@ $message_parser->get_submitted_attachment_data($post_data['poster_id']);
 if ($post_data['post_attachment'] && !$submit && !$refresh && !$preview && $mode == 'edit')
 {
 	// Do not change to SELECT *
-	$sql = 'SELECT attach_id, is_orphan, attach_comment, real_filename
+	$sql = 'SELECT attach_id, is_orphan, attach_comment, real_filename, mimetype
 		FROM ' . ATTACHMENTS_TABLE . "
 		WHERE post_msg_id = $post_id
 			AND in_message = 0
@@ -549,6 +549,7 @@ if ($save && $user->data['is_registered'] && $auth->acl_get('u_savedrafts') && (
 
 				'topic_type'		=> POST_NORMAL,
 				'topic_time_limit'	=> 0,
+				'topic_image_id'	=> 0,
 
 				'poll_title'		=> '',
 				'poll_option_text'	=> '',
@@ -641,6 +642,24 @@ if ($submit || $preview || $refresh)
 	$post_data['topic_type']		= request_var('topic_type', (($mode != 'post') ? (int) $post_data['topic_type'] : POST_NORMAL));
 	$post_data['topic_time_limit']	= request_var('topic_time_limit', (($mode != 'post') ? (int) $post_data['topic_time_limit'] : 0));
 
+	if (($config['img_max_topic_image_width'] > 0 && $config['img_max_topic_image_height'] > 0) && ($post_data['forum_allow_topic_image'] == 1 && $auth->acl_get('f_topic_image', $forum_id)) && ($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id'])))
+	{
+		$topic_image_id_default = ($mode != 'post') ? (int) $post_data['topic_image_id'] : 0;
+		$topic_image_id = request_var('topic_image_id', $topic_image_id_default);
+		if ($topic_image_id)
+		{
+			$post_data['topic_image_id'] = $topic_image_id_default;
+			foreach($message_parser->attachment_data as $att_arr)
+			{
+				if (($att_arr['attach_id'] == $topic_image_id) && (strpos($att_arr['mimetype'], 'image') === 0)) $post_data['topic_image_id'] = $topic_image_id;
+			}
+		}
+		else
+		{
+			$post_data['topic_image_id'] = 0;
+		}
+	}
+	
 	if ($post_data['enable_icons'] && $auth->acl_get('f_icons', $forum_id))
 	{
 		$post_data['icon_id'] = request_var('icon', (int) $post_data['icon_id']);
@@ -734,7 +753,7 @@ if ($submit || $preview || $refresh)
 	}
 
 	// Parse Attachments - before checksum is calculated
-	$message_parser->parse_attachments('fileupload', $mode, $forum_id, $submit, $preview, $refresh);
+	$message_parser->parse_attachments('fileupload', $mode, $forum_id, $submit, $preview, $refresh, false , true);
 
 	// Grab md5 'checksum' of new message
 	$message_md5 = md5($message_parser->message);
@@ -1092,6 +1111,7 @@ if ($submit || $preview || $refresh)
 				'topic_first_post_id'	=> (isset($post_data['topic_first_post_id'])) ? (int) $post_data['topic_first_post_id'] : 0,
 				'topic_last_post_id'	=> (isset($post_data['topic_last_post_id'])) ? (int) $post_data['topic_last_post_id'] : 0,
 				'topic_time_limit'		=> (int) $post_data['topic_time_limit'],
+				'topic_image_id'		=> (int) $post_data['topic_image_id'],
 				'topic_attachment'		=> (isset($post_data['topic_attachment'])) ? (int) $post_data['topic_attachment'] : 0,
 				'post_id'				=> (int) $post_id,
 				'topic_id'				=> (int) $topic_id,
@@ -1475,6 +1495,13 @@ $template->assign_vars(array(
 	'S_HAS_DRAFTS'				=> ($auth->acl_get('u_savedrafts') && $user->data['is_registered'] && $post_data['drafts']) ? true : false,
 	'S_FORM_ENCTYPE'			=> $form_enctype,
 
+	'S_ALLOW_TOPICS_IMAGES'		=> ($config['img_max_topic_image_width'] > 0 && $config['img_max_topic_image_height'] > 0) && ($post_data['forum_allow_topic_image'] == 1 && $auth->acl_get('f_topic_image', $forum_id)) && ($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id'])),
+	'U_PREVIEW_TOPIC_IMAGE'		=> "{$phpbb_root_path}download/file.$phpEx?t=2&amp;id=",
+	'S_TOPIC_IMAGE_MW'			=> ($config['img_max_topic_image_width2']) ? $config['img_max_topic_image_width2'] : 80,
+	'S_TOPIC_IMAGE_MH'			=> ($config['img_max_topic_image_height2']) ? $config['img_max_topic_image_height2'] : 110,
+	//'S_TOPIC_IMAGE_ID'			=> $post_data['topic_image_id'],
+	'S_TOPIC_IMAGE_ID'			=> (!empty($post_data['topic_image_id'])) ? $post_data['topic_image_id'] : false, 
+	
 	'S_BBCODE_IMG'			=> $img_status,
 	'S_BBCODE_URL'			=> $url_status,
 	'S_BBCODE_FLASH'		=> $flash_status,

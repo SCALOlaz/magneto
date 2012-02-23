@@ -143,6 +143,8 @@ $lang = array_merge($lang, array(
 	'acl_f_icons'		=> array('lang' => 'Can use topic/post icons', 'cat' => 'post'),
 	'acl_f_announce'	=> array('lang' => 'Can post announcements', 'cat' => 'post'),
 	'acl_f_sticky'		=> array('lang' => 'Can post stickies', 'cat' => 'post'),
+	
+	'acl_f_topic_image'	=> array('lang' => 'Can set topic images', 'cat' => 'post'),
 
 	'acl_f_poll'		=> array('lang' => 'Can create polls', 'cat' => 'polls'),
 	'acl_f_vote'		=> array('lang' => 'Can vote in polls', 'cat' => 'polls'),

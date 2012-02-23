@@ -36,6 +36,8 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
+	'DELETE_TOPIC_IMAGE'		=> 'Do not use',
+	'SET_TOPIC_IMAGE'			=> 'Use as topic image',
 	'ADD_ATTACHMENT'			=> 'Upload attachment',
 	'ADD_ATTACHMENT_EXPLAIN'	=> 'If you wish to attach one or more files enter the details below.',
 	'ADD_FILE'					=> 'Add the file',
