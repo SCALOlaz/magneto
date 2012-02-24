@@ -120,7 +120,7 @@ $lang = array_merge($lang, array(
 	'CLICK_VIEW_PRIVMSG'	=> '%sGo to your inbox%s',
 	'COLLAPSE_VIEW'			=> 'Collapse view',
 	'CLOSE_WINDOW'			=> 'Close window',
-	'COLOUR_SWATCH'			=> 'Colour swatch',
+	'COLOUR_SWATCH'			=> 'Colour switch',
 	'COMMA_SEPARATOR'		=> ', ',	// Used in pagination of ACP & prosilver, use localised comma if appropriate, eg: Ideographic or Arabic
 	'CONFIRM'				=> 'Confirm',
 	'CONFIRM_CODE'			=> 'Confirmation code',
@@ -731,7 +731,7 @@ $lang = array_merge($lang, array(
 	'YOU_NEW_PMS'		=> 'New private messages are waiting for you in your Inbox.',
 	'YOU_NO_NEW_PM'		=> 'No new private messages are waiting for you.',
 
-	'HIDDEN_TEXT'		=> 'Spoiler',
+	'HIDDEN_TEXT'		=> 'Hidden Text',
 	
 	'datetime'			=> array(
 		'TODAY'		=> 'Today',
