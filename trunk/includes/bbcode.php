@@ -343,7 +343,18 @@ class bbcode
 						)
 					);
 				break;
-
+//SPOILER
+				case 13:
+					$this->bbcode_cache[$bbcode_id] = array(
+						'str' => array(
+							'[/spoiler:$uid]'	=> $this->bbcode_tpl('spoiler_close', $bbcode_id)
+						),
+						'preg' => array(
+							'#\[spoiler(?:=(.*?))?:$uid\]((?!\[spoiler(?:=.*?)?:$uid\]).)?#ise'	=> "\$this->bbcode_second_pass_spoiler('\$1', '\$2')"
+						)
+					);
+				break;
+//SPOILER
 				default:
 					if (isset($rowset[$bbcode_id]))
 					{
@@ -414,11 +425,17 @@ class bbcode
 			$bbcode_hardtpl = array(
 				'b_open'	=> '<span style="font-weight: bold">',
 				'b_close'	=> '</span>',
+//SPOILER
+				'spoiler_close'	=> '</div></div>',
+//SPOILER				
 				'i_open'	=> '<span style="font-style: italic">',
 				'i_close'	=> '</span>',
 				'u_open'	=> '<span style="text-decoration: underline">',
 				'u_close'	=> '</span>',
-				'img'		=> '<img src="$1" alt="' . $user->lang['IMAGE'] . '" />',
+//SPOILER
+//				'img'		=> '<img src="$1" alt="' . $user->lang['IMAGE'] . '" />',
+				'img'		=> '<a href="$1" class="fancybox"><var title="$1" class="postImg" alt="' . $user->lang['IMAGE'] . '" />#'.rand(1, 1000).'</var></a>',
+//SPOILER
 				'size'		=> '<span style="font-size: $1%; line-height: normal">$2</span>',
 				'color'		=> '<span style="color: $1">$2</span>',
 				'email'		=> '<a href="mailto:$1">$2</a>'
@@ -472,6 +489,9 @@ class bbcode
 
 		static $replacements = array(
 			'quote_username_open'	=> array('{USERNAME}'	=> '$1'),
+//SPOILER
+			'spoiler_title_open'	=> array('{TITLE}'	=> '$1'),
+//SPOILER			
 			'color'					=> array('{COLOR}'		=> '$1', '{TEXT}'			=> '$2'),
 			'size'					=> array('{SIZE}'		=> '$1', '{TEXT}'			=> '$2'),
 			'img'					=> array('{URL}'		=> '$1'),
@@ -560,6 +580,29 @@ class bbcode
 		return $quote;
 	}
 
+//SPOILER
+	/**
+	* Second parse spoiler tag
+	*/
+	function bbcode_second_pass_spoiler($username, $spoiler)
+	{
+		// when using the /e modifier, preg_replace slashes double-spoilers but does not
+		// seem to slash anything else
+		$spoiler = str_replace('\"', '"', $spoiler);
+		$username = str_replace('\"', '"', $username);
+		$username=htmlspecialchars($username);
+		// remove newline at the beginning
+		if ($spoiler == "\n")
+		{
+			$spoiler = '';
+		}
+
+		$spoiler = (($username) ? str_replace('$1', $username, $this->bbcode_tpl('spoiler_title_open')) : $this->bbcode_tpl('spoiler_open')) . $spoiler;
+
+		return $spoiler;
+	}
+//SPOILER
+	
 	/**
 	* Second parse code tag
 	*/
