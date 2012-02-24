@@ -731,6 +731,8 @@ $lang = array_merge($lang, array(
 	'YOU_NEW_PMS'		=> 'New private messages are waiting for you in your Inbox.',
 	'YOU_NO_NEW_PM'		=> 'No new private messages are waiting for you.',
 
+	'HIDDEN_TEXT'		=> 'Spoiler',
+	
 	'datetime'			=> array(
 		'TODAY'		=> 'Today',
 		'TOMORROW'	=> 'Tomorrow',

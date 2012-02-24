@@ -8,7 +8,7 @@
 
 	// Define the bbCode tags
 	var bbcode = new Array();
-	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
+	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]','[spoiler]','[/spoiler]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
 	var imageTag = false;
 
 	// Helpline messages
@@ -17,6 +17,7 @@
 		i: '{LA_BBCODE_I_HELP}',
 		u: '{LA_BBCODE_U_HELP}',
 		q: '{LA_BBCODE_Q_HELP}',
+		h: '{LA_BBCODE_H_HELP}',
 		c: '{LA_BBCODE_C_HELP}',
 		l: '{LA_BBCODE_L_HELP}',
 		o: '{LA_BBCODE_O_HELP}',
@@ -76,6 +77,7 @@
 	<!-- IF S_BBCODE_QUOTE -->
 		<input type="button" class="button2" accesskey="q" name="addbbcode6" value="Quote" style="width: 50px" onclick="bbstyle(6)" title="{L_BBCODE_Q_HELP}" />
 	<!-- ENDIF -->
+	<input type="button" class="button2" accesskey="h" name="addbbcode22" value="Spoiler" style="width: 50px" onclick="bbstyle(22)" title="{L_BBCODE_H_HELP}" />
 	<input type="button" class="button2" accesskey="c" name="addbbcode8" value="Code" style="width: 40px" onclick="bbstyle(8)" title="{L_BBCODE_C_HELP}" />
 	<input type="button" class="button2" accesskey="l" name="addbbcode10" value="List" style="width: 40px" onclick="bbstyle(10)" title="{L_BBCODE_L_HELP}" />
 	<input type="button" class="button2" accesskey="o" name="addbbcode12" value="List=" style="width: 40px" onclick="bbstyle(12)" title="{L_BBCODE_O_HELP}" />

@@ -718,6 +718,8 @@ $lang = array_merge($lang, array(
 	'YOU_NEW_PMS'		=> 'Вам пришли новые личные сообщения.',
 	'YOU_NO_NEW_PM'		=> 'У вас нет новых личных сообщений.',
 
+	'HIDDEN_TEXT'		=> 'Скрытый текст',
+	
 	'datetime'			=> array(
 		'TODAY'		=> 'Сегодня',
 		'TOMORROW'	=> 'Завтра',

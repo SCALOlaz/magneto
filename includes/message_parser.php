@@ -114,6 +114,9 @@ class bbcode_firstpass extends bbcode
 		$this->bbcodes = array(
 			'code'			=> array('bbcode_id' => 8,	'regexp' => array('#\[code(?:=([a-z]+))?\](.+\[/code\])#uise' => "\$this->bbcode_code('\$1', '\$2')")),
 			'quote'			=> array('bbcode_id' => 0,	'regexp' => array('#\[quote(?:=&quot;(.*?)&quot;)?\](.+)\[/quote\]#uise' => "\$this->bbcode_quote('\$0')")),
+//SPOILER
+			'spoiler'			=> array('bbcode_id' => 13,	'regexp' => array('#\[spoiler(?:=(.*?))?\](.+)\[/spoiler\]#uise' => "\$this->bbcode_spoiler('\$0')")),
+//SPOILER			
 			'attachment'	=> array('bbcode_id' => 12,	'regexp' => array('#\[attachment=([0-9]+)\](.*?)\[/attachment\]#uise' => "\$this->bbcode_attachment('\$1', '\$2')")),
 			'b'				=> array('bbcode_id' => 1,	'regexp' => array('#\[b\](.*?)\[/b\]#uise' => "\$this->bbcode_strong('\$1')")),
 			'i'				=> array('bbcode_id' => 2,	'regexp' => array('#\[i\](.*?)\[/i\]#uise' => "\$this->bbcode_italic('\$1')")),
@@ -890,6 +893,203 @@ class bbcode_firstpass extends bbcode
 		return $out;
 	}
 
+//SPOILER BIG code
+	/**
+	* Parse spoiler bbcode
+	* Expects the argument to start with a tag
+	*/
+	function bbcode_spoiler($in)
+	{
+		global $config, $user;
+
+		/**
+		* If you change this code, make sure the cases described within the following reports are still working:
+		* #3572 - [spoiler="[test]test"]test [ test[/spoiler] - (correct: parsed)
+		* #14667 - [spoiler]test[/spoiler] test ] and [ test [spoiler]test[/spoiler] (correct: parsed)
+		* #14770 - [spoiler="["]test[/spoiler] (correct: parsed)
+		* [spoiler="[i]test[/i]"]test[/spoiler] (correct: parsed)
+		* [spoiler="[spoiler]test[/spoiler]"]test[/spoiler] (correct: parsed - Username displayed as [spoiler]test[/spoiler])
+		* #20735 - [spoiler]test[/[/b]spoiler] test [/spoiler][/spoiler] test - (correct: spoilerd: "test[/[/b]spoiler] test" / non-spoilerd: "[/spoiler] test" - also failed if layout distorted)
+		* #40565 - [spoiler="a"]a[/spoiler][spoiler="a]a[/spoiler] (correct: first spoiler tag parsed, second spoiler tag unparsed)
+		*/
+
+		$in = str_replace("\r\n", "\n", str_replace('\"', '"', trim($in)));
+
+		if (!$in)
+		{
+			return '';
+		}
+
+		// To let the parser not catch tokens within spoiler_username spoilers we encode them before we start this...
+		$in = preg_replace('#spoiler=(.*?)\]#ie', "'spoiler=' . str_replace(array('[', ']', '\\\"'), array('&#91;', '&#93;', '\"'), '\$1') . ']'", $in);
+
+		$tok = ']';
+		$out = '[';
+
+		$in = substr($in, 1);
+		$close_tags = $error_ary = array();
+		$buffer = '';
+
+		do
+		{
+			$pos = strlen($in);
+			for ($i = 0, $tok_len = strlen($tok); $i < $tok_len; ++$i)
+			{
+				$tmp_pos = strpos($in, $tok[$i]);
+				if ($tmp_pos !== false && $tmp_pos < $pos)
+				{
+					$pos = $tmp_pos;
+				}
+			}
+
+			$buffer .= substr($in, 0, $pos);
+			$tok = $in[$pos];
+			$in = substr($in, $pos + 1);
+
+			if ($tok == ']')
+			{
+				if (strtolower($buffer) == '/spoiler' && sizeof($close_tags) && substr($out, -1, 1) == '[')
+				{
+					// we have found a closing tag
+					$out .= array_pop($close_tags) . ']';
+					$tok = '[';
+					$buffer = '';
+
+					/* Add space at the end of the closing tag if not happened before to allow following urls/smilies to be parsed correctly
+					* Do not try to think for the user. :/ Do not parse urls/smilies if there is no space - is the same as with other bbcodes too.
+					* Also, we won't have any spaces within $in anyway, only adding up spaces -> #10982
+					if (!$in || $in[0] !== ' ')
+					{
+						$out .= ' ';
+					}*/
+				}
+				else if (preg_match('#^spoiler(?:=(.*?))?$#is', $buffer, $m) && substr($out, -1, 1) == '[')
+				{
+					$this->parsed_items['spoiler']++;
+
+					// the buffer holds a valid opening tag
+					if ($config['ppkbb_maxspoiler_depth'] && sizeof($close_tags) >= $config['ppkbb_maxspoiler_depth'])
+					{
+						// there are too many nested spoilers
+						$error_ary['spoiler_depth'] = sprintf($user->lang['SPOILER_DEPTH_EXCEEDED'], $config['ppkbb_maxspoiler_depth']);
+
+						$out .= $buffer . $tok;
+						$tok = '[]';
+						$buffer = '';
+
+						continue;
+					}
+
+					array_push($close_tags, '/spoiler:' . $this->bbcode_uid);
+
+					if (isset($m[1]) && $m[1])
+					{
+						$username = str_replace(array('&#91;', '&#93;'), array('[', ']'), $m[1]);
+						$username = preg_replace('#\[(?!b|i|u|color|url|email|/b|/i|/u|/color|/url|/email)#iU', '&#91;$1', $username);
+
+						$end_tags = array();
+						$error = false;
+
+						preg_match_all('#\[((?:/)?(?:[a-z]+))#i', $username, $tags);
+						foreach ($tags[1] as $tag)
+						{
+							if ($tag[0] != '/')
+							{
+								$end_tags[] = '/' . $tag;
+							}
+							else
+							{
+								$end_tag = array_pop($end_tags);
+								$error = ($end_tag != $tag) ? true : false;
+							}
+						}
+
+						if ($error)
+						{
+							$username = $m[1];
+						}
+
+						$out .= 'spoiler=' . $username . ':' . $this->bbcode_uid . ']';
+					}
+					else
+					{
+						$out .= 'spoiler:' . $this->bbcode_uid . ']';
+					}
+
+					$tok = '[';
+					$buffer = '';
+				}
+				else if (preg_match('#^spoiler=(.*?)#is', $buffer, $m))
+				{
+					// the buffer holds an invalid opening tag
+					$buffer .= ']';
+				}
+				else
+				{
+					$out .= $buffer . $tok;
+					$tok = '[]';
+					$buffer = '';
+				}
+			}
+			else
+			{
+/**
+*				Old spoiler code working fine, but having errors listed in bug #3572
+*
+*				$out .= $buffer . $tok;
+*				$tok = ($tok == '[') ? ']' : '[]';
+*				$buffer = '';
+*/
+
+				$out .= $buffer . $tok;
+
+				if ($tok == '[')
+				{
+					// Search the text for the next tok... if an ending spoiler comes first, then change tok to []
+					$pos1 = stripos($in, '[/spoiler');
+					// If the token ] comes first, we change it to ]
+					$pos2 = strpos($in, ']');
+					// If the token [ comes first, we change it to [
+					$pos3 = strpos($in, '[');
+
+					if ($pos1 !== false && ($pos2 === false || $pos1 < $pos2) && ($pos3 === false || $pos1 < $pos3))
+					{
+						$tok = '[]';
+					}
+					else if ($pos3 !== false && ($pos2 === false || $pos3 < $pos2))
+					{
+						$tok = '[';
+					}
+					else
+					{
+						$tok = ']';
+					}
+				}
+				else
+				{
+					$tok = '[]';
+				}
+				$buffer = '';
+			}
+		}
+		while ($in);
+
+		$out .= $buffer;
+
+		if (sizeof($close_tags))
+		{
+			$out .= '[' . implode('][', $close_tags) . ']';
+		}
+
+		foreach ($error_ary as $error_msg)
+		{
+			$this->warn_msg[] = $error_msg;
+		}
+
+		return $out;
+	}	
+//SPOILER BIG CODE 
+	
 	/**
 	* Validate email
 	*/
