@@ -1,14 +1,14 @@
-.sp-wrap			{ margin: 8px auto; }
-.sp-wrap			{ width: 98%; clear: both; }
+.sp-wrap			{ margin: 3px auto; }
+.sp-wrap			{ width: 99%; clear: both; }
 .sp-wrap .sp-wrap		{ margin: 2px auto 4px; }
 .sp-wrap, .sp-head, .sp-body	{
-	border: solid #C3CBD1; border-width: 1px 1px 1px 2px; clear: both; 
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-khtml-border-radius:4px;
-	-webkit-border-radius:4px;
+	border: solid #C3CBD1; border-width: 1px 1px 1px 1px; clear: both; 
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius:3px;
+	-webkit-border-radius:3px;
 }
-.sp-body	{ padding: 2px 6px; }
+.sp-body	{ padding: 2px 2px; }
 .sp-head	{ text-align: left !important; }
 
 .sp-wrap	{ padding: 0; background: #E9E9E6; }

@@ -61,7 +61,7 @@
 				if (hidePostImg){ return $(this).replaceWith(''); }
 
 				if (src.match(banned_image_hosts)) {
-					return $(this).replaceWith('<a href="#" title="Sorry, images from this server banned"><img  src="./addons/images/spoiler/tr_oops.gif" alt="Banned!" /></a>');//Link to rules
+					return $(this).replaceWith('<a href="#" title="Sorry, images from this server banned"><img src="./images/tr_oops.gif" alt="Banned!" /></a>');//Link to rules
 				}
 				else
 				{
@@ -92,7 +92,7 @@
 				 });*/
 
 				$('#preload').append($img);
-				var loading_icon = '<a href="'+ src +'" target="_blank"><img src="./addons/images/spoiler/pic_loading.gif" alt="" /></a>';
+				var loading_icon = '<a href="'+ src +'" target="_blank"><img src="./images/wait.gif" alt="" /></a>';
 				$v.html(loading_icon);
 
 				if ($.browser.msie || $.browser.opera) {
@@ -124,13 +124,13 @@
 	{
 		$('div.sp-body', context).each(function(){
 			var $sp_body = $(this);
-			var name = this.title || 'Скрытый текст';
+			var name = this.title || '{HIDDEN_TEXT}';
 			this.title = '';
 			$('<div class="sp-head folded clickable">'+ name +'</div>').insertBefore($sp_body).click(function(e){
 				if (!$sp_body.hasClass('inited')) {
 					initPostImages($sp_body);
 					$sp_body.prepend('<div class="clear"></div>').append('<div class="clear"></div>').addClass('inited');
-					$('<div class="sp-head unfolded clickable">Закрыть</div>').insertAfter($sp_body).click(function(){
+					$('<div class="sp-head clickable"></div>').insertAfter($sp_body).click(function(){
 						if($(document).scrollTop() > $sp_body.prev().offset().top)
 						{
 							$(document).scrollTop($sp_body.prev().offset().top - 200);
