@@ -324,7 +324,7 @@ $template->assign_vars(array(
 	'S_SINGLE_MODERATOR'	=> (!empty($moderators[$forum_id]) && sizeof($moderators[$forum_id]) > 1) ? false : true,
 	'S_IS_LOCKED'			=> ($forum_data['forum_status'] == ITEM_LOCKED) ? true : false,
 	'S_VIEWFORUM'			=> true,
-	'S_ALLOW_TOPICS_IMAGES'	=> ($config['img_max_topic_image_width'] > 0 && $config['img_max_topic_image_height'] > 0) && $forum_data['forum_allow_topic_image'] == 1,
+	'S_ALLOW_TOPICS_IMAGES'	=> (($config['img_max_topic_image_width'] > 0 && $config['img_max_topic_image_height'] > 0) && $forum_data['forum_allow_topic_image'] != 0) ? true : false,
 	'S_TOPIC_IMAGE_MW'		=> (($config['img_max_topic_image_width']) ? $config['img_max_topic_image_width'] : 40),
 	'S_TOPIC_IMAGE_MH'		=> (($config['img_max_topic_image_height']) ? $config['img_max_topic_image_height'] : 53),
 	
@@ -633,7 +633,7 @@ if (sizeof($topic_list))
 		// This will allow the style designer to output a different header
 		// or even separate the list of announcements from sticky and normal topics
 		$s_type_switch_test = ($row['topic_type'] == POST_ANNOUNCE || $row['topic_type'] == POST_GLOBAL) ? 1 : 0;
-
+			
 		// Replies
 		$replies = ($auth->acl_get('m_approve', $topic_forum_id)) ? $row['topic_replies_real'] : $row['topic_replies'];
 
@@ -655,6 +655,9 @@ if (sizeof($topic_list))
 		$view_topic_url_params = 'f=' . $topic_forum_id . '&amp;t=' . $topic_id;
 		$view_topic_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", $view_topic_url_params);
 
+		$view_forum_url_params = 'f=' . $topic_forum_id;
+		$view_forum_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", $view_forum_url_params);
+		
 		$topic_unapproved = (!$row['topic_approved'] && $auth->acl_get('m_approve', $topic_forum_id)) ? true : false;
 		$posts_unapproved = ($row['topic_approved'] && $row['topic_replies'] < $row['topic_replies_real'] && $auth->acl_get('m_approve', $topic_forum_id)) ? true : false;
 		$u_mcp_queue = ($topic_unapproved || $posts_unapproved) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=queue&amp;mode=' . (($topic_unapproved) ? 'approve_details' : 'unapproved_posts') . "&amp;t=$topic_id", true, $user->session_id) : '';
@@ -664,6 +667,7 @@ if (sizeof($topic_list))
 		// Send vars to template
 		$template->assign_block_vars('topicrow', array(
 			'FORUM_ID'					=> $topic_forum_id,
+			'FORUM_TITLE'				=> $row['forum_name'],
 			'TOPIC_ID'					=> $topic_id,
 			'TOPIC_AUTHOR'				=> get_username_string('username', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
 			'TOPIC_AUTHOR_COLOUR'		=> get_username_string('colour', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
@@ -712,10 +716,11 @@ if (sizeof($topic_list))
 			'U_LAST_POST'			=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", $view_topic_url_params . '&amp;p=' . $row['topic_last_post_id']) . '#p' . $row['topic_last_post_id'],
 			'U_LAST_POST_AUTHOR'	=> get_username_string('profile', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
 			'U_TOPIC_AUTHOR'		=> get_username_string('profile', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
+			'U_VIEW_FORUM'			=> $view_forum_url,
 			'U_VIEW_TOPIC'			=> $view_topic_url,
 			'U_MCP_REPORT'			=> append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=reports&amp;mode=reports&amp;f=' . $topic_forum_id . '&amp;t=' . $topic_id, true, $user->session_id),
 			'U_MCP_QUEUE'			=> $u_mcp_queue,
-
+			'S_ALLOW_TOPICS_IMAGES'	=> (($config['img_max_topic_image_width'] > 0 && $config['img_max_topic_image_height'] > 0) && $row['topic_image_id'] != 0) ? true : false,
 			'S_TOPIC_TYPE_SWITCH'	=> ($s_type_switch == $s_type_switch_test) ? -1 : $s_type_switch_test)
 		);
 

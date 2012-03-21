@@ -892,4 +892,9 @@ $lang = array_merge($lang, array(
 
 ));
 
+//[begin] 'Advanced Similar Topics'
+$lang = array_merge($lang, array(
+	'SIMILAR_TOPICS'		=> 'Похожие темы',
+));
+//[end] 'Advanced Similar Topics'
 ?>

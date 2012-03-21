@@ -1,0 +1,55 @@
+<!-- IF S_NEW_TOPIC -->
+</fieldset>
+</div>
+</div>
+<div style="clear: left; display:none" id="similar_table"></div>
+<script type="text/javascript">// <![CDATA[
+var u_similar_search = '{U_SIMILAR_SEARCH}';
+// ]]>
+</script>
+<script type="text/javascript" src="{T_TEMPLATE_PATH}/similartopicsearchfunction.js"></script>
+<script type="text/javascript">// <![CDATA[
+var similar_table = getElement("similar_table");
+var liveSearch = new LiveSearch(document.forms.postform.subject, similar_table);
+// ]]>
+</script>
+<div class="panel">
+<div class="inner">
+<fieldset class="fields1">
+<!-- ENDIF -->
+<!-- IF .similar -->
+<div class="forumbg">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	<ul class="topiclist">
+		<li class="header">
+			<dl class="icon">
+				<dt>{L_SIMILAR_TOPICS}</dt>
+				<dd class="posts">{L_REPLIES}</dd>
+				<dd class="views">{L_VIEWS}</dd>
+				<dd class="lastpost"><span>{L_LAST_POST}</span></dd>
+			</dl>
+		</li>
+	</ul>
+	<ul class="topiclist topics">
+	<!-- BEGIN similar -->
+		<li class="row<!-- IF similar.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+			<dl class="icon" style="background-image: url({similar.TOPIC_FOLDER_IMG_SRC}); background-repeat: no-repeat;">
+				<dt <!-- IF similar.TOPIC_ICON_IMG -->style="background-image: url({T_ICONS_PATH}{similar.TOPIC_ICON_IMG}); background-repeat: no-repeat;"<!-- ENDIF -->>
+					<a href="{similar.U_VIEW_TOPIC}" class="topictitle" onclick="window.open(this.href);return false;">{similar.TOPIC_TITLE}</a><br />
+					<!-- IF similar.PAGINATION --><strong class="pagination"><span>{similar.PAGINATION}</span></strong><!-- ENDIF -->
+					{L_POST_BY_AUTHOR} <!-- IF similar.U_TOPIC_AUTHOR --><a href="{similar.U_TOPIC_AUTHOR}" onclick="window.open(this.href);return false;">{similar.TOPIC_AUTHOR}</a> <!-- ELSE -->{similar.TOPIC_AUTHOR} <!-- ENDIF -->
+					<!-- IF not similar.S_TOPIC_GLOBAL -->{L_IN} <a href="{similar.U_VIEW_FORUM}" onclick="window.open(this.href);return false;">{similar.FORUM_TITLE}</a><!-- ELSE --> ({L_GLOBAL})<!-- ENDIF -->
+				</dt>
+				<dd class="posts">{similar.TOPIC_REPLIES}</dd>
+				<dd class="views">{similar.TOPIC_VIEWS}</dd>
+				<dd class="lastpost"><span>
+					{L_POST_BY_AUTHOR} <!-- IF similar.U_LAST_POST_AUTHOR --><a href="{similar.U_LAST_POST_AUTHOR}" onclick="window.open(this.href);return false;">{similar.LAST_POST_AUTHOR}</a><!-- ELSE -->{similar.LAST_POST_AUTHOR}<!-- ENDIF -->
+					<a href="{similar.U_LAST_POST}" onclick="window.open(this.href);return false;">{LAST_POST_IMG}</a> <br />{L_POSTED_ON_DATE} {similar.LAST_POST_TIME}<br /> </span>
+				</dd>
+			</dl>
+		</li>
+	<!-- END similar -->
+	</ul>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->

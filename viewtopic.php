@@ -1774,6 +1774,13 @@ if (empty($_REQUEST['t']) && !empty($topic_id))
 // Output the page
 page_header($user->lang['VIEW_TOPIC'] . ' - ' . $topic_data['topic_title'], true, $forum_id);
 
+//[begin] 'Advanced Similar Topics'
+if ($config['similar_topics_viewtopic'])
+{
+	include($phpbb_root_path . 'similar_topics.' . $phpEx);
+}
+//[end] 'Advanced Similar Topics'
+
 $template->set_filenames(array(
 	'body' => ($view == 'print') ? 'viewtopic_print.html' : 'viewtopic_body.html')
 );
