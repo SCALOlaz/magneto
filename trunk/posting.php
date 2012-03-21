@@ -1511,6 +1511,17 @@ $template->assign_vars(array(
 	'S_HIDDEN_FIELDS'		=> $s_hidden_fields)
 );
 
+//[begin] 'Advanced Similar Topics'
+if ($config['similar_topics_posting'] && $mode == 'post')
+{
+	$template->assign_vars(array(
+		'S_NEW_TOPIC'			=> true,
+		'U_SIMILAR_SEARCH'		=> append_sid("{$phpbb_root_path}similar_topics.$phpEx")
+		)
+	);
+}
+//[end] 'Advanced Similar Topics'
+
 // Build custom bbcodes array
 display_custom_bbcodes();
 
