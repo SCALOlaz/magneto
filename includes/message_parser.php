@@ -472,6 +472,16 @@ class bbcode_firstpass extends bbcode
 			break;
 
 			default:
+				// colors between [code] start
+				// This code is ported from BBcode Colours in Code MOD by BrotherTank
+				$code = preg_replace('#\[color=(\#[0-9a-f]{3}|\#[0-9a-f]{6}|[a-z\-]+)\](.*?)\[/color\]#si', "!color=\\1~{$this->bbcode_uid}!\\2!/color~{$this->bbcode_uid}!", $code);
+				$code = '[code:' . $this->bbcode_uid . ']' . $this->bbcode_specialchars($code) . '[/code:' . $this->bbcode_uid . ']';
+				$code = preg_replace("/\!color=(#[0-9a-f]{3}|#[0-9a-f]{6}|[a-z\-]+)~{$this->bbcode_uid}\!/si", '[color=\\1:' . $this->bbcode_uid . ']' , $code);
+				$code = str_replace('!/color~' . $this->bbcode_uid . '!', '[/color:' . $this->bbcode_uid . ']', $code);
+				return $code;
+				// original code
+				// colors between [code] end
+				
 				return '[code:' . $this->bbcode_uid . ']' . $this->bbcode_specialchars($code) . '[/code:' . $this->bbcode_uid . ']';
 			break;
 		}

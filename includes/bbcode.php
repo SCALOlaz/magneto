@@ -283,6 +283,10 @@ class bbcode
 					$this->bbcode_cache[$bbcode_id] = array(
 						'preg' => array(
 							'#\[code(?:=([a-z]+))?:$uid\](.*?)\[/code:$uid\]#ise'	=> "\$this->bbcode_second_pass_code('\$1', '\$2')",
+
+							// colors between [code] start								
+							'!\[color=(#[0-9a-f]{3}|#[0-9a-f]{6}|[a-z\-]+):$uid\](.*?)\[/color:$uid\]!is'	=> $this->bbcode_tpl('color', $bbcode_id),
+							// colors between [code] end
 						)
 					);
 				break;
