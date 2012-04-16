@@ -1,0 +1,107 @@
+/* Supernova Colour-specific Stylesheet (Black) */
+
+#dummy-element {width: 2px;} /* Required. Don't delete */
+
+body {color: #3c3c3c;}
+html, body { background-color: #fbfbfb; }
+
+fieldset.quick-login input.inputbox, input.inputbox:hover, input.inputbox:focus, #message-box textarea:hover, #message-box textarea:focus, a.button1, input.button1, input.button3, a.button2, input.button2, a.button1, a.button1:link, a.button1:visited, a.button1:active, a.button2, a.button2:link, a.button2:visited, a.button2:active, a.button1:hover, input.button1:hover, a.button2:hover, input.button2:hover, input.button3:hover, input.search, input.search:hover, input.search:focus, #sn-navbar a, .sn-breadcrumbs a, .sn-options a {color: #b3b3b3;}
+input.inputbox:hover, input.inputbox:focus, #search-box input, #message-box textarea:hover, #message-box textarea:focus, textarea.inputbox:hover {border-color: #c3c3c3;}
+
+#search-box input {border: 1px solid #000000;}
+
+fieldset.quick-login input.inputbox, a.button1, input.button1, a.button2, input.button2, input.button3, a.button1:hover, input.button1:hover, a.button2:hover, input.button2:hover, input.button3:hover, input.search, input.search:hover, input.search:focus {border-color: #000000;}
+
+.mini-profile span a {color: #ffffff;}
+
+div.cat-name span, div.cat-name span a, .sn-big-stat, a.forumtitle, a.forumtitle:active, a:link, a:visited, a:active, a.left, a.left:active, a.left:visited a.right, a.right:visited, a.right:visited, h2, h3, label, .content h2, .panel h2, .postbody h3, #tabs a span, #navigation a, #navigation #active-subsection a {color: #3c3c3c;}
+
+a.forumtitle:hover, a:hover, a.left:hover, a.right:hover, a.topictitle:hover {color: #4c4c4c;}
+
+.row .pagination span a:hover, li.pagination span a:hover, .pagination span a:hover, .pagination span strong {background-color: #6c6c6c; border-color: #000000;}
+
+select {background-color: #b3b3b3; border-color: #000000;}
+
+.navbar {background-color: #dedede;}
+
+.bg1 {background-color: #f0f0f0;}
+.bg2, .bg3 {background-color: #f6f6f6;}
+
+blockquote, blockquote blockquote blockquote {border-color: #0c0c0c; background-color: #e3e3e3;}
+blockquote blockquote {background-color: #e3e3e3;}
+
+.forabg, .forumbg {background-color: #4c4c4c;}
+table.table1 tbody tr:hover, table.table1 tbody tr.hover {background-color: #d2d2d2;}
+
+#tabs a:hover span {color: #3c3c3c;}
+#tabs .activetab a {	border-bottom-color: #c3c3c3;}
+#tabs2 a:hover span {color: #3c3c3c;}
+#tabs2 .activetab a {	border-bottom-color: #c3c3c3;}
+
+#navigation a {background-color: #c3c3c3;}
+#navigation a:hover {color: #3c3c3c;}
+#navigation #active-subsection a:hover {color: #3c3c3c;}
+
+
+
+/* Below are only image overrides. Only thing to edit below here is the /black/ file name to some other colour */
+
+.headerbar {	background-image: url("../images/black/bg_header.gif");}
+.forabg {	background-image: url("../images/black/bg_list.gif");}
+.forumbg {	background-image: url("../images/black/bg_header.gif");}
+#tabs a {	background-image: url("../images/black/bg_tabs1.gif");}
+#tabs a span {	background-image: url("../images/black/bg_tabs2.gif");}
+#tabs2 a {	background-image: url("../images/black/bg_tabs1_2.gif");}
+#tabs2 a span {	background-image: url("../images/black/bg_tabs2_2.gif");}
+
+#navigation a {background-image: url("../images/black/bg_menu.gif");}
+.rtl #navigation a {background-image: url("../images/black/bg_menu_rtl.gif");}
+
+.row .pagination {background-image: url("../images/black/icon_pages.gif");}
+
+/* Forums fone */
+ul.forums {	background-image: url("../images/black/gradient.gif");}
+
+/*
+.reply-icon span {background-image: url("../images/black/post-reply.png");}
+.post-icon span	{background-image: url("../images/black/new-topic.png");}
+.locked-icon span {background-image: url("../images/black/locked.png");}
+.pmreply-icon span {background-image: url("../images/black/send-reply.png");}
+.newpm-icon span {background-image: url("../images/black/new-pm.png");}
+.forwardpm-icon span {background-image: url("../images/black/forward.png");}
+*/
+
+.fakecheck {background-image: url("../images/black/checkbox.png");}
+div.mini-profile {background-image: url("../images/black/mini-profile-r.png");}
+div.mini-profile .mini-profile-inner {background-image: url("../images/black/mini-profile-l.png");}
+.member-icon {background-image: url("../images/black/member-icon.png");}
+
+div.cat-name {background-image: url("../images/black/cat-name-r.png");}
+div.cat-name span {background-image: url("../images/black/cat-name-l.png");}
+
+/*input.search, input.search:hover, input.search:focus {background-image: url("../images/black/search-form-bg.png");}*/
+a.button1, input.button1, input.button3, a.button2, input.button2 {background-image: url("../images/black/buttonbg.png");}
+.sn-nli-form, fieldset.quick-login input.inputbox {background-image: url("../images/black/nli-form-bg.png");}
+
+/* Icon images
+---------------------------------------- */
+.sitehome						{ background-image: url("../images/black/icon_home.gif"); }
+.icon-faq						{ background-image: url("../images/black/icon_faq.gif"); }
+.icon-members					{ background-image: url("../images/black/icon_members.gif"); }
+.icon-home						{ background-image: url("../images/black/icon_home.gif"); }
+.icon-ucp						{ background-image: url("../images/black/icon_ucp.gif"); }
+.icon-register					{ background-image: url("../images/black/icon_register.gif"); }
+.icon-logout					{ background-image: url("../images/black/icon_logout.gif"); }
+.icon-bookmark					{ background-image: url("../images/black/icon_bookmark.gif"); }
+.icon-bump						{ background-image: url("../images/black/icon_bump.gif"); }
+.icon-subscribe					{ background-image: url("../images/black/icon_subscribe.gif"); }
+.icon-unsubscribe				{ background-image: url("../images/black/icon_unsubscribe.gif"); }
+.icon-pages						{ background-image: url("../images/black/icon_pages.gif"); }
+.icon-search					{ background-image: url("../images/black/icon_search.gif"); }
+.icon-news 						{ background-image: url("../images/black/icon_news.gif");}
+.icon-thanks					{ background-image: url("../images/black/icon_thanks.gif"); }
+.icon-thanks_toplist			{ background-image: url("../images/black/icon_thanks_toplist.gif"); }
+
+a.print {	background-image: url("../images/black/icon_print.gif");}
+a.sendemail {	background-image: url("../images/black/icon_sendemail.gif");}
+a.fontsize {	background-image: url("../images/black/icon_fontsize.gif");}
