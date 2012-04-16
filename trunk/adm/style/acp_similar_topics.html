@@ -1,0 +1,119 @@
+<!-- INCLUDE overall_header.html -->
+
+<script type="text/JavaScript">
+// <![CDATA[
+function getElement(iElementId)
+{
+	if (document.getElementById)
+	{
+		return document.getElementById(iElementId);
+	}
+	if (document.all) 
+	{
+		return document.all[iElementId];
+	}
+	if (document.layers) 
+	{
+		return document.layers[iElementId];
+	}
+	return null;
+}
+
+function toggleElement(ElementId)
+{
+	oElement = getElement(ElementId);
+	dE(ElementId, ((oElement.style.display == 'none') ? 1 : -1));
+}
+// ]]>
+</script>
+
+<a name="maincontent"></a>
+
+<h1>{L_ACP_SIMILAR_TOPICS}</h1>
+<p>{L_ACP_SIMILAR_TOPICS_MOD_VERSION}{ACP_SIMILAR_TOPICS_MOD_VERSION}</p>
+
+<p>{L_ACP_SIMILAR_TOPICS_EXPLAIN}</p>
+
+<!-- IF S_ERROR -->
+	<div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{ERROR_MSG}</p>
+	</div>
+<!-- ENDIF -->
+
+<form id="acp_board" method="post" action="{U_ACTION}">
+
+<fieldset>
+	<legend>{L_SETTINGS}</legend>
+	
+<!-- BEGIN options -->
+	<dl>
+		<dt><label for="{options.KEY}">{options.TITLE}:</label><!-- IF options.S_EXPLAIN --><br /><span>{options.TITLE_EXPLAIN}</span><!-- ENDIF --></dt>
+		<dd>{options.CONTENT}</dd>
+	</dl>
+<!-- END options -->
+
+</fieldset>
+
+<!-- IF .forums -->
+<p><strong>{L_SIMILAR_IGNORE_FORUMS}</strong> <a href="#" onclick="toggleElement('ignored_forums'); return false;">({L_TOGGLE_DISPLAY})</a><br />{L_SIMILAR_IGNORE_FORUMS_EXPLAIN}</p>
+<fieldset id="ignored_forums" style="display: none;">
+	<table cellspacing="1">
+		<col class="row1" /><col class="row1" /><col class="row2" />
+	<tbody>
+	<!-- BEGIN forums -->
+			<tr>
+				<td style="width: 5%; text-align: center;">{forums.FOLDER_IMAGE}</td>
+				<td>
+					<!-- IF forums.CAT_NAME --><span>{forums.CAT_NAME}</span> -&#187; <!-- ENDIF --><strong><a href="{forums.U_FORUM}" onclick="window.open(this.href);return false;">{forums.FORUM_NAME}</a></strong>
+					<!-- IF forums.FORUM_DESCRIPTION --><br /><span>{forums.FORUM_DESCRIPTION}</span><!-- ENDIF -->
+				</td>
+				<td style="vertical-align: top; width: 100px; text-align: center; white-space: nowrap;">
+				<input type="checkbox" class="radio" name="mark_ignored_forum[]" value="{forums.FORUM_ID}" {forums.CHECKED_IGNORE_FORUM} />
+				</td>
+			</tr>
+	<!-- END forums -->
+	</tbody>
+	</table>
+</fieldset>
+<!-- ENDIF -->
+
+<br />
+
+<!-- IF .forums -->
+<p><strong>{L_SIMILAR_NOSHOW_FORUMS}</strong> <a href="#" onclick="toggleElement('noshow_forums'); return false;">({L_TOGGLE_DISPLAY})</a><br />{L_SIMILAR_NOSHOW_FORUMS_EXPLAIN}</p>
+<fieldset id="noshow_forums" style="display: none;">
+	<table cellspacing="1">
+		<col class="row1" /><col class="row1" /><col class="row2" />
+	<tbody>
+	<!-- BEGIN forums -->
+			<tr>
+				<td style="width: 5%; text-align: center;">{forums.FOLDER_IMAGE}</td>
+				<td>
+					<!-- IF forums.CAT_NAME --><span>{forums.CAT_NAME}</span> -&#187; <!-- ENDIF --><strong><a href="{forums.U_FORUM}" onclick="window.open(this.href);return false;">{forums.FORUM_NAME}</a></strong>
+					<!-- IF forums.FORUM_DESCRIPTION --><br /><span>{forums.FORUM_DESCRIPTION}</span><!-- ENDIF -->
+				</td>
+				<td style="vertical-align: top; width: 100px; text-align: center; white-space: nowrap;">
+				<input type="checkbox" class="radio" name="mark_noshow_forum[]" value="{forums.FORUM_ID}" {forums.CHECKED_NOSHOW_FORUM} />
+				</td>
+			</tr>
+	<!-- END forums -->
+	</tbody>
+	</table>
+</fieldset>
+<!-- ENDIF -->
+
+<br />
+
+<fieldset>
+	<legend>{L_ACP_SUBMIT_CHANGES}</legend>
+	<p class="submit-buttons">
+	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+	<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+	</p>
+	{S_FORM_TOKEN}
+</fieldset>
+
+</form>
+
+<!-- INCLUDE overall_footer.html -->
