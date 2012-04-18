@@ -232,6 +232,7 @@ $lang = array_merge($lang, array(
 	'IMG_ICON_POST_EDIT'			=> 'Edit post',
 	'IMG_ICON_POST_INFO'			=> 'Show post details',
 	'IMG_ICON_POST_QUOTE'			=> 'Quote post',
+	'IMG_ICON_POST_QUICKQUOTE'		=> 'Quick Quote',
 	'IMG_ICON_POST_REPORT'			=> 'Report post',
 	'IMG_ICON_POST_TARGET'			=> 'Minipost',
 	'IMG_ICON_POST_TARGET_UNREAD'	=> 'New minipost',

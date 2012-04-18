@@ -1,5 +1,5 @@
 <!-- INCLUDE overall_header.html -->
-<!-- IF U_MCP --><p>[&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ENDIF -->
+<!-- IF U_MCP --><p>[<!-- IF U_ACP -->&nbsp;<a href="{U_ACP}" target="_blank">{L_ACP}</a>,&nbsp;<!-- ENDIF -->&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ENDIF -->
 <h2><a href="{U_VIEW_TOPIC}">{TOPIC_TITLE}</a></h2>
 <!-- NOTE: remove the style="display: none" when you want to have the forum description on the topic body -->
 <!-- IF FORUM_DESC --><div style="display: none !important;">{FORUM_DESC}<br /></div><!-- ENDIF -->
@@ -113,7 +113,7 @@
 	<div id="p{postrow.POST_ID}" class="post <!-- IF postrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF postrow.S_UNREAD_POST --> unreadpost<!-- ENDIF --><!-- IF postrow.S_POST_REPORTED --> reported<!-- ENDIF --><!-- IF postrow.S_ONLINE and not postrow.S_IGNORE_POST --> online<!-- ENDIF -->">
 		<div class="inner"><span class="corners-top"><span></span></span>
 
-		<div class="postbody">
+		<div class="postbody" id="post{postrow.POST_ID}">
 			<!-- IF postrow.S_IGNORE_POST -->
 				<div class="ignore">{postrow.L_IGNORE_POST}</div>
 			<!-- ELSE -->
@@ -127,12 +127,13 @@
 					<!-- IF postrow.U_WARN --><li class="warn-icon"><a href="{postrow.U_WARN}" title="{L_WARN_USER}"><span>{L_WARN_USER}</span></a></li><!-- ENDIF -->
 					<!-- IF postrow.U_INFO --><li class="info-icon"><a href="{postrow.U_INFO}" title="{L_INFORMATION}"><span>{L_INFORMATION}</span></a></li><!-- ENDIF -->
 					<!-- IF postrow.U_QUOTE --><li class="quote-icon"><a href="{postrow.U_QUOTE}" title="{L_REPLY_WITH_QUOTE}"><span>{L_REPLY_WITH_QUOTE}</span></a></li><!-- ENDIF -->
+					<!-- IF S_QUICK_REPLY --><li class="quickquote-icon"><a href="#postform" onclick="if((window.getSelection && window.getSelection().toString() == '') || (document.getSelection && document.getSelection() == '') || (document.selection && document.selection.createRange().text == '')){ alert('{L_NO_SELECTION}'); return false; }else{dE('qr_editor_div', 1);dE('qr_showeditor_div', -1);addquote({postrow.POST_ID},'{postrow.POSTER_QUOTE}'); insert_text('\r\n'); return false; }" title="{L_QUICKQUOTE_TEXT}"><span>{L_QUICKQUOTE_TEXT}</span></a></li><!-- ENDIF -->
 				</ul>
 			<!-- ENDIF -->
 		<!-- ENDIF -->
 
 			<h3 <!-- IF postrow.S_FIRST_ROW -->class="first"<!-- ENDIF -->><!-- IF postrow.POST_ICON_IMG --><img src="{T_ICONS_PATH}{postrow.POST_ICON_IMG}" width="{postrow.POST_ICON_IMG_WIDTH}" height="{postrow.POST_ICON_IMG_HEIGHT}" alt="" /> <!-- ENDIF --><a href="#p{postrow.POST_ID}">{postrow.POST_SUBJECT}</a></h3>
-			<p class="author"><!-- IF S_IS_BOT -->{postrow.MINI_POST_IMG}<!-- ELSE --><a href="{postrow.U_MINI_POST}">{postrow.MINI_POST_IMG}</a><!-- ENDIF -->{L_POST_BY_AUTHOR} <strong>{postrow.POST_AUTHOR_FULL}</strong> &raquo; {postrow.POST_DATE} </p>
+			<p class="author"><!-- IF S_IS_BOT -->{postrow.MINI_POST_IMG}<!-- ELSE --><a href="{postrow.U_MINI_POST}">{postrow.MINI_POST_IMG}</a><!-- ENDIF -->{L_POST_BY_AUTHOR} <!-- We use "\r\n" newline here because insert_text() JS function doesn't insert newline with "\n" (at least in Windows) --><!-- IF S_QUICK_REPLY --><a href="#postform" title="{L_QUOTE_USERNAME}" onclick="dE('qr_editor_div', 1);dE('qr_showeditor_div', -1); insert_text('[b]{postrow.POSTER_QUOTE}[/b]'); return false;"<!-- IF postrow.POST_AUTHOR_COLOUR --> style="color: {postrow.POST_AUTHOR_COLOUR}" <!-- ENDIF -->><strong>{postrow.POST_AUTHOR}</strong></a><!-- ELSE --><!-- IF not postrow.U_POST_AUTHOR --><strong>{postrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{postrow.POST_AUTHOR_FULL}<!-- ENDIF --><!-- ENDIF --> &raquo; {postrow.POST_DATE} </p>
 
 			<!-- IF postrow.S_POST_UNAPPROVED or postrow.S_POST_REPORTED -->
 				<p class="rules">
@@ -171,13 +172,15 @@
 				<!-- IF postrow.POSTER_AVATAR -->
 					<!-- IF postrow.U_POST_AUTHOR --><a href="{postrow.U_POST_AUTHOR}">{postrow.POSTER_AVATAR}</a><!-- ELSE -->{postrow.POSTER_AVATAR}<!-- ENDIF --><br />
 				<!-- ENDIF -->
-				<!-- IF not postrow.U_POST_AUTHOR --><strong>{postrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{postrow.POST_AUTHOR_FULL}<!-- ENDIF -->
+				
+				<!-- We use "\r\n" newline here because insert_text() JS function doesn't insert newline with "\n" (at least in Windows) -->
+				<!-- IF S_QUICK_REPLY --><a href="#postform" title="{L_QUOTE_USERNAME}" onclick="dE('qr_editor_div', 1);dE('qr_showeditor_div', -1); insert_text('[b]{postrow.POSTER_QUOTE}[/b]'); return false;"<!-- IF postrow.POST_AUTHOR_COLOUR --> style="color: {postrow.POST_AUTHOR_COLOUR}" <!-- ENDIF -->>{postrow.POST_AUTHOR}</a><!-- ELSE --><!-- IF not postrow.U_POST_AUTHOR --><strong>{postrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{postrow.POST_AUTHOR_FULL}<!-- ENDIF --><!-- ENDIF -->
 			</dt>
 
 			<!-- IF postrow.RANK_TITLE or postrow.RANK_IMG --><dd>{postrow.RANK_TITLE}<!-- IF postrow.RANK_TITLE and postrow.RANK_IMG --><br /><!-- ENDIF -->{postrow.RANK_IMG}</dd><!-- ENDIF -->
 
 		<dd>&nbsp;</dd>
-
+	
 		<!-- IF postrow.POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {postrow.POSTER_POSTS}</dd><!-- ENDIF -->
 		<!-- IF postrow.POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {postrow.POSTER_JOINED}</dd><!-- ENDIF -->
 		<!-- IF postrow.POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {postrow.POSTER_FROM}</dd><!-- ENDIF -->
@@ -218,6 +221,7 @@
 
 	<hr class="divider" />
 <!-- END postrow -->
+
 <!-- IF S_QUICK_REPLY -->
 	<!-- INCLUDE quickreply_editor.html -->
 <!-- ENDIF -->

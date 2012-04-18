@@ -714,6 +714,7 @@ a.fontsize {
 .jabber-icon, .jabber-icon a		{ background-image: url("{IMG_ICON_CONTACT_JABBER_SRC}"); }
 .pm-icon, .pm-icon a				{ background-image: url("{IMG_ICON_CONTACT_PM_SRC}"); }
 .quote-icon, .quote-icon a		{ background-image: url("{IMG_ICON_POST_QUOTE_SRC}"); }
+.quickquote-icon, .quickquote-icon a		{ background-image: url("{IMG_ICON_POST_QUICKQUOTE_SRC}"); }
 
 /* Moderator icons */
 .report-icon, .report-icon a		{ background-image: url("{IMG_ICON_POST_REPORT_SRC}"); }

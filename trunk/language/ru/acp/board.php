@@ -87,6 +87,11 @@ $lang = array_merge($lang, array(
 	'ALLOW_TOPIC_NOTIFY'		=> 'Разрешить подписку на темы',
 	'BOARD_PM'					=> 'Разрешить личные сообщения',
 	'BOARD_PM_EXPLAIN'			=> 'Включение обмена личными сообщениями для всех пользователей.',
+	
+	'ALLOW_QUICK_REPLY_SMILIES'	=> 'Разрешить смайлы в быстром ответе',
+	'ALLOW_QUICK_REPLY_SMILIES_EXPLAIN'	=> 'Если эта опция включена, в форме быстрого ответа появится список доступных смайлов.',
+	'ALLOW_QUICK_REPLY_BBCODE'	=> 'Разрешить BBCode в быстром ответе',
+	'ALLOW_QUICK_REPLY_BBCODE_EXPLAIN'	=> 'Эта опция включает показ списка кнопок BBCode в форме быстрого ответа.',
 ));
 
 // Avatar Settings

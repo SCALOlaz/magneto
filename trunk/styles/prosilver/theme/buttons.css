@@ -138,6 +138,7 @@ ul.profile-icons li a:hover { background: none; }
 .jabber-icon, .jabber-icon a		{ background: none top left no-repeat; }
 .pm-icon, .pm-icon a				{ background: none top left no-repeat; }
 .quote-icon, .quote-icon a		{ background: none top left no-repeat; }
+.quickquote-icon, .quickquote-icon a		{ background: none top left no-repeat; }
 
 /* Moderator icons */
 .report-icon, .report-icon a		{ background: none top left no-repeat; }
@@ -156,6 +157,7 @@ ul.profile-icons li.icq-icon	{ width: {IMG_ICON_CONTACT_ICQ_WIDTH}px; height: {I
 ul.profile-icons li.jabber-icon	{ width: {IMG_ICON_CONTACT_JABBER_WIDTH}px; height: {IMG_ICON_CONTACT_JABBER_HEIGHT}px; }
 ul.profile-icons li.pm-icon		{ width: {IMG_ICON_CONTACT_PM_WIDTH}px; height: {IMG_ICON_CONTACT_PM_HEIGHT}px; }
 ul.profile-icons li.quote-icon	{ width: {IMG_ICON_POST_QUOTE_WIDTH}px; height: {IMG_ICON_POST_QUOTE_HEIGHT}px; }
+ul.profile-icons li.quickquote-icon	{ width: {IMG_ICON_POST_QUICKQUOTE_WIDTH}px; height: {IMG_ICON_POST_QUICKQUOTE_HEIGHT}px; }
 ul.profile-icons li.report-icon	{ width: {IMG_ICON_POST_REPORT_WIDTH}px; height: {IMG_ICON_POST_REPORT_HEIGHT}px; }
 ul.profile-icons li.edit-icon	{ width: {IMG_ICON_POST_EDIT_WIDTH}px; height: {IMG_ICON_POST_EDIT_HEIGHT}px; }
 ul.profile-icons li.delete-icon	{ width: {IMG_ICON_POST_DELETE_WIDTH}px; height: {IMG_ICON_POST_DELETE_HEIGHT}px; }
@@ -163,7 +165,8 @@ ul.profile-icons li.info-icon	{ width: {IMG_ICON_POST_INFO_WIDTH}px; height: {IM
 ul.profile-icons li.warn-icon	{ width: {IMG_ICON_USER_WARN_WIDTH}px; height: {IMG_ICON_USER_WARN_HEIGHT}px; }
 
 /* Fix profile icon default margins */
-ul.profile-icons li.edit-icon	{ margin: 0 0 0 3px; }
-ul.profile-icons li.quote-icon	{ margin: 0 0 0 3px; }
+ul.profile-icons li.edit-icon	{ margin: 0 0 0 10px; }
+ul.profile-icons li.quote-icon	{ margin: 0 0 0 10px; }
+ul.profile-icons li.quickquote-icon	{ margin: 0 0 0 3px; }
 ul.profile-icons li.info-icon, ul.profile-icons li.report-icon	{ margin: 0 3px 0 0; }
 
