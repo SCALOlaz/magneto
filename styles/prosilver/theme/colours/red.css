@@ -27,13 +27,12 @@ select {background-color: #fdf0f0; border-color: #f1a4a4; color: #a81a1a;}
 
 .bg1 {background-color: #fbf0f0;}
 .bg2, .bg3 {background-color: #fbecec;}
+.panel {	background-color: #fdf0f0}
 
 blockquote, blockquote blockquote blockquote {border-color: #e0bfbf;}
 blockquote blockquote {background-color: #f5ebeb;}
 
 .forabg, .forumbg {background-color: #891616;}
-.panel {	background-color: #fdf0f0}
-
 table.table1 tbody tr:hover, table.table1 tbody tr.hover {background-color: #fcdada;}
 
 #tabs a:hover span {color: #e32323;}
@@ -45,7 +44,8 @@ table.table1 tbody tr:hover, table.table1 tbody tr.hover {background-color: #fcd
 #navigation a:hover {color: #e32323;}
 #navigation #active-subsection a:hover {color: #e32323;}
 
-
+/* Statistics */
+table.fs_details_graphs div.graph {background-color: #891616;}
 
 /* Below are only image overrides. Only thing to edit below here is the /red/ file name to some other colour */
 

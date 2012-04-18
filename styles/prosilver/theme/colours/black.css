@@ -24,8 +24,10 @@ select {background-color: #b3b3b3; border-color: #000000;}
 
 .navbar {background-color: #dedede;}
 
-.bg1 {background-color: #f0f0f0;}
-.bg2, .bg3 {background-color: #f6f6f6;}
+.bg1 {background-color: #e0e0e0;}
+.bg2 {background-color: #e3e3e3;}
+.bg3 {background-color: #e6e6e6;}
+.panel {	background-color: #d3d3d3}
 
 blockquote, blockquote blockquote blockquote {border-color: #0c0c0c; background-color: #e3e3e3;}
 blockquote blockquote {background-color: #e3e3e3;}
@@ -42,7 +44,8 @@ table.table1 tbody tr:hover, table.table1 tbody tr.hover {background-color: #d2d
 #navigation a:hover {color: #3c3c3c;}
 #navigation #active-subsection a:hover {color: #3c3c3c;}
 
-
+/* Statistics */
+table.fs_details_graphs div.graph {background-color: #4c4c4c;}
 
 /* Below are only image overrides. Only thing to edit below here is the /black/ file name to some other colour */
 

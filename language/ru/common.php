@@ -897,4 +897,16 @@ $lang = array_merge($lang, array(
 	'SIMILAR_TOPICS'		=> 'Похожие темы',
 ));
 //[end] 'Advanced Similar Topics'
+
+$lang = array_merge($lang, array(
+   'BOT_USERS_ONLINE' => 'ботов: %d',
+   'BOT_USERS_TOTAL' => ', ботов: %d и ',
+   'BOT_USERS_ZERO_ONLINE' => 'ботов: 0',
+   'BOT_USERS_ZERO_TOTAL' => ', ботов: 0 и ',
+   'BOT_USER_ONLINE' => '%d бот',
+   'BOT_USER_TOTAL' => ', %d бот и ',
+   'BOTS_ONLINE' => 'Боты: ',
+   'BOTS_ZERO_ONLINE' => 'ни одного',
+));
+
 ?>
