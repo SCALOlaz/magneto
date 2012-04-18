@@ -87,6 +87,10 @@ $lang = array_merge($lang, array(
 	'ALLOW_TOPIC_NOTIFY'		=> 'Allow subscribing to topics',
 	'BOARD_PM'					=> 'Private messaging',
 	'BOARD_PM_EXPLAIN'			=> 'Enable private messaging for all users.',
+	'ALLOW_QUICK_REPLY_SMILIES'	=> 'Allow smilies in quick reply',
+	'ALLOW_QUICK_REPLY_SMILIES_EXPLAIN'	=> 'If this setting is enabled, smilies will be displayed in quick reply form.',
+	'ALLOW_QUICK_REPLY_BBCODE'	=> 'Allow BBCode in quick reply',
+	'ALLOW_QUICK_REPLY_BBCODE_EXPLAIN'	=> 'If this setting is enabled, BBCode button will be displayed in quick reply form.',
 ));
 
 // Avatar Settings

@@ -231,6 +231,7 @@ $lang = array_merge($lang, array(
 	'IMG_ICON_POST_EDIT'			=> 'Редактировать сообщение',
 	'IMG_ICON_POST_INFO'			=> 'Информация о сообщении',
 	'IMG_ICON_POST_QUOTE'			=> 'Цитировать сообщение',
+	'IMG_ICON_POST_QUICKQUOTE'		=> 'Быстрая цитата',
 	'IMG_ICON_POST_REPORT'			=> 'Пожаловаться на сообщение',
 	'IMG_ICON_POST_TARGET'			=> 'Значок сообщения',
 	'IMG_ICON_POST_TARGET_UNREAD'	=> 'Значок нового сообщения',

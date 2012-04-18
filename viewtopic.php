@@ -17,6 +17,7 @@ $phpEx = substr(strrchr(__FILE__, '.'), 1);
 include($phpbb_root_path . 'common.' . $phpEx);
 include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
 include($phpbb_root_path . 'includes/bbcode.' . $phpEx);
+include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
 
 // Start session management
 $user->session_begin();
@@ -632,6 +633,7 @@ $template->assign_vars(array(
 
 	'POST_IMG' 			=> ($topic_data['forum_status'] == ITEM_LOCKED) ? $user->img('button_topic_locked', 'FORUM_LOCKED') : $user->img('button_topic_new', 'POST_NEW_TOPIC'),
 	'QUOTE_IMG' 		=> $user->img('icon_post_quote', 'REPLY_WITH_QUOTE'),
+	'QUICKQUOTE_IMG' 	=> $user->img('icon_post_quickquote', 'QUICKQUOTE_TEXT'),
 	'REPLY_IMG'			=> ($topic_data['forum_status'] == ITEM_LOCKED || $topic_data['topic_status'] == ITEM_LOCKED) ? $user->img('button_topic_locked', 'TOPIC_LOCKED') : $user->img('button_topic_reply', 'REPLY_TO_TOPIC'),
 	'EDIT_IMG' 			=> $user->img('icon_post_edit', 'EDIT_POST'),
 	'DELETE_IMG' 		=> $user->img('icon_post_delete', 'DELETE_POST'),
@@ -1531,7 +1533,9 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'POSTER_AVATAR'		=> $user_cache[$poster_id]['avatar'],
 		'POSTER_WARNINGS'	=> $user_cache[$poster_id]['warnings'],
 		'POSTER_AGE'		=> $user_cache[$poster_id]['age'],
-
+		// This value will be used as a parameter for JS insert_text() function, so we use addslashes to handle "special" usernames properly ;)
+		'POSTER_QUOTE'		=> addslashes(get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['post_username'])),
+		
 		'POST_DATE'			=> $user->format_date($row['post_time'], false, ($view == 'print') ? true : false),
 		'POST_SUBJECT'		=> $row['post_subject'],
 		'MESSAGE'			=> $message,
@@ -1746,8 +1750,28 @@ if ($s_can_vote || $s_quick_reply)
 		($s_notify)						? $qr_hidden_fields['notify'] = 1				: true;
 		($topic_data['topic_status'] == ITEM_LOCKED) ? $qr_hidden_fields['lock_topic'] = 1 : true;
 
+		$bbcode_status = ($config['allow_quick_reply_bbcode'] && $config['allow_bbcode'] && $auth->acl_get('f_bbcode', $forum_id)) ? true : false;
+		if($bbcode_status)
+		{
+			$user->add_lang('posting');
+			display_custom_bbcodes();
+		}
+		$smilies_status = ($config['allow_quick_reply_smilies'] && $config['allow_smilies'] && $auth->acl_get('f_smilies', $forum_id)) ? true : false;
+		if ($smilies_status) 
+		{
+			generate_smilies('inline', $forum_id);
+		}
+		
 		$template->assign_vars(array(
 			'S_QUICK_REPLY'			=> true,
+			
+			'S_SMILIES_ALLOWED'		=> $smilies_status,
+			'S_BBCODE_ALLOWED'		=> $bbcode_status,
+			'S_BBCODE_IMG'			=> ($bbcode_status && $auth->acl_get('f_img', $forum_id)) ? true : false,
+			'S_LINKS_ALLOWED'		=> ($config['allow_post_links']) ? true : false,
+			'S_BBCODE_FLASH'		=> ($bbcode_status && $auth->acl_get('f_flash', $forum_id) && $config['allow_post_flash']) ? true : false,
+			'S_BBCODE_QUOTE'		=> true,
+			
 			'U_QR_ACTION'			=> append_sid("{$phpbb_root_path}posting.$phpEx", "mode=reply&amp;f=$forum_id&amp;t=$topic_id"),
 			'QR_HIDDEN_FIELDS'		=> build_hidden_fields($qr_hidden_fields),
 			'SUBJECT'				=> 'Re: ' . censor_text($topic_data['topic_title']),
