@@ -94,6 +94,10 @@ $lang = array_merge($lang, array(
 	'QUOTE'					=> 'Цитата',
 	'QUOTE_USERNAME'		=> 'Вставить Ник',
 
+	'POST_NUM'              => 'Скопировать ссылку на сообщение',
+    'POST_NUM_SYMBOL'       => '#',
+	'POST_DIRECT_LINK'		=> 'Ссылка на сообщение:',
+	
 	'REPLY_TO_TOPIC'		=> 'Ответить на тему',
 	'RETURN_POST'			=> '%sВернуться к сообщению%s',
 

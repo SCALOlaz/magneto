@@ -94,6 +94,10 @@ $lang = array_merge($lang, array(
 	'QUOTE'					=> 'Quote',
 	'QUOTE_USERNAME'		=> 'Insert nickname',
 	
+	'POST_NUM'              => 'Copy Direct link to Post',
+    'POST_NUM_SYMBOL'       => '#',
+	'POST_DIRECT_LINK'		=> 'Direct link to post:',
+	
 	'REPLY_TO_TOPIC'		=> 'Reply to topic',
 	'RETURN_POST'			=> '%sReturn to the post%s',
 

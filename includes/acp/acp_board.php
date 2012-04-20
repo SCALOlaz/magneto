@@ -208,6 +208,9 @@ class acp_board
 						'max_post_img_width'	=> array('lang' => 'MAX_POST_IMG_WIDTH',	'validate' => 'int:0',		'type' => 'text:5:4', 'explain' => true, 'append' => ' ' . $user->lang['PIXEL']),
 						'max_post_img_height'	=> array('lang' => 'MAX_POST_IMG_HEIGHT',	'validate' => 'int:0',		'type' => 'text:5:4', 'explain' => true, 'append' => ' ' . $user->lang['PIXEL']),
 
+						'enable_post_num'		=> array('lang' => 'ENABLE_POST_NUM',		'validate' => 'bool',		'type' => 'radio:yes_no', 'explain' => true),
+						'enable_post_num_js'	=> array('lang' => 'ENABLE_POST_NUM_JS',	'validate' => 'bool',		'type' => 'radio:yes_no', 'explain' => true),
+						
 						'legend3'					=> 'ACP_SUBMIT_CHANGES',
 					)
 				);

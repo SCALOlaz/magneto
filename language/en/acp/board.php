@@ -164,6 +164,11 @@ $lang = array_merge($lang, array(
 	'DISPLAY_LAST_EDITED_EXPLAIN'	=> 'Choose if the last edited by information to be displayed on posts.',
 	'EDIT_TIME'						=> 'Limit editing time',
 	'EDIT_TIME_EXPLAIN'				=> 'Limits the time available to edit a new post. Setting the value to 0 disables this behaviour.',
+	'ENABLE_POST_NUM'				=> 'Enable Post Number',
+	'ENABLE_POST_NUM_EXPLAIN'		=> 'Select <strong>Yes</strong> if you want to display the number of every post in viewtopic. <br /><em>Please notice that if you enable this the mini_post image will not be clickable anymore because it is reduntant - if you have this disabled, the mini_post image will preserve its default behaviour.</em>',
+	'ENABLE_POST_NUM_JS'			=> 'Enable Post Number JS popup',
+	'ENABLE_POST_NUM_JS_EXPLAIN'	=> 'Select <strong>Yes</strong> if you also want the post number to popup the direct link to the post when clicked.<br /><em>This only works if <strong>Enable Post Number</strong> is set to <strong>Yes</strong></em>',
+	
 	'FLOOD_INTERVAL'				=> 'Flood interval',
 	'FLOOD_INTERVAL_EXPLAIN'		=> 'Number of seconds a user must wait between posting new messages. To enable users to ignore this alter their permissions.',
 	'HOT_THRESHOLD'					=> 'Popular topic threshold',

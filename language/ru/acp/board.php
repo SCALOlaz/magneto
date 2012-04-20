@@ -165,6 +165,11 @@ $lang = array_merge($lang, array(
 	'DISPLAY_LAST_EDITED_EXPLAIN'	=> 'Выберите для отображения информации о последнем редактировании сообщения.',
 	'EDIT_TIME'						=> 'Ограничение времени на редактирование',
 	'EDIT_TIME_EXPLAIN'				=> 'Ограничение времени, в течение которого доступно редактирование новых сообщений. Введите 0 для отключения этой возможности.',
+	'ENABLE_POST_NUM'				=> 'Включить нумерацию сообщений',
+	'ENABLE_POST_NUM_EXPLAIN'		=> 'Select <strong>Yes</strong> if you want to display the number of every post in viewtopic. <br /><em>Please notice that if you enable this the mini_post image will not be clickable anymore because it is reduntant - if you have this disabled, the mini_post image will preserve its default behaviour.</em>',
+	'ENABLE_POST_NUM_JS'			=> 'Включить JS подсказку нумерации',
+	'ENABLE_POST_NUM_JS_EXPLAIN'	=> 'Select <strong>Yes</strong> if you also want the post number to popup the direct link to the post when clicked.<br /><em>This only works if <strong>Enable Post Number</strong> is set to <strong>Yes</strong></em>',
+	
 	'FLOOD_INTERVAL'				=> 'Задержка флуда',
 	'FLOOD_INTERVAL_EXPLAIN'		=> 'Количество секунд, которое должно пройти между двумя сообщениями пользователя. Чтобы разрешить пользователям игнорировать это ограничение, установите им соответствующие права.',
 	'HOT_THRESHOLD'					=> 'Сообщений в популярной теме',
