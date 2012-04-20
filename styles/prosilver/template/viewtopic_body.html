@@ -45,11 +45,13 @@
 		</div>
 	<!-- ENDIF -->
 
+	<!-- IF not C_FIRST_P -->
 	<!-- IF PAGINATION or TOTAL_POSTS -->
 		<div class="pagination">
 			<!-- IF U_VIEW_UNREAD_POST and not S_IS_BOT --><a href="{U_VIEW_UNREAD_POST}">{L_VIEW_UNREAD_POST}</a> &bull; <!-- ENDIF -->{TOTAL_POSTS}
 			<!-- IF PAGE_NUMBER --><!-- IF PAGINATION --> &bull; <a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE --> &bull; {PAGE_NUMBER}<!-- ENDIF --><!-- ENDIF -->
 		</div>
+	<!-- ENDIF -->
 	<!-- ENDIF -->
 
 </div>
@@ -226,6 +228,18 @@
 			<center>Free Advertiesement space</center>
 		<!-- IF S_TOPIC_FIRST_POST_SHOW -->
 			<br />
+		<!-- ENDIF -->
+	<!-- ENDIF -->
+
+	<!-- IF C_FIRST_P and postrow.S_ROW_COUNT eq 0 -->
+		<!-- IF PAGINATION or TOTAL_POSTS -->
+			<div class="post">
+				<div class="pagination">
+					<!-- IF U_VIEW_UNREAD_POST and not S_IS_BOT --><a href="{U_VIEW_UNREAD_POST}">{L_VIEW_UNREAD_POST}</a> &bull; <!-- ENDIF -->{TOTAL_POSTS}
+					<!-- IF PAGE_NUMBER --><!-- IF PAGINATION --> &bull; <a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE --> &bull; {PAGE_NUMBER}<!-- ENDIF --><!-- ENDIF -->
+				</div>
+			</div>
+			<br /><br />
 		<!-- ENDIF -->
 	<!-- ENDIF -->
 	
