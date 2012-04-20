@@ -1054,6 +1054,7 @@ while ($row = $db->sql_fetchrow($result))
 		'post_edit_time'	=> $row['post_edit_time'],
 		'post_edit_reason'	=> $row['post_edit_reason'],
 		'post_edit_user'	=> $row['post_edit_user'],
+		'poster_ip'			=> $row['poster_ip'],
 		'post_edit_locked'	=> $row['post_edit_locked'],
 
 		// Make sure the icon actually exists
@@ -1580,7 +1581,8 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'POST_ID'			=> $row['post_id'],
 		'POST_NUMBER'		=> $i + $start + 1,
 		'POSTER_ID'			=> $poster_id,
-
+		'POSTER_IP'			=> (($auth->acl_get('a_') || $auth->acl_get('m_')) && $user->data['is_registered']) ? $row['poster_ip'] : '',
+		
 		'S_HAS_ATTACHMENTS'	=> (!empty($attachments[$row['post_id']])) ? true : false,
 		'S_POST_UNAPPROVED'	=> ($row['post_approved']) ? false : true,
 		'S_POST_REPORTED'	=> ($row['post_reported'] && $auth->acl_get('m_report', $forum_id)) ? true : false,
