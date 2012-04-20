@@ -110,7 +110,7 @@
 
 <!-- BEGIN postrow -->
 	<!-- IF postrow.S_FIRST_UNREAD --><a id="unread"></a><!-- ENDIF -->		
-	<div id="p{postrow.POST_ID}" class="post <!-- IF postrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF postrow.S_UNREAD_POST --> unreadpost<!-- ENDIF --><!-- IF postrow.S_POST_REPORTED --> reported<!-- ENDIF --><!-- IF postrow.S_ONLINE and not postrow.S_IGNORE_POST --> online<!-- ENDIF -->">
+	<div id="p{postrow.POST_ID}" class="post <!-- IF S_TOPIC_FIRST_POST_SHOW and postrow.S_ROW_COUNT eq 0 -->bg3<!-- ELSEIF postrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF postrow.S_UNREAD_POST --> unreadpost<!-- ENDIF --><!-- IF postrow.S_POST_REPORTED --> reported<!-- ENDIF --><!-- IF postrow.S_ONLINE and not postrow.S_IGNORE_POST --> online<!-- ENDIF -->">
 		<div class="inner"><span class="corners-top"><span></span></span>
 
 		<div class="postbody" id="post{postrow.POST_ID}">
@@ -219,6 +219,16 @@
 	</div>
 
 	<hr class="divider" />
+	<!-- IF postrow.S_ROW_COUNT eq 0 -->
+		<!-- IF S_TOPIC_FIRST_POST_SHOW -->
+			<br />
+		<!-- ENDIF -->
+			<center>Free Advertiesement space</center>
+		<!-- IF S_TOPIC_FIRST_POST_SHOW -->
+			<br />
+		<!-- ENDIF -->
+	<!-- ENDIF -->
+	
 <!-- END postrow -->
 
 <!-- IF S_QUICK_REPLY -->

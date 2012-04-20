@@ -114,6 +114,13 @@
 	<!-- ENDIF -->
 	<!-- ENDIF -->
 
+	<!-- IF S_FIRST_POST_SHOW_ALLOWED -->
+	<dl style="clear: left;">
+		<dt><label>&nbsp;</label></dt>
+		<dd><label for="topic_first_post_show"><input type="checkbox" name="topic_first_post_show" id="topic_first_post_show"{S_FIRST_POST_SHOW_CHECKED} /> <strong>{L_FIRST_POST_SHOW}</strong></label></dd>
+	</dl>
+	<!-- ENDIF -->
+			
 	<!-- INCLUDE posting_buttons.html -->
 
 	<div id="smiley-box">
@@ -261,6 +268,9 @@
 		<div class="inner"><span class="corners-top"><span></span></span>
 
 		<fieldset class="fields1">
+			<!-- IF S_FIRST_POST_SHOW_ALLOWED_2 -->
+				<div><label for="topic_first_post_show"><input type="checkbox" name="topic_first_post_show" id="topic_first_post_show"{S_FIRST_POST_SHOW_CHECKED} /> {L_FIRST_POST_SHOW} </label></div>
+			<!-- ENDIF -->
 			<!-- IF S_BBCODE_ALLOWED -->
 				<div><label for="disable_bbcode"><input type="checkbox" name="disable_bbcode" id="disable_bbcode"{S_BBCODE_CHECKED} /> {L_DISABLE_BBCODE}</label></div>
 			<!-- ENDIF -->
@@ -282,7 +292,7 @@
 			<!-- IF S_LOCK_POST_ALLOWED -->
 				<div><label for="lock_post"><input type="checkbox" name="lock_post" id="lock_post"{S_LOCK_POST_CHECKED} /> {L_LOCK_POST} [{L_LOCK_POST_EXPLAIN}]</label></div>
 			<!-- ENDIF -->
-
+			
 			<!-- IF S_TYPE_TOGGLE or S_TOPIC_TYPE_ANNOUNCE or S_TOPIC_TYPE_STICKY -->
 			<hr class="dashed" />
 			<!-- ENDIF -->

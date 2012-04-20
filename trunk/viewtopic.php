@@ -672,6 +672,7 @@ $template->assign_vars(array(
 	'S_ENABLE_FEEDS_TOPIC'	=> ($config['feed_topic'] && !phpbb_optionget(FORUM_OPTION_FEED_EXCLUDE, $topic_data['forum_options'])) ? true : false,
 
 	'U_TOPIC'				=> "{$server_path}viewtopic.$phpEx?f=$forum_id&amp;t=$topic_id",
+	'S_TOPIC_FIRST_POST_SHOW'	=> ($topic_data['topic_first_post_show'] == 1) ? true : false,
 	'U_FORUM'				=> $server_path,
 	'U_VIEW_TOPIC' 			=> $viewtopic_url,
 	'U_VIEW_FORUM' 			=> append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $forum_id),
@@ -970,6 +971,16 @@ $sql = 'SELECT p.post_id
 $result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 
 $i = ($store_reverse) ? $sql_limit - 1 : 0;
+
+// First post on every page
+// Show first post on every page if needed
+if($topic_data['topic_first_post_show'] && ( $start != 0))
+{
+	$i = 0;
+	$post_list[$i] = (int) $topic_data['topic_first_post_id'] ;
+	$i = ($store_reverse) ? $sql_limit : $i+1;
+}
+
 while ($row = $db->sql_fetchrow($result))
 {
 	$post_list[$i] = (int) $row['post_id'];
