@@ -186,6 +186,7 @@ $lang = array_merge($lang, array(
 	'FILE_COMMENT'			=> 'File comment',
 	'FILE_NOT_FOUND'		=> 'The requested file could not be found.',
 	'FIND_USERNAME'			=> 'Find a member',
+	'FIRST_POST_SHOW'		=> 'Show on top of every page',
 	'FOLDER'				=> 'Folder',
 	'FORGOT_PASS'			=> 'I forgot my password',
 	'FORM_INVALID'			=> 'The submitted form was invalid. Try submitting again.',

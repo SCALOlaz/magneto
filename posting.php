@@ -357,6 +357,7 @@ $post_data['poll_length']		= (!empty($post_data['poll_length'])) ? (int) $post_d
 $post_data['poll_start']		= (!empty($post_data['poll_start'])) ? (int) $post_data['poll_start'] : 0;
 $post_data['icon_id']			= (!isset($post_data['icon_id']) || in_array($mode, array('quote', 'reply'))) ? 0 : (int) $post_data['icon_id'];
 $post_data['poll_options']		= array();
+$post_data['topic_first_post_show'] = (isset($post_data['topic_first_post_show'])) ? $post_data['topic_first_post_show'] : 0;
 
 // Get Poll Data
 if ($post_data['poll_start'])
@@ -682,6 +683,7 @@ if ($submit || $preview || $refresh)
 	$topic_lock			= (isset($_POST['lock_topic'])) ? true : false;
 	$post_lock			= (isset($_POST['lock_post'])) ? true : false;
 	$poll_delete		= (isset($_POST['poll_delete'])) ? true : false;
+	$topic_first_post_show = (isset($_POST['topic_first_post_show'])) ? true : false;
 
 	if ($submit)
 	{
@@ -938,6 +940,7 @@ if ($submit || $preview || $refresh)
 		);
 
 		$post_data['poll_options'] = array();
+		$post_data['topic_first_post_show'] = (isset($post_data['topic_first_post_show'])) ? $post_data['topic_first_post_show'] : 0;
 		$post_data['poll_title'] = '';
 		$post_data['poll_start'] = $post_data['poll_length'] = $post_data['poll_max_options'] = $post_data['poll_last_vote'] = $post_data['poll_vote_change'] = 0;
 	}
@@ -1168,6 +1171,26 @@ if ($submit || $preview || $refresh)
 				$captcha->reset();
 			}
 
+			// Show/Unshow first post on every page
+			if(($mode == 'edit' && $post_id == $post_data['topic_first_post_id']) || $mode == 'post')
+			{
+				if($mode == 'post')
+				{
+					$topic_id = $data['topic_id'];
+				}
+
+				$perm_show_unshow = ($auth->acl_get('m_lock', $forum_id) || ($auth->acl_get('f_user_lock', $forum_id) && $user->data['is_registered'] && !empty($post_data['topic_poster']) && $user->data['user_id'] == $post_data['topic_poster'])) ? true : false;
+
+				if($post_data['topic_first_post_show'] != $topic_first_post_show && $perm_show_unshow)
+				{
+					$sql = 'UPDATE ' . TOPICS_TABLE . '
+						SET topic_first_post_show = ' . (($topic_first_post_show) ? 1 : 0) . " 
+						WHERE topic_id = $topic_id";
+					$db->sql_query($sql);
+
+				}
+			}
+
 			// Check the permissions for post approval. Moderators are not affected.
 			if ((!$auth->acl_get('f_noapprove', $data['forum_id']) && !$auth->acl_get('m_approve', $data['forum_id']) && empty($data['force_approved_state'])) || (isset($data['force_approved_state']) && !$data['force_approved_state']))
 			{
@@ -1363,6 +1386,13 @@ if ($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_p
 	$topic_type_toggle = posting_gen_topic_types($forum_id, $post_data['topic_type']);
 }
 
+// Do show show first post on every page checkbox only in first post
+$first_post_show_allowed = false;
+if(($mode == 'edit' && $post_id == $post_data['topic_first_post_id']) || $mode == 'post')
+{
+	$first_post_show_allowed = true;
+}
+
 $s_topic_icons = false;
 if ($post_data['enable_icons'] && $auth->acl_get('f_icons', $forum_id))
 {
@@ -1375,6 +1405,7 @@ $urls_checked		= (isset($post_data['enable_urls'])) ? !$post_data['enable_urls']
 $sig_checked		= $post_data['enable_sig'];
 $lock_topic_checked	= (isset($topic_lock) && $topic_lock) ? $topic_lock : (($post_data['topic_status'] == ITEM_LOCKED) ? 1 : 0);
 $lock_post_checked	= (isset($post_lock)) ? $post_lock : $post_data['post_edit_locked'];
+$first_post_show_checked = (isset($post_data['topic_first_post_show'])) ? $post_data['topic_first_post_show'] : 0;
 
 // If the user is replying or posting and not already watching this topic but set to always being notified we need to overwrite this setting
 $notify_set			= ($mode != 'edit' && $config['allow_topic_notify'] && $user->data['is_registered'] && !$post_data['notify_set']) ? $user->data['user_notify'] : $post_data['notify_set'];
@@ -1495,6 +1526,9 @@ $template->assign_vars(array(
 	'S_HAS_DRAFTS'				=> ($auth->acl_get('u_savedrafts') && $user->data['is_registered'] && $post_data['drafts']) ? true : false,
 	'S_FORM_ENCTYPE'			=> $form_enctype,
 
+	'S_FIRST_POST_SHOW_ALLOWED'		=> ($first_post_show_allowed  && ($auth->acl_get('m_lock', $forum_id) || ($auth->acl_get('f_user_lock', $forum_id) && $user->data['is_registered'] && !empty($post_data['topic_poster']) && $user->data['user_id'] == $post_data['topic_poster']))) ? true : false,
+	'S_FIRST_POST_SHOW_CHECKED'		=> ($first_post_show_checked) ? ' checked="checked"' : '',
+	
 	'S_ALLOW_TOPICS_IMAGES'		=> ($config['img_max_topic_image_width'] > 0 && $config['img_max_topic_image_height'] > 0) && ($post_data['forum_allow_topic_image'] == 1 && $auth->acl_get('f_topic_image', $forum_id)) && ($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id'])),
 	'U_PREVIEW_TOPIC_IMAGE'		=> "{$phpbb_root_path}download/file.$phpEx?t=2&amp;id=",
 	'S_TOPIC_IMAGE_MW'			=> ($config['img_max_topic_image_width2']) ? $config['img_max_topic_image_width2'] : 80,
