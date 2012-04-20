@@ -1613,6 +1613,8 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		$postrow = array_merge($postrow, $cp_row['row']);
 	}
 
+	$postrow['POST_NUM'] = $start + ($i+1);
+	
 	// Dump vars into template
 	$template->assign_block_vars('postrow', $postrow);
 
