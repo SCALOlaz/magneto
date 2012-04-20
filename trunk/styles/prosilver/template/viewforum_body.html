@@ -1,5 +1,5 @@
 <!-- INCLUDE overall_header.html -->
-<!-- IF U_MCP --><p>[&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ENDIF -->
+<!-- IF U_MCP --><p>[<!-- IF U_ACP -->&nbsp;<a href="{U_ACP}" target="_blank">{L_ACP}</a>,&nbsp;<!-- ENDIF -->&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ENDIF -->
 <h2><a href="{U_VIEW_FORUM}">{FORUM_NAME}</a></h2>
 
 <!-- IF FORUM_DESC or MODERATORS or U_MCP -->
@@ -142,7 +142,7 @@
 
 				<dt<!-- IF topicrow.TOPIC_ICON_IMG and S_TOPIC_ICONS --> style="background-image: url({T_ICONS_PATH}{topicrow.TOPIC_ICON_IMG}); background-repeat: no-repeat;"<!-- ENDIF --> title="{topicrow.TOPIC_FOLDER_IMG_ALT}"><!-- IF topicrow.S_UNREAD_TOPIC --><a href="{topicrow.U_NEWEST_POST}">{NEWEST_POST_IMG}</a> <!-- ENDIF --><!-- IF S_DISPLAY_ACTIVE_NEW --><a href="{topicrow.U_VIEW_FORUM}" class="topictitle">Forum {topicrow.FORUM_TITLE}</a> &raquo; <!-- ENDIF --><a href="{topicrow.U_VIEW_TOPIC}" class="topictitle">{topicrow.TOPIC_TITLE}</a>
 
-					<!-- IF (S_ALLOW_TOPICS_IMAGES or topicrow.S_ALLOW_TOPICS_IMAGES) and S_TOPICS_WITH_IMAGES --><span style="width:{S_TOPIC_IMAGE_MW}px; float:left; height:{S_TOPIC_IMAGE_MH}px" class="topic_image<!-- IF topicrow.TOPIC_IMAGE_LINK --> spinning<!-- ENDIF -->"><img src="<!-- IF topicrow.TOPIC_IMAGE_LINK -->{topicrow.TOPIC_IMAGE_LINK}"<!-- ELSE -->./images/spacer.gif" class="no-photo"<!-- ENDIF --> alt="{topicrow.TOPIC_TITLE}" title="{topicrow.TOPIC_TITLE}"/></span><!-- ENDIF -->
+					<!-- IF (S_ALLOW_TOPICS_IMAGES or topicrow.S_ALLOW_TOPICS_IMAGES) and S_TOPICS_WITH_IMAGES --><span style="width:{S_TOPIC_IMAGE_MW}px; float:left; height:{S_TOPIC_IMAGE_MH}px" class="topic_image<!-- IF topicrow.TOPIC_IMAGE_LINK --> spinning<!-- ENDIF -->"><img src="<!-- IF topicrow.TOPIC_IMAGE_LINK -->{topicrow.TOPIC_IMAGE_LINK}"<!-- ELSE -->./images/spacer.gif"<!-- ENDIF --> alt="{topicrow.TOPIC_TITLE}" title="{topicrow.TOPIC_TITLE}"/></span><!-- ENDIF -->
 					
 					<!-- IF topicrow.S_TOPIC_UNAPPROVED or topicrow.S_POSTS_UNAPPROVED --><a href="{topicrow.U_MCP_QUEUE}">{topicrow.UNAPPROVED_IMG}</a> <!-- ENDIF -->
 					<!-- IF topicrow.S_TOPIC_REPORTED --><a href="{topicrow.U_MCP_REPORT}">{REPORTED_IMG}</a><!-- ENDIF --><br />
