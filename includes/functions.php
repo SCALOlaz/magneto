@@ -4551,12 +4551,6 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		$user_lang = substr($user_lang, 0, strpos($user_lang, '-x-'));
 	}
 
-	$user->add_lang('mods/stats');
-	if ($auth->acl_get('u_view_stats'))
-	{
-		$template->assign_var('S_VIEW_STATS', true);
-	}
-
 	$s_search_hidden_fields = array();
 	if ($_SID)
 	{
@@ -4619,7 +4613,6 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		'L_INDEX'			=> $user->lang['FORUM_INDEX'],
 		'L_ONLINE_EXPLAIN'	=> $l_online_time,
 
-		'U_STATS'				=> ($auth->acl_get('u_view_stats')) ? append_sid("{$phpbb_root_path}stats.$phpEx") : '',
 		'U_NEWS'				=> append_sid("{$phpbb_root_path}{$newspage_file}.$phpEx"),
 		'U_PRIVATEMSGS'			=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;folder=inbox'),
 		'U_RETURN_INBOX'		=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;folder=inbox'),

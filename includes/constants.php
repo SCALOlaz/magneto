@@ -279,10 +279,4 @@ define('ZEBRA_TABLE',				$table_prefix . 'zebra');
 
 // Additional tables
 
-define('STATS_ADDONS_TABLE',		$table_prefix . 'stats_addons');
-define('STATS_CONFIG_TABLE',		$table_prefix . 'stats_config');
-define('STATS_SMILIES_TABLE',		$table_prefix . 'stats_smilies');
-define('STATS_BBCODES_TABLE',		$table_prefix . 'stats_bbcodes');
-
-
 ?>

@@ -322,12 +322,6 @@ while ($row = $db->sql_fetchrow($result))
 			$location_url = append_sid("{$phpbb_root_path}{$newspage_file}.$phpEx");
 		break;
 		
-		case 'stats':
-			$user->add_lang('mods/stats');
-			$location = $user->lang['VIEWING_STATS'];
-			$location_url = append_sid("{$phpbb_root_path}stats.$phpEx");
-		break;
-		
 		default:
 			$location = $user->lang['INDEX'];
 			$location_url = append_sid("{$phpbb_root_path}index.$phpEx");
