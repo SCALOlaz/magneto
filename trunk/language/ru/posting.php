@@ -52,6 +52,8 @@ $lang = array_merge($lang, array(
 	'BBCODE_C_HELP'				=> 'Код: [code]code[/code]',
 	'BBCODE_E_HELP'				=> 'Список: добавить элемент списка',
 	'BBCODE_F_HELP'				=> 'Размер шрифта: [size=85]small text[/size]',
+	'BBCODE_V_HELP'				=> 'Разметка текста: [align=right]text[/align]',
+	'BBCODE_VV_HELP'			=> 'Обтекание: [float=right]что-либо[/float]',
 	'BBCODE_IS_OFF'				=> '%sBBCode%s <em>ВЫКЛЮЧЕН</em>',
 	'BBCODE_IS_ON'				=> '%sBBCode%s <em>ВКЛЮЧЁН</em>',
 	'BBCODE_I_HELP'				=> 'Наклонный текст: [i]text[/i]',
@@ -107,6 +109,14 @@ $lang = array_merge($lang, array(
 	'FONT_SIZE'					=> 'Размер шрифта',
 	'FONT_SMALL'				=> 'Маленький',
 	'FONT_TINY'					=> 'Очень маленький',
+
+	'TEXT_ALIGN'				=> 'Разметка текста',
+	'TEXT_LEFT'					=> 'Слева',
+	'TEXT_RIGHT'				=> 'Справа',
+	'TEXT_CENTER'				=> 'По центру',
+	
+	'TEXT_FLOAT'				=> 'Обтекание',
+	'FLOAT_MIDDLE'				=> 'Середина',
 
 	'GENERAL_UPLOAD_ERROR'		=> 'Не удалось закачать вложение %s.',
 

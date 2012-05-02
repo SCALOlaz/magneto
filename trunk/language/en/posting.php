@@ -52,6 +52,8 @@ $lang = array_merge($lang, array(
 	'BBCODE_C_HELP'				=> 'Code display: [code]code[/code]',
 	'BBCODE_D_HELP'				=> 'Flash: [flash=width,height]http://url[/flash]',
 	'BBCODE_F_HELP'				=> 'Font size: [size=85]small text[/size]',
+	'BBCODE_V_HELP'				=> 'Text align: [align=right]text[/align]',
+	'BBCODE_VV_HELP'			=> 'Floating: [float=right]sometext[/float]',
 	'BBCODE_IS_OFF'				=> '%sBBCode%s is <em>OFF</em>',
 	'BBCODE_IS_ON'				=> '%sBBCode%s is <em>ON</em>',
 	'BBCODE_I_HELP'				=> 'Italic text: [i]text[/i]',
@@ -107,6 +109,14 @@ $lang = array_merge($lang, array(
 	'FONT_SIZE'					=> 'Font size',
 	'FONT_SMALL'				=> 'Small',
 	'FONT_TINY'					=> 'Tiny',
+
+	'TEXT_ALIGN'				=> 'Text Align',
+	'TEXT_LEFT'					=> 'Left',
+	'TEXT_RIGHT'				=> 'Right',
+	'TEXT_CENTER'				=> 'Center',
+
+	'TEXT_FLOAT'				=> 'Floating',
+	'FLOAT_MIDDLE'				=> 'Middle',
 
 	'GENERAL_UPLOAD_ERROR'		=> 'Could not upload attachment to %s.',
 

@@ -359,6 +359,22 @@ class bbcode
 					);
 				break;
 //SPOILER
+//ALIGN
+				case 14:
+					$this->bbcode_cache[$bbcode_id] = array(
+						'preg' => array(
+							'#\[align=(.*?):$uid\](.*?)\[/align:$uid\]#is'	=> $this->bbcode_tpl('align', $bbcode_id),
+						)
+					);
+				break;
+				case 15:
+					$this->bbcode_cache[$bbcode_id] = array(
+						'preg' => array(
+							'#\[float=(.*?):$uid\](.*?)\[/float:$uid\]#is'	=> $this->bbcode_tpl('float', $bbcode_id),
+						)
+					);
+				break;
+//ALIGN
 				default:
 					if (isset($rowset[$bbcode_id]))
 					{
@@ -442,7 +458,11 @@ class bbcode
 //SPOILER
 				'size'		=> '<span style="font-size: $1%; line-height: normal">$2</span>',
 				'color'		=> '<span style="color: $1">$2</span>',
-				'email'		=> '<a href="mailto:$1">$2</a>'
+				'email'		=> '<a href="mailto:$1">$2</a>',
+//ALIGN
+				'float'		=> '<span style="float: $1; align: $1; margin: 4px; padding: 4px; display: block; clear: none;">$2</span>',
+				'align'		=> '<div style="text-align:$1; clear: both;">$2</div>'
+//ALIGN
 			);
 		}
 
@@ -501,7 +521,11 @@ class bbcode
 			'img'					=> array('{URL}'		=> '$1'),
 			'flash'					=> array('{WIDTH}'		=> '$1', '{HEIGHT}'			=> '$2', '{URL}'	=> '$3'),
 			'url'					=> array('{URL}'		=> '$1', '{DESCRIPTION}'	=> '$2'),
-			'email'					=> array('{EMAIL}'		=> '$1', '{DESCRIPTION}'	=> '$2')
+			'email'					=> array('{EMAIL}'		=> '$1', '{DESCRIPTION}'	=> '$2'),
+//ALIGN			
+			'float'					=> array('{FLOAT}'		=> '$1', '{TEXT}'			=> '$2'),
+			'align'					=> array('{ALIGN}'		=> '$1', '{TEXT}'			=> '$2')
+//ALIGN
 		);
 
 		$tpl = preg_replace('/{L_([A-Z_]+)}/e', "(!empty(\$user->lang['\$1'])) ? \$user->lang['\$1'] : ucwords(strtolower(str_replace('_', ' ', '\$1')))", $tpl);
