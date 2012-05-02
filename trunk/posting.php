@@ -1153,16 +1153,6 @@ if ($submit || $preview || $refresh)
 				$data['topic_replies'] = $post_data['topic_replies'];
 			}
 
-			/** Start phpBB Statistics
-			*	send BBCode and smiley count to the DB
-			*/
-			if(!function_exists('save_bbcode_smiley_count'))
-			{
-				include($phpbb_root_path . 'statistics/includes/functions.' . $phpEx);
-			}
-			save_bbcode_smiley_count($data, $mode);
-			//	End phpBB Statistics
-
 			// The last parameter tells submit_post if search indexer has to be run
 			$redirect_url = submit_post($mode, $post_data['post_subject'], $post_data['username'], $post_data['topic_type'], $poll, $data, $update_message, ($update_message || $update_subject) ? true : false);
 

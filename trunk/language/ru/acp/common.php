@@ -738,44 +738,6 @@ $lang = array_merge($lang, array(
 	'LOG_WORD_EDIT'			=> '<strong>Изменён цензор слов</strong><br />» %s',
 ));
 
-// phpBB Statistics MOD
-$lang = array_merge($lang, array(
-	'STATS'							=> 'phpBB Statistics',	
-	'STATS_BASIC'						=> 'Basic statistics',
-	'STATS_BASIC_BASIC'				=> 'Basic',
-	'STATS_BASIC_ADVANCED'				=> 'Advanced',
-	'STATS_BASIC_MISCELLANEOUS'		=> 'Miscellaneous',
-	'STATS_ACTIVITY'					=> 'Forum Activity',
-	'STATS_ACTIVITY_FORUMS'			=> 'Forums',
-	'STATS_ACTIVITY_TOPICS'			=> 'Topics',
-	'STATS_ACTIVITY_USERS'				=> 'Users',
-	'STATS_CONTRIBUTIONS'				=> 'Forum Contributions',
-	'STATS_CONTRIBUTIONS_ATTACHMENTS'	=> 'Attachments',
-	'STATS_CONTRIBUTIONS_POLLS'		=> 'Polls',
-	'STATS_PERIODIC'					=> 'Periodic Statistics',
-	'STATS_PERIODIC_DAILY'				=> 'Daily Statistics',
-	'STATS_PERIODIC_MONTHLY'			=> 'Monthly Statistics',
-	'STATS_PERIODIC_HOURLY'			=> 'Hourly Statistics',
-	'STATS_SETTINGS'					=> 'Settings Statistics',
-	'STATS_SETTINGS_BOARD'				=> 'Board Settings',
-	'STATS_SETTINGS_PROFILE'			=> 'Profile Settings',
-	'STATS_ADDONS'					=> 'Add-Ons',
-	'STATS_ADDONS_MISCELLANEOUS'		=> 'scapegoat', // do not change
-	
-	'LOG_STATS_CONFIG_SETTINGS'				=> '<strong>phpBB Statistics: Altered General settings</strong>',
-	'LOG_STATS_CONFIG_ADDONS'				=> '<strong>phpBB Statistics: Altered Add-ons Settings</strong>',
-	'LOG_STATS_ADDON_REMOVED'				=> '<strong>phpBB Statistics: Removed %1$s add-on</strong>',
-	'LOG_STATS_ADDON_ENABLED'				=> '<strong>phpBB Statistics: Enabled %1$s add-on</strong>',
-	'LOG_STATS_ADDON_DISABLED'				=> '<strong>phpBB Statistics: Disabled %1$s add-on</strong>',
-	
-	'FIELD_STATS_SHOW'					=> 'Show this custom profile field on the Forum Statistics page',
-	'FIELD_STATS_SHOW_EXPLAIN'					=> 'Enabling this will make this custom profile field to be shown as a statistic under the Profile Settings statistics on the Forum Statistics page. Note that deactivated or hidden custom profile fields are not shown on the Forum Statistics page even if this option is enabled.<br />The display of this statistic will depend on the type of data that this field stores.',
-	
-	'acl_u_view_stats'		=> array('lang' => 'Can view Statistics', 'cat' => 'misc'),
-
-));
-//END MOD
-
 // Manage attachments module for phpBB3 MOD
 $lang = array_merge($lang, array(
 	'ACP_MANAGE_ATTACHMENTS'			=> 'Управление вложениями',

@@ -372,9 +372,6 @@ class acp_profile
 						'field_show_on_vt'	=> 0,
 						'lang_name'			=> utf8_normalize_nfc(request_var('field_ident', '', true)),
 						'lang_explain'		=> '',
-						// phpBB Statistics MOD
-						'field_stats_show'		=> request_var('field_stats_show', 0),
-						// END MOD
 						'lang_default_value'=> '')
 					);
 
@@ -383,7 +380,7 @@ class acp_profile
 
 				// $exclude contains the data we gather in each step
 				$exclude = array(
-					1	=> array('field_ident', 'lang_name', 'lang_explain', 'field_option_none', 'field_show_on_reg', 'field_show_on_vt', 'field_required', 'field_hide', 'field_show_profile', 'field_no_view', 'field_stats_show'),
+					1	=> array('field_ident', 'lang_name', 'lang_explain', 'field_option_none', 'field_show_on_reg', 'field_show_on_vt', 'field_required', 'field_hide', 'field_show_profile', 'field_no_view'),
 					2	=> array('field_length', 'field_maxlen', 'field_minlen', 'field_validation', 'field_novalue', 'field_default_value'),
 					3	=> array('l_lang_name', 'l_lang_explain', 'l_lang_default_value', 'l_lang_options')
 				);
@@ -404,10 +401,6 @@ class acp_profile
 				$cp->vars['lang_name']			= utf8_normalize_nfc(request_var('lang_name', $field_row['lang_name'], true));
 				$cp->vars['lang_explain']		= utf8_normalize_nfc(request_var('lang_explain', $field_row['lang_explain'], true));
 				$cp->vars['lang_default_value']	= utf8_normalize_nfc(request_var('lang_default_value', $field_row['lang_default_value'], true));
-
-				// phpBB Statistics MOD
-				$cp->vars['field_stats_show']		= request_var('field_stats_show', $field_row['field_stats_show']);
-				//END MOD
 
 				// Visibility Options...
 				$visibility_ary = array(
@@ -747,10 +740,6 @@ class acp_profile
 							'FIELD_TYPE'		=> $user->lang['FIELD_' . strtoupper($cp->profile_types[$field_type])],
 							'FIELD_IDENT'		=> $cp->vars['field_ident'],
 							'LANG_NAME'			=> $cp->vars['lang_name'],
-							// phpBB Statistics MOD
-							'S_FIELD_STATS_SHOW'	=> $cp->vars['field_stats_show'],
-							'S_DISPLAY_FIELD_STATS_SHOW'	=> in_array($field_type, array(FIELD_STRING, FIELD_BOOL, FIELD_DROPDOWN)),
-							//END MOD
 							'LANG_EXPLAIN'		=> $cp->vars['lang_explain'])
 						);
 
@@ -1061,9 +1050,6 @@ class acp_profile
 			'field_show_on_vt'		=> $cp->vars['field_show_on_vt'],
 			'field_hide'			=> $cp->vars['field_hide'],
 			'field_show_profile'	=> $cp->vars['field_show_profile'],
-			// phpBB Statistics MOD
-			'field_stats_show'			=> $cp->vars['field_stats_show'],
-			//END MOD
 			'field_no_view'			=> $cp->vars['field_no_view']
 		);
 
