@@ -116,7 +116,11 @@ class bbcode_firstpass extends bbcode
 			'quote'			=> array('bbcode_id' => 0,	'regexp' => array('#\[quote(?:=&quot;(.*?)&quot;)?\](.+)\[/quote\]#uise' => "\$this->bbcode_quote('\$0')")),
 //SPOILER
 			'spoiler'			=> array('bbcode_id' => 13,	'regexp' => array('#\[spoiler(?:=(.*?))?\](.+)\[/spoiler\]#uise' => "\$this->bbcode_spoiler('\$0')")),
-//SPOILER			
+//SPOILER
+//ALIGN			
+			'align'			=> array('bbcode_id' => 14,	'regexp' => array('#\[align=(.*?)\](.*?)\[/align\]#uise' => "\$this->bbcode_align('\$1', '\$2')")),
+			'float'			=> array('bbcode_id' => 15,	'regexp' => array('#\[float=(.*?)\](.*?)\[/float\]#uise' => "\$this->bbcode_float('\$1', '\$2')")),
+//ALIGN
 			'attachment'	=> array('bbcode_id' => 12,	'regexp' => array('#\[attachment=([0-9]+)\](.*?)\[/attachment\]#uise' => "\$this->bbcode_attachment('\$1', '\$2')")),
 			'b'				=> array('bbcode_id' => 1,	'regexp' => array('#\[b\](.*?)\[/b\]#uise' => "\$this->bbcode_strong('\$1')")),
 			'i'				=> array('bbcode_id' => 2,	'regexp' => array('#\[i\](.*?)\[/i\]#uise' => "\$this->bbcode_italic('\$1')")),
@@ -227,6 +231,31 @@ class bbcode_firstpass extends bbcode
 		return '[size=' . $stx . ':' . $this->bbcode_uid . ']' . $in . '[/size:' . $this->bbcode_uid . ']';
 	}
 
+//ALIGN
+	/**
+	* Parse align tag
+	*/
+	function bbcode_align($stx, $in)
+	{
+		if (!$this->check_bbcode('align', $in))
+		{
+			return $in;
+		}
+		return '[align=' . $stx . ':' . $this->bbcode_uid . ']' . $in . '[/align:' . $this->bbcode_uid . ']';
+	}
+	/**
+	* Parse float tag
+	*/
+	function bbcode_float($stx, $in)
+	{
+		if (!$this->check_bbcode('float', $in))
+		{
+			return $in;
+		}
+		return '[float=' . $stx . ':' . $this->bbcode_uid . ']' . $in . '[/float:' . $this->bbcode_uid . ']';
+	}
+//ALIGN
+	
 	/**
 	* Parse color tag
 	*/

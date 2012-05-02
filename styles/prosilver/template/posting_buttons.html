@@ -8,7 +8,7 @@
 
 	// Define the bbCode tags
 	var bbcode = new Array();
-	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]','[spoiler]','[/spoiler]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
+	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]','[align=]','[/align]','[float=]','[/float]','[spoiler]','[/spoiler]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
 	var imageTag = false;
 
 	// Helpline messages
@@ -26,6 +26,8 @@
 		a: '{LA_BBCODE_A_HELP}',
 		s: '{LA_BBCODE_S_HELP}',
 		f: '{LA_BBCODE_F_HELP}',
+		v: '{LA_BBCODE_V_HELP}',
+		z: '{LA_BBCODE_VV_HELP}',
 		y: '{LA_BBCODE_Y_HELP}',
 		d: '{LA_BBCODE_D_HELP}'
 		<!-- BEGIN custom_tags -->
@@ -91,10 +93,11 @@
 	<!-- IF S_BBCODE_FLASH -->
 		<input type="button" class="button2" accesskey="d" name="addbbcode18" value="Flash" onclick="bbstyle(18)" title="{L_BBCODE_D_HELP}" />
 	<!-- ENDIF -->
-	<select name="addbbcode20" onchange="bbfontstyle('[size=' + this.form.addbbcode20.options[this.form.addbbcode20.selectedIndex].value + ']', '[/size]');this.form.addbbcode20.selectedIndex = 2;" title="{L_BBCODE_F_HELP}">
+	<select name="addbbcode20" onchange="bbfontstyle('[size=' + this.form.addbbcode20.options[this.form.addbbcode20.selectedIndex].value + ']', '[/size]');this.form.addbbcode20.selectedIndex = 0;" title="{L_BBCODE_F_HELP}">
+		<option value="0" selected="selected">{L_FONT_SIZE}</option>
 		<option value="50">{L_FONT_TINY}</option>
 		<option value="85">{L_FONT_SMALL}</option>
-		<option value="100" selected="selected">{L_FONT_NORMAL}</option>
+		<option value="100">{L_FONT_NORMAL}</option>
 		<!-- IF not MAX_FONT_SIZE or MAX_FONT_SIZE >= 150 -->
 			<option value="150">{L_FONT_LARGE}</option>
 			<!-- IF not MAX_FONT_SIZE or MAX_FONT_SIZE >= 200 -->
@@ -102,6 +105,18 @@
 			<!-- ENDIF -->
 		<!-- ENDIF -->
 	</select>
+	<select name="addbbcode24" onchange="bbfontstyle('[align=' + this.form.addbbcode24.options[this.form.addbbcode24.selectedIndex].value + ']', '[/align]');this.form.addbbcode24.selectedIndex = 0;" title="{L_BBCODE_V_HELP}">
+		<option value="0" selected="selected">{L_TEXT_ALIGN}</option>
+		<option value="left">{L_TEXT_LEFT}</option>
+		<option value="center">{L_TEXT_CENTER}</option>
+		<option value="right">{L_TEXT_RIGHT}</option>		
+	</select>
+	<select name="addbbcode26" onchange="bbfontstyle('[float=' + this.form.addbbcode26.options[this.form.addbbcode26.selectedIndex].value + ']', '[/float]');this.form.addbbcode26.selectedIndex = 0;" title="{L_BBCODE_VV_HELP}">
+		<option value="0" selected="selected">{L_TEXT_FLOAT}</option>
+		<option value="left">{L_TEXT_LEFT}</option>
+		<option value="middle">{L_FLOAT_MIDDLE}</option>
+		<option value="right">{L_TEXT_RIGHT}</option>
+	</select>	
 	<input type="button" class="button2" name="bbpalette" id="bbpalette" value="{L_FONT_COLOR}" onclick="change_palette();" title="{L_BBCODE_S_HELP}" />
 	<!-- BEGIN custom_tags -->
 		<input type="button" class="button2" name="addbbcode{custom_tags.BBCODE_ID}" value="{custom_tags.BBCODE_TAG}" onclick="bbstyle({custom_tags.BBCODE_ID})" title="{custom_tags.BBCODE_HELPLINE}" />
