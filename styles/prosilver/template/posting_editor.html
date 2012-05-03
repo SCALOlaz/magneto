@@ -217,6 +217,7 @@
 				<dd style="margin-top: 5px;">
 					<!-- IF S_INLINE_ATTACHMENT_OPTIONS --><input type="button" value="{L_PLACE_INLINE}" onclick="attach_inline({attach_row.ASSOC_INDEX}, '{attach_row.A_FILENAME}');" class="button2" />&nbsp; <!-- ENDIF -->
 					<input type="submit" name="delete_file[{attach_row.ASSOC_INDEX}]" value="{L_DELETE_FILE}" class="button2" />
+					<input type="submit" name="update_file[{attach_row.ASSOC_INDEX}]" value="{L_UPDATE_FILE}" class="button2" />
 					<!-- IF S_ALLOW_TOPICS_IMAGES and attach_row.S_IMAGE --><script type="text/javascript">/*<![CDATA[*/document.write('<br /><input type="button" style="margin-top:4px" value="{L_SET_TOPIC_IMAGE}" class="set_topic_image button2"<!-- IF attach_row.ATTACH_ID eq S_TOPIC_IMAGE_ID --> id="default_topic_image"<!-- ENDIF --> onclick="ti_set_selection(this, {attach_row.ATTACH_ID});this.style.display='+"'"+'none'+"'"+';return false;" />');/*]]>*/</script><!-- ENDIF -->
 				</dd>
 			</dl>
