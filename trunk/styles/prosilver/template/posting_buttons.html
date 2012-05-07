@@ -8,7 +8,7 @@
 
 	// Define the bbCode tags
 	var bbcode = new Array();
-	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]','[spoiler]','[/spoiler]','[align=]','[/align]','[float=]','[/float]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
+	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]','[spoiler]','[/spoiler]','[align=]','[/align]','[float=]','[/float]','[s]','[/s]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
 	var imageTag = false;
 
 	// Helpline messages
@@ -16,6 +16,7 @@
 		b: '{LA_BBCODE_B_HELP}',
 		i: '{LA_BBCODE_I_HELP}',
 		u: '{LA_BBCODE_U_HELP}',
+		x: '{LA_BBCODE_SS_HELP}',
 		q: '{LA_BBCODE_Q_HELP}',
 		h: '{LA_BBCODE_H_HELP}',
 		c: '{LA_BBCODE_C_HELP}',
@@ -74,8 +75,9 @@
 
 <div id="format-buttons">
 	<input type="button" class="button2" accesskey="b" name="addbbcode0" value=" B " style="font-weight:bold; width: 30px" onclick="bbstyle(0)" title="{L_BBCODE_B_HELP}" />
-	<input type="button" class="button2" accesskey="i" name="addbbcode2" value=" i " style="font-style:italic; width: 30px" onclick="bbstyle(2)" title="{L_BBCODE_I_HELP}" />
-	<input type="button" class="button2" accesskey="u" name="addbbcode4" value=" u " style="text-decoration: underline; width: 30px" onclick="bbstyle(4)" title="{L_BBCODE_U_HELP}" />
+	<input type="button" class="button2" accesskey="i" name="addbbcode2" value=" I " style="font-style:italic; width: 30px" onclick="bbstyle(2)" title="{L_BBCODE_I_HELP}" />
+	<input type="button" class="button2" accesskey="u" name="addbbcode4" value=" U " style="text-decoration: underline; width: 30px" onclick="bbstyle(4)" title="{L_BBCODE_U_HELP}" />
+	<input type="button" class="button2" accesskey="x" name="addbbcode28" value=" S " style="text-decoration: line-through; width: 30px" onclick="bbstyle(28)" title="{L_BBCODE_SS_HELP}" />
 	<!-- IF S_BBCODE_QUOTE -->
 		<input type="button" class="button2" accesskey="q" name="addbbcode6" value="Quote" style="width: 50px" onclick="bbstyle(6)" title="{L_BBCODE_Q_HELP}" />
 	<!-- ENDIF -->
@@ -107,15 +109,23 @@
 	</select>
 	<select name="addbbcode24" onchange="bbfontstyle('[align=' + this.form.addbbcode24.options[this.form.addbbcode24.selectedIndex].value + ']', '[/align]');this.form.addbbcode24.selectedIndex = 0;" title="{L_BBCODE_V_HELP}">
 		<option value="0" selected="selected">{L_TEXT_ALIGN}</option>
+		<option value="top">Top</option>
 		<option value="left">{L_TEXT_LEFT}</option>
+		<option value="middle">{L_FLOAT_MIDDLE}</option>
 		<option value="center">{L_TEXT_CENTER}</option>
-		<option value="right">{L_TEXT_RIGHT}</option>		
+		<option value="justify">Justify</option>
+		<option value="right">{L_TEXT_RIGHT}</option>
+		<option value="bottom">Bottom</option>		
 	</select>
 	<select name="addbbcode26" onchange="bbfontstyle('[float=' + this.form.addbbcode26.options[this.form.addbbcode26.selectedIndex].value + ']', '[/float]');this.form.addbbcode26.selectedIndex = 0;" title="{L_BBCODE_VV_HELP}">
 		<option value="0" selected="selected">{L_TEXT_FLOAT}</option>
+		<option value="top">Top</option>
 		<option value="left">{L_TEXT_LEFT}</option>
 		<option value="middle">{L_FLOAT_MIDDLE}</option>
+		<option value="center">{L_TEXT_CENTER}</option>
+		<option value="justify">Justify</option>
 		<option value="right">{L_TEXT_RIGHT}</option>
+		<option value="bottom">Bottom</option>
 	</select>	
 	<input type="button" class="button2" name="bbpalette" id="bbpalette" value="{L_FONT_COLOR}" onclick="change_palette();" title="{L_BBCODE_S_HELP}" />
 	<!-- BEGIN custom_tags -->

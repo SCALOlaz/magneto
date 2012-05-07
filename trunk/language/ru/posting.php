@@ -64,6 +64,7 @@ $lang = array_merge($lang, array(
 	'BBCODE_Q_HELP'				=> 'Цитата: [quote]text[/quote]',
 	'BBCODE_S_HELP'				=> 'Цвет шрифта: [color=red]text[/color] Совет: вы можете использовать также конструкцию color=#FF0000',
 	'BBCODE_U_HELP'				=> 'Подчёркнутый текст: [u]text[/u]',
+	'BBCODE_SS_HELP'			=> 'Зачёркнутый текст: [s]текст[/s]',
 	'BBCODE_W_HELP'				=> 'Вставить ссылку: [url]http://url[/url] или [url=http://url]URL text[/url]',
 	'BBCODE_D_HELP'				=> 'Флэш: [flash=width,height]http://url[/flash]',
 	'BUMP_ERROR'				=> 'Вы не можете поднимать тему сразу после последнего сообщения. Попробуйте чуть позже.',
@@ -110,7 +111,7 @@ $lang = array_merge($lang, array(
 	'FONT_SMALL'				=> 'Маленький',
 	'FONT_TINY'					=> 'Очень маленький',
 
-	'TEXT_ALIGN'				=> 'Разметка текста',
+	'TEXT_ALIGN'				=> 'Разметка',
 	'TEXT_LEFT'					=> 'Слева',
 	'TEXT_RIGHT'				=> 'Справа',
 	'TEXT_CENTER'				=> 'По центру',

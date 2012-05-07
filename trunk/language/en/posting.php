@@ -64,6 +64,7 @@ $lang = array_merge($lang, array(
 	'BBCODE_Q_HELP'				=> 'Quote text: [quote]text[/quote]',
 	'BBCODE_S_HELP'				=> 'Font colour: [color=red]text[/color]  Tip: you can also use color=#FF0000',
 	'BBCODE_U_HELP'				=> 'Underline text: [u]text[/u]',
+	'BBCODE_SS_HELP'			=> 'Strike text: [s]text[/s]',
 	'BBCODE_W_HELP'				=> 'Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]',
 	'BBCODE_Y_HELP'				=> 'List: Add list element',
 	'BUMP_ERROR'				=> 'You cannot bump this topic so soon after the last post.',
@@ -110,7 +111,7 @@ $lang = array_merge($lang, array(
 	'FONT_SMALL'				=> 'Small',
 	'FONT_TINY'					=> 'Tiny',
 
-	'TEXT_ALIGN'				=> 'Text Align',
+	'TEXT_ALIGN'				=> 'Align',
 	'TEXT_LEFT'					=> 'Left',
 	'TEXT_RIGHT'				=> 'Right',
 	'TEXT_CENTER'				=> 'Center',
