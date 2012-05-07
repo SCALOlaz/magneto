@@ -129,6 +129,7 @@ class bbcode_firstpass extends bbcode
 			'size'			=> array('bbcode_id' => 5,	'regexp' => array('#\[size=([\-\+]?\d+)\](.*?)\[/size\]#uise' => "\$this->bbcode_size('\$1', '\$2')")),
 			'color'			=> array('bbcode_id' => 6,	'regexp' => array('!\[color=(#[0-9a-f]{3}|#[0-9a-f]{6}|[a-z\-]+)\](.*?)\[/color\]!uise' => "\$this->bbcode_color('\$1', '\$2')")),
 			'u'				=> array('bbcode_id' => 7,	'regexp' => array('#\[u\](.*?)\[/u\]#uise' => "\$this->bbcode_underline('\$1')")),
+			's'				=> array('bbcode_id' => 16,	'regexp' => array('#\[s\](.*?)\[/s\]#uise' => "\$this->bbcode_strike('\$1')")),
 			'list'			=> array('bbcode_id' => 9,	'regexp' => array('#\[list(?:=(?:[a-z0-9]|disc|circle|square))?].*\[/list]#uise' => "\$this->bbcode_parse_list('\$0')")),
 			'email'			=> array('bbcode_id' => 10,	'regexp' => array('#\[email=?(.*?)?\](.*?)\[/email\]#uise' => "\$this->validate_email('\$1', '\$2')")),
 			'flash'			=> array('bbcode_id' => 11,	'regexp' => array('#\[flash=([0-9]+),([0-9]+)\](.*?)\[/flash\]#uie' => "\$this->bbcode_flash('\$1', '\$2', '\$3')"))
@@ -282,6 +283,19 @@ class bbcode_firstpass extends bbcode
 		return '[u:' . $this->bbcode_uid . ']' . $in . '[/u:' . $this->bbcode_uid . ']';
 	}
 
+	/**
+	* Parse s tag
+	*/
+	function bbcode_strike($in)
+	{
+		if (!$this->check_bbcode('s', $in))
+		{
+			return $in;
+		}
+
+		return '[s:' . $this->bbcode_uid . ']' . $in . '[/s:' . $this->bbcode_uid . ']';
+	}
+	
 	/**
 	* Parse b tag
 	*/

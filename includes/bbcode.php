@@ -375,6 +375,15 @@ class bbcode
 					);
 				break;
 //ALIGN
+				case 16:
+					$this->bbcode_cache[$bbcode_id] = array(
+						'str' => array(
+							'[s:$uid]'	=> $this->bbcode_tpl('s_open', $bbcode_id),
+							'[/s:$uid]'	=> $this->bbcode_tpl('s_close', $bbcode_id),
+						)
+					);
+				break;
+				
 				default:
 					if (isset($rowset[$bbcode_id]))
 					{
@@ -452,6 +461,8 @@ class bbcode
 				'i_close'	=> '</span>',
 				'u_open'	=> '<span style="text-decoration: underline">',
 				'u_close'	=> '</span>',
+				's_open'	=> '<span style="text-decoration: line-through">',
+				's_close'	=> '</span>',
 //SPOILER
 //				'img'		=> '<img src="$1" alt="' . $user->lang['IMAGE'] . '" />',
 				'img'		=> '<a href="$1" class="fancybox"><var title="$1" class="postImg" alt="' . $user->lang['IMAGE'] . '" />#'.rand(1, 1000).'</var></a>',
