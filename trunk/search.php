@@ -675,6 +675,23 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 				}
 			}
 
+			// BEGIN Topic Text Hover Mod
+			if ($config['hover_active'] && !$user->data['user_text_hover'])
+			{
+				include($phpbb_root_path . 'includes/topic_text_hover.' . $phpEx);
+				if($config['hover_show'] == TOPIC_TEXT_HOVER_FIRST || $config['hover_show'] == TOPIC_TEXT_HOVER_BOTH)
+				{
+					$sql_from .= ' LEFT JOIN ' . POSTS_TABLE . ' p ON (p.post_id = t.topic_first_post_id)';
+            		$sql_select .= ', p.post_text AS first_text_hover';
+				}
+				if($config['hover_show'] == TOPIC_TEXT_HOVER_LAST || $config['hover_show'] == TOPIC_TEXT_HOVER_BOTH)
+				{
+					$sql_from .= ' LEFT JOIN ' . POSTS_TABLE . ' pt ON (pt.post_id = t.topic_last_post_id)';
+					$sql_select .= ', pt.post_text AS last_text_hover';
+				}
+			}
+			// END Topic Text Hover Mod
+			
 			if ($config['load_anon_lastread'] || ($user->data['is_registered'] && !$config['load_db_lastread']))
 			{
 				$tracking_topics = (isset($_COOKIE[$config['cookie_name'] . '_track'])) ? ((STRIP) ? stripslashes($_COOKIE[$config['cookie_name'] . '_track']) : $_COOKIE[$config['cookie_name'] . '_track']) : '';
@@ -908,6 +925,34 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 
 				$row['topic_title'] = preg_replace('#(?!<.*)(?<!\w)(' . $hilit . ')(?!\w|[^<>]*(?:</s(?:cript|tyle))?>)#is', '<span class="posthilit">$1</span>', $row['topic_title']);
 
+				// BEGIN Topic Text Hover Mod
+				if (!empty($row['first_text_hover']) || !empty($row['last_text_hover']))
+				{
+					// strip bbcode
+					include($phpbb_root_path . 'includes/topic_text_hover.' . $phpEx);			
+					if(!empty($row['first_text_hover']))
+					{
+						$first_text_hover = bbcode_strip($row['first_text_hover']);
+						if (utf8_strlen($first_text_hover) >= $config['hover_char_limit'])
+						{
+							$first_text_hover = (utf8_strlen($first_text_hover) > $config['hover_char_limit'] + 3) ? utf8_substr($first_text_hover, 0, $config['hover_char_limit']) . '...' : $first_text_hover;
+						}
+					}
+					if(!empty($row['last_text_hover']))
+					{
+						$last_text_hover = bbcode_strip($row['last_text_hover']);
+						if (utf8_strlen($last_text_hover) >= $config['hover_char_limit'])
+						{
+							$last_text_hover = (utf8_strlen($last_text_hover) > $config['hover_char_limit'] + 3) ? utf8_substr($last_text_hover, 0, $config['hover_char_limit']) . '...' : $last_text_hover;
+						}
+					}
+				}
+				else
+				{
+					$first_text_hover = $last_text_hover = '';
+				}
+				// END Topic Text Hover Mod
+				
 				$tpl_ary = array(
 					'TOPIC_AUTHOR'				=> get_username_string('username', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
 					'TOPIC_AUTHOR_COLOUR'		=> get_username_string('colour', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
@@ -1017,6 +1062,12 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 				'FORUM_ID'			=> $forum_id,
 				'TOPIC_ID'			=> $result_topic_id,
 				'POST_ID'			=> ($show_results == 'posts') ? $row['post_id'] : false,
+				
+				// BEGIN Topic Post Text Mod
+				'FIRST_TEXT_HOVER'	=> (isset($first_text_hover)) ? censor_text($first_text_hover) : '',
+				'LAST_TEXT_HOVER'	=> (isset($last_text_hover)) ? censor_text($last_text_hover) : '',
+				'LAST_POST_IMG'		=> $user->img('icon_topic_latest'),
+				// END Topic Post Text Mod
 
 				'FORUM_TITLE'		=> $row['forum_name'],
 				'TOPIC_TITLE'		=> $topic_title,

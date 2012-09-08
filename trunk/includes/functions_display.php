@@ -109,6 +109,21 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		$sql_array['SELECT'] .= ', fa.user_id';
 	}
 
+	// BEGIN Topic Text Hover Mod
+	if ($config['hover_active'] && !$user->data['user_text_hover'])
+	{
+		include($phpbb_root_path . 'includes/topic_text_hover.' . $phpEx);
+		if($config['hover_show'] == TOPIC_TEXT_HOVER_LAST || $config['hover_show'] == TOPIC_TEXT_HOVER_BOTH)
+		{
+			$sql_array['LEFT_JOIN'][] = array(
+				'FROM'	=> array(POSTS_TABLE => 'p'),
+				'ON'	=> "f.forum_last_post_id = p.post_id"
+			);
+			$sql_array['SELECT'] .= ', p.post_text AS last_text_hover';
+		}
+	}
+	// END Topic Text Hover Mod
+	
 	$sql = $db->sql_build_query('SELECT', array(
 		'SELECT'	=> $sql_array['SELECT'],
 		'FROM'		=> $sql_array['FROM'],
@@ -269,6 +284,10 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 				$forum_rows[$parent_id]['forum_last_poster_name'] = $row['forum_last_poster_name'];
 				$forum_rows[$parent_id]['forum_last_poster_colour'] = $row['forum_last_poster_colour'];
 				$forum_rows[$parent_id]['forum_id_last_post'] = $forum_id;
+				
+				// BEGIN Topic Text Hover Mod
+				$forum_rows[$parent_id]['last_text_hover'] = (isset($row['last_text_hover'])) ? $row['last_text_hover'] : '';
+				// END Topic Text Hover Mod
 			}
 		}
 	}
@@ -415,6 +434,24 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		if ($row['forum_last_post_id'])
 		{
 			$last_post_subject = $row['forum_last_post_subject'];
+			
+			// BEGIN Topic Text Hover MOD
+                if(!empty($row['last_text_hover']) && $auth->acl_get('f_read', $row['forum_id']))
+                {
+                    // strip all bbcode
+                    include($phpbb_root_path . 'includes/topic_text_hover.' . $phpEx);
+                    $last_text_hover = censor_text(bbcode_strip($row['last_text_hover']));
+                    if (utf8_strlen($last_text_hover) >= $config['hover_char_limit'])
+                    {
+                        $last_text_hover = (utf8_strlen($last_text_hover) > $config['hover_char_limit'] + 3) ? utf8_substr($last_text_hover, 0, $config['hover_char_limit']) . '...' : $last_text_hover;
+                    }
+                }
+                else
+                {
+                    $last_text_hover = '';
+                }
+            // END Topic Text Hover MOD 
+				
 			$last_post_time = $user->format_date($row['forum_last_post_time']);
 			$last_post_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", 'f=' . $row['forum_id_last_post'] . '&amp;p=' . $row['forum_last_post_id']) . '#p' . $row['forum_last_post_id'];
 		}
@@ -482,6 +519,12 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			'FORUM_IMAGE'			=> ($row['forum_image']) ? '<img src="' . $phpbb_root_path . $row['forum_image'] . '" alt="' . $user->lang[$folder_alt] . '" />' : '',
 			'FORUM_IMAGE_SRC'		=> ($row['forum_image']) ? $phpbb_root_path . $row['forum_image'] : '',
 			'LAST_POST_SUBJECT'		=> censor_text($last_post_subject),
+			
+			// BEGIN Topic Text Hover MOD
+			'LAST_TEXT_HOVER'		=> (isset($last_text_hover)) ? censor_text($last_text_hover) : '',
+			'LAST_POST_IMG'			=> $user->img('icon_topic_latest'),
+			// END Topic Text Hover Mod
+			
 			'LAST_POST_TIME'		=> $last_post_time,
 			'LAST_POSTER'			=> get_username_string('username', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
 			'LAST_POSTER_COLOUR'	=> get_username_string('colour', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),

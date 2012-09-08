@@ -1,0 +1,25 @@
+/**
+ * @package styles
+ * @version $Id: tooltip.css,v 1.1 2008/12/09 22:26:52 rmcgirr83 Exp $
+ * @copyright (c) 2008 Richard McGirr (RMcGirr83) - http://rmcgirr83.org
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ ---------------------------------------- */
+
+#tooltip{
+	padding: 3px;
+	border: solid 1px #000000;
+	display: none; /*white-space: nowrap;*/
+	background: #eee;
+	color: #000000;
+	font: 10px Verdana, Arial, Helvetica, sans-serif;
+	text-align: left;
+	position: absolute;
+	left: 0;
+	z-index: 1000;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-khtml-border-radius:4px;
+	-webkit-border-radius:4px;
+	filter: alpha(opacity=85);
+	opacity: .85;
+}
