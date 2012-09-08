@@ -168,6 +168,10 @@ class ucp_prefs
 
 				add_form_key('ucp_prefs_view');
 
+				// BEGIN Topic Text Hover Mod
+				$user->add_lang('mods/topic_text_hover');
+				// END Topic Text Hover Mod
+				
 				$data = array(
 					'topic_sk'		=> request_var('topic_sk', (!empty($user->data['user_topic_sortby_type'])) ? $user->data['user_topic_sortby_type'] : 't'),
 					'topic_sd'		=> request_var('topic_sd', (!empty($user->data['user_topic_sortby_dir'])) ? $user->data['user_topic_sortby_dir'] : 'd'),
@@ -183,6 +187,9 @@ class ucp_prefs
 					'sigs'			=> request_var('sigs', (bool) $user->optionget('viewsigs')),
 					'avatars'		=> request_var('avatars', (bool) $user->optionget('viewavatars')),
 					'wordcensor'	=> request_var('wordcensor', (bool) $user->optionget('viewcensors')),
+					// BEGIN Topic Title Hover Mod
+					'text_hover'	=> request_var('text_hover', (int) $user->data['user_text_hover']),
+					// END Topic Title Hover Mod
 				);
 
 				if ($submit)
@@ -221,6 +228,9 @@ class ucp_prefs
 
 							'user_topic_show_days'	=> $data['topic_st'],
 							'user_post_show_days'	=> $data['post_st'],
+							// BEGIN Topic Text Hover MOD
+							'user_text_hover'		=> $data['text_hover'],
+							// END Topic Text Hover MOD
 						);
 
 						$sql = 'UPDATE ' . USERS_TABLE . '
@@ -289,6 +299,11 @@ class ucp_prefs
 					'S_AVATARS'			=> $data['avatars'],
 					'S_DISABLE_CENSORS'	=> $data['wordcensor'],
 
+					// BEGIN Topic Text Hover MOD
+					'S_DISABLE_TEXT_HOVER'	=> $data['text_hover'],
+					'S_TEXT_HOVER'			=> $config['hover_active'],
+					// END Topic Text Hover MOD
+					
 					'S_CHANGE_CENSORS'		=> ($auth->acl_get('u_chgcensors') && $config['allow_nocensors']) ? true : false,
 
 					'S_TOPIC_SORT_DAYS'		=> $s_limit_topic_days,

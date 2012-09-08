@@ -53,6 +53,17 @@
 				</dd>
 			</dl>
 		<!-- ENDIF -->
+		
+		<!-- IF S_TEXT_HOVER -->
+			<dl>
+				<dt><label for="text_hover1">{L_DISABLE_TEXT_HOVER}:</label></dt>
+				<dd>
+					<label for="text_hover1"><input type="radio" name="text_hover" id="text_hover1" value="1"<!-- IF S_DISABLE_TEXT_HOVER --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+					<label for="text_hover0"><input type="radio" name="text_hover" id="text_hover0" value="0"<!-- IF not S_DISABLE_TEXT_HOVER --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				</dd>
+			</dl>
+		<!-- ENDIF -->
+		
 		<hr />
 		<dl>
 			<dt><label>{L_VIEW_TOPICS_DAYS}:</label></dt>

@@ -33,6 +33,10 @@ class acp_board
 
 		$user->add_lang('acp/board');
 
+		// BEGIN Topic Text Hover Mod
+		$user->add_lang('mods/topic_text_hover');
+		// END Topic Text Hover Mod
+		
 		$action	= request_var('action', '');
 		$submit = (isset($_POST['submit']) || isset($_POST['allow_quick_reply_enable'])) ? true : false;
 
@@ -94,6 +98,12 @@ class acp_board
 						'allow_quick_reply_smilies'	=> array('lang' => 'ALLOW_QUICK_REPLY_SMILIES',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 						'allow_quick_reply_bbcode'		=> array('lang' => 'ALLOW_QUICK_REPLY_BBCODE',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 
+						// BEGIN Topic Title Hover Mod
+						'hover_active'		=> array('lang' => 'ALLOW_TOPIC_TITLE_HOVER','validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
+						'hover_show'		=> array('lang' => 'TEXT_HOVER_OPTIONS','validate' => 'int:0:3',  'type' => 'custom', 'method' => 'select_topic_text_hover_check', 'explain' => true),
+						'hover_char_limit'	=> array('lang' => 'ALLOW_TOPIC_TITLE_HOVER_CHAR','validate' => 'int', 'type' => 'text:3:4', 'explain' => true, 'append' => ' ' . $user->lang['CHARS']),
+						// END Topic Title Hover Mod
+						
 						'legend2'				=> 'ACP_LOAD_SETTINGS',
 						'load_birthdays'		=> array('lang' => 'YES_BIRTHDAYS',			'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 						'load_moderators'		=> array('lang' => 'YES_MODERATORS',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => false),
@@ -781,6 +791,18 @@ class acp_board
 
 		return h_radio('config[referer_validation]', $radio_ary, $value, $key);
 	}
+
+	// BEGIN Topic Text Hover MOD
+	function select_topic_text_hover_check($value, $key = '')
+	{
+		global $phpEx, $phpbb_root_path;
+		include($phpbb_root_path . 'includes/topic_text_hover.' . $phpEx);
+
+		$radio_ary = array(TOPIC_TEXT_HOVER_FIRST => 'TOPIC_TEXT_HOVER_FIRST', TOPIC_TEXT_HOVER_LAST => 'TOPIC_TEXT_HOVER_LAST', TOPIC_TEXT_HOVER_BOTH => 'TOPIC_TEXT_HOVER_BOTH');
+
+		return h_radio('config[hover_show]', $radio_ary, $value, $key);
+	}
+	// END Topic Text Hover MOD
 
 	/**
 	* Select account activation method
