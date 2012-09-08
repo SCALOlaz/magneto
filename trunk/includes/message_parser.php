@@ -1038,7 +1038,7 @@ class bbcode_firstpass extends bbcode
 					if (isset($m[1]) && $m[1])
 					{
 						$username = str_replace(array('&#91;', '&#93;'), array('[', ']'), $m[1]);
-						$username = preg_replace('#\[(?!b|i|u|color|url|email|/b|/i|/u|/color|/url|/email)#iU', '&#91;$1', $username);
+						$username = preg_replace('#\[(?!b|i|u|s|color|align|float|url|email|/b|/i|/u|/s|/color|/align|/float|/url|/email)#iU', '&#91;$1', $username);
 
 						$end_tags = array();
 						$error = false;

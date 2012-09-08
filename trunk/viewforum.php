@@ -278,7 +278,7 @@ if (!empty($_EXTRA_URL))
 	foreach ($_EXTRA_URL as $url_param)
 	{
 		$url_param = explode('=', $url_param, 2);
-		$s_hidden_fields[$url_param[0]] = $url_param[1];
+		$s_search_hidden_fields[$url_param[0]] = $url_param[1];
 	}
 }
 
@@ -327,7 +327,7 @@ $template->assign_vars(array(
 	'S_ALLOW_TOPICS_IMAGES'	=> (($config['img_max_topic_image_width'] > 0 && $config['img_max_topic_image_height'] > 0) && $forum_data['forum_allow_topic_image'] != 0) ? true : false,
 	'S_TOPIC_IMAGE_MW'		=> (($config['img_max_topic_image_width']) ? $config['img_max_topic_image_width'] : 40),
 	'S_TOPIC_IMAGE_MH'		=> (($config['img_max_topic_image_height']) ? $config['img_max_topic_image_height'] : 53),
-	
+
 	'U_MCP'				=> ($auth->acl_get('m_', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", "f=$forum_id&amp;i=main&amp;mode=forum_view", true, $user->session_id) : '',
 	'U_POST_NEW_TOPIC'	=> ($auth->acl_get('f_post', $forum_id) || $user->data['user_id'] == ANONYMOUS) ? append_sid("{$phpbb_root_path}posting.$phpEx", 'mode=post&amp;f=' . $forum_id) : '',
 	'U_VIEW_FORUM'		=> append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=$forum_id" . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : '') . (($start == 0) ? '' : "&amp;start=$start")),
@@ -633,7 +633,7 @@ if (sizeof($topic_list))
 		// This will allow the style designer to output a different header
 		// or even separate the list of announcements from sticky and normal topics
 		$s_type_switch_test = ($row['topic_type'] == POST_ANNOUNCE || $row['topic_type'] == POST_GLOBAL) ? 1 : 0;
-			
+
 		// Replies
 		$replies = ($auth->acl_get('m_approve', $topic_forum_id)) ? $row['topic_replies_real'] : $row['topic_replies'];
 
@@ -657,13 +657,13 @@ if (sizeof($topic_list))
 
 		$view_forum_url_params = 'f=' . $topic_forum_id;
 		$view_forum_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", $view_forum_url_params);
-		
+
 		$topic_unapproved = (!$row['topic_approved'] && $auth->acl_get('m_approve', $topic_forum_id)) ? true : false;
 		$posts_unapproved = ($row['topic_approved'] && $row['topic_replies'] < $row['topic_replies_real'] && $auth->acl_get('m_approve', $topic_forum_id)) ? true : false;
 		$u_mcp_queue = ($topic_unapproved || $posts_unapproved) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=queue&amp;mode=' . (($topic_unapproved) ? 'approve_details' : 'unapproved_posts') . "&amp;t=$topic_id", true, $user->session_id) : '';
 
 		if ($row['topic_image_id'] && $row['topic_image']) $ti_cnt++;
-		
+
 		// Send vars to template
 		$template->assign_block_vars('topicrow', array(
 			'FORUM_ID'					=> $topic_forum_id,
