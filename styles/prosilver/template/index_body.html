@@ -2,7 +2,14 @@
 
 <p class="{S_CONTENT_FLOW_END}<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
 <!-- IF U_MCP --><p>{CURRENT_TIME} [<!-- IF U_ACP -->&nbsp;<a href="{U_ACP}" target="_blank">{L_ACP}</a>,&nbsp;<!-- ENDIF -->&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ELSEIF S_USER_LOGGED_IN --><p>{CURRENT_TIME}</p><!-- ENDIF -->
-
+<!-- IF $FLY_RIGHT_MENU -->
+	<table width="100%"><tr>
+	<td width="190px" valign=top>
+	<!-- INCLUDE overall_right_menu.html -->
+	</td>
+	<td width="0.1%">&nbsp;</td>
+	<td width="100%" style="float: {S_CONTENT_FLOW_BEGIN}">
+<!-- ENDIF -->	
 <!-- IF S_DISPLAY_SEARCH or (S_USER_LOGGED_IN and not S_IS_BOT) -->
 <ul class="linklist">
 	<!-- IF S_DISPLAY_SEARCH -->
@@ -27,6 +34,11 @@
 			{S_LOGIN_REDIRECT}
 		</fieldset>
 	</form>
+<!-- ENDIF -->
+
+<!-- IF $FLY_RIGHT_MENU -->
+	</td>
+	</tr></table>
 <!-- ENDIF -->
 
 <!-- IF S_DISPLAY_ONLINE_LIST -->

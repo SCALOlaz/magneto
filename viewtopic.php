@@ -611,7 +611,7 @@ if (!empty($_EXTRA_URL))
 	foreach ($_EXTRA_URL as $url_param)
 	{
 		$url_param = explode('=', $url_param, 2);
-		$s_hidden_fields[$url_param[0]] = $url_param[1];
+		$s_search_hidden_fields[$url_param[0]] = $url_param[1];
 	}
 }
 
@@ -633,6 +633,7 @@ $template->assign_vars(array(
 	'PAGE_NUMBER' 	=> on_page($total_posts, $config['posts_per_page'], $start),
 	'TOTAL_POSTS'	=> ($total_posts == 1) ? $user->lang['VIEW_TOPIC_POST'] : sprintf($user->lang['VIEW_TOPIC_POSTS'], $total_posts),
 	'U_MCP' 		=> ($auth->acl_get('m_', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", "i=main&amp;mode=topic_view&amp;f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : ''), true, $user->session_id) : '',
+	'S_MOD_BBCODE'	=> ($auth->acl_get('m_', $forum_id)) ? true : false,
 	'MODERATORS'	=> (isset($forum_moderators[$forum_id]) && sizeof($forum_moderators[$forum_id])) ? implode(', ', $forum_moderators[$forum_id]) : '',
 
 	'POST_IMG' 			=> ($topic_data['forum_status'] == ITEM_LOCKED) ? $user->img('button_topic_locked', 'FORUM_LOCKED') : $user->img('button_topic_new', 'POST_NEW_TOPIC'),
@@ -1551,7 +1552,7 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'POSTER_AGE'		=> $user_cache[$poster_id]['age'],
 		// This value will be used as a parameter for JS insert_text() function, so we use addslashes to handle "special" usernames properly ;)
 		'POSTER_QUOTE'		=> addslashes(get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['post_username'])),
-		
+
 		'POST_DATE'			=> $user->format_date($row['post_time'], false, ($view == 'print') ? true : false),
 		'POST_SUBJECT'		=> $row['post_subject'],
 		'MESSAGE'			=> $message,
@@ -1597,7 +1598,7 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'POST_NUMBER'		=> $i + $start + 1,
 		'POSTER_ID'			=> $poster_id,
 		'POSTER_IP'			=> (($auth->acl_get('a_') || $auth->acl_get('m_')) && $user->data['is_registered']) ? $row['poster_ip'] : '',
-		
+
 		'S_HAS_ATTACHMENTS'	=> (!empty($attachments[$row['post_id']])) ? true : false,
 		'S_POST_UNAPPROVED'	=> ($row['post_approved']) ? false : true,
 		'S_POST_REPORTED'	=> ($row['post_reported'] && $auth->acl_get('m_report', $forum_id)) ? true : false,
@@ -1618,7 +1619,7 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 	}
 
 	$postrow['POST_NUM'] = $start + ($i+1);
-	
+
 	// Dump vars into template
 	$template->assign_block_vars('postrow', $postrow);
 
@@ -1780,7 +1781,7 @@ if ($s_can_vote || $s_quick_reply)
 		{
 			generate_smilies('inline', $forum_id);
 		}
-		
+
 		$template->assign_vars(array(
 			'S_QUICK_REPLY'			=> true,
 			
