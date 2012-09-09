@@ -1,0 +1,125 @@
+/* prosilver Social Networking Buttons MOD
+---------------------------------------- */
+
+/* Share On 2.0.0 */
+.facebook-icon, .facebook-icon a	{ background: none top left no-repeat; }
+.twitter-icon, .twitter-icon a		{ background: none top left no-repeat; }
+.tuenti-icon, .tuenti-icon a		{ background: none top left no-repeat; }
+.sonico-icon, .sonico-icon a		{ background: none top left no-repeat; }
+.friendfeed-icon, .friendfeed-icon a	{ background: none top left no-repeat; }
+.orkut-icon, .orkut-icon a		{ background: none top left no-repeat; }
+.digg-icon, .digg-icon a		{ background: none top left no-repeat; }
+.myspace-icon, .myspace-icon a		{ background: none top left no-repeat; }
+.delicious-icon, .delicious-icon a	{ background: none top left no-repeat; }
+.technorati-icon, .technorati-icon a	{ background: none top left no-repeat; }
+
+.s_vk-icon, .s_vk-icon a, .s_mail-icon, .s_mail-icon a, .s_odnokl-icon, .s_odnokl-icon a { background: none top left no-repeat; }
+.s_blogspot-icon, .s_blogspot-icon a, .s_yaru-icon, .s_yaru-icon a, .s_livej-icon, .s_livej-icon a   { background: none top left no-repeat; }
+.s_gbuzz-icon, .s_gbuzz-icon a   { background: none top left no-repeat; }
+/* Share On 2.0.0 */
+
+/* Share On 2.0.0 */
+ul.profile-icons li.facebook-icon	{ width: 20px; height: 20px; }
+ul.profile-icons li.twitter-icon	{ width: 20px; height: 20px; }
+ul.profile-icons li.tuenti-icon		{ width: 20px; height: 20px; }
+ul.profile-icons li.sonico-icon		{ width: 20px; height: 20px; }
+ul.profile-icons li.friendfeed-icon	{ width: 20px; height: 20px; }
+ul.profile-icons li.orkut-icon		{ width: 20px; height: 20px; }
+ul.profile-icons li.digg-icon		{ width: 20px; height: 20px; }
+ul.profile-icons li.myspace-icon	{ width: 20px; height: 20px; }
+ul.profile-icons li.delicious-icon	{ width: 20px; height: 20px; }
+ul.profile-icons li.technorati-icon	{ width: 20px; height: 20px; }
+
+ul.social-icons li.s_vk-icon { width: 20px; height: 20px; }
+ul.social-icons li.s_mail-icon { width: 20px; height: 20px; }
+ul.social-icons li.s_odnokl-icon { width: 20px; height: 20px; }
+ul.social-icons li.s_blogspot-icon { width: 20px; height: 20px; }
+ul.social-icons li.s_yaru-icon { width: 20px; height: 20px; }
+ul.social-icons li.s_livej-icon { width: 20px; height: 20px; }
+ul.social-icons li.s_gbuzz-icon { width: 20px; height: 20px; }
+/* Share On 2.0.0 */
+
+/* Share On 2.0.0 */
+.facebook-icon, .facebook-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_facebook.gif"); }
+.twitter-icon, .twitter-icon a		{ background-image: url("{T_IMAGESET_PATH}/social/shareon_twitter.gif"); }
+.tuenti-icon, .tuenti-icon a		{ background-image: url("{T_IMAGESET_PATH}/social/shareon_tuenti.gif"); }
+.sonico-icon, .sonico-icon a		{ background-image: url("{T_IMAGESET_PATH}/social/shareon_sonico.gif"); }
+.friendfeed-icon, .friendfeed-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_friendfeed.gif"); }
+.orkut-icon, .orkut-icon a		{ background-image: url("{T_IMAGESET_PATH}/social/shareon_orkut.gif"); }
+.digg-icon, .digg-icon a		{ background-image: url("{T_IMAGESET_PATH}/social/shareon_digg.gif"); }
+.myspace-icon, .myspace-icon a		{ background-image: url("{T_IMAGESET_PATH}/social/shareon_myspace.gif"); }
+.delicious-icon, .delicious-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_delicious.gif"); }
+.technorati-icon, .technorati-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_technorati.gif"); }
+
+.s_vk-icon, .s_vk-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_vk.gif"); }
+.s_mail-icon, .s_mail-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_mail.gif"); }
+.s_odnokl-icon, .s_odnokl-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_odnokl.gif"); }
+.s_blogspot-icon, .s_blogspot-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_blogspot.gif"); }
+.s_yaru-icon, .s_yaru-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_yaru.gif"); }
+.s_livej-icon, .s_livej-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_livej.gif"); }
+.s_gbuzz-icon, .s_gbuzz-icon a	{ background-image: url("{T_IMAGESET_PATH}/social/shareon_gbuzz.gif"); }
+/* Share On 2.0.0 */
+
+.facebook-icon, .twitter-icon, .tuenti-icon, .sonico-icon, .friendfeed-icon, .orkut-icon, .digg-icon, .myspace-icon,
+.delicious-icon, .technorati-icon, .s_vk-icon, .s_mail-icon, .s_odnokl-icon, .s_blogspot-icon, .s_yaru-icon, .s_livej-icon,
+.s_gbuzz-icon
+{
+	background-position: 100% 0%;
+	width: 20px;
+	height: 20px;
+	/*opacity: 0.7; filter: alpha(opacity=70);*/
+	margin: 0 0 0 0;
+}
+
+.facebook-icon a, .twitter-icon a, .tuenti-icon a, .sonico-icon a, .friendfeed-icon a, .orkut-icon a, .digg-icon a, .myspace-icon a,
+.delicious-icon a, .technorati-icon a, .s_vk-icon a, .s_mail-icon a, .s_odnokl-icon a, .s_blogspot-icon a, .s_yaru-icon a, .s_livej-icon a,
+.s_gbuzz-icon a
+{
+	width: 20px;
+	height: 20px;
+	/*opacity: 1; filter: alpha(opacity=99);*/
+}
+
+/* Rollover state */
+.rtl .postprofile ul.social-icons li {
+	float: right;
+	margin: 0 0 3px 6px;
+	padding: 0 0 10px 0;
+}
+/* Positioning of moderator icons */
+.rtl .postbody ul.social-icons {
+	float: right;
+}
+ul.social-icons {
+	padding-top: 10px;
+	list-style: none;
+}
+
+/* Rollover state */
+ul.social-icons li {
+	float: left;
+	margin: 0px 6px 3px 0;
+	background-position: 0 100%;
+}
+
+/* Rolloff state */
+ul.social-icons li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-position: 0 0;
+}
+
+/* Hide <a> text and hide off-state image when rolling over (prevents flicker in IE) */
+ul.social-icons li span { display:none; }
+ul.social-icons li a:hover { background: none; }
+
+/* Positioning of moderator icons */
+.postbody ul.social-icons {
+	float: right;
+	width: auto;
+	padding: 0;
+}
+.postbody ul.social-icons li {
+	margin: 0 1px;
+}

@@ -22,6 +22,7 @@ include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
 // Start session management
 $user->session_begin();
 $auth->acl($user->data);
+$user->add_lang('mods/info_acp_shareon');
 
 // Initial var setup
 $forum_id	= request_var('f', 0);
@@ -1585,6 +1586,27 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'U_YIM'			=> $user_cache[$poster_id]['yim'],
 		'U_JABBER'		=> $user_cache[$poster_id]['jabber'],
 
+		// Share On 2.0.0 MOD
+		'U_FACEBOOK'	=> 'http://www.facebook.com/share.php?u=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'],
+		'U_TWITTER'	=> 'http://twitter.com/?status=' . $topic_data['topic_title'] . '&nbsp;' . generate_board_url() . '/viewtopic.php?t=' . $topic_data['topic_id'],
+		'U_DIGG'	=> 'http://digg.com/submit?phase=2&amp;url=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'] . '&amp;title=' . $topic_data['topic_title'],
+		'U_MYSPACE'	=> 'http://www.myspace.com/Modules/PostTo/Pages/?u=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'] . '&amp;t=' . $topic_data['topic_title'],
+		'U_DELICIOUS' 	=> 'http://delicious.com/post?url=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'] . '&amp;title=' . $topic_data['topic_title'],		
+		'U_TECHNORATI'	=> 'http://technorati.com/faves?add=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'],
+		'U_TUENTI'	=> 'http://www.tuenti.com/?m=Share&amp;func=index&amp;url=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'],
+		'U_SONICO'	=> 'http://www.sonico.com/share.php?title=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'],
+		'U_FRIENDFEED'	=> 'http://friendfeed.com/share?url=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'],
+
+		'U_VK'	=> 'http://vk.com/share.php?url=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'] . '&amp;title=' . $topic_data['topic_title'],
+		'U_MAIL'	=> 'http://connect.mail.ru/share?share_url=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'] . '&amp;t=' . $topic_data['topic_title'],
+		'U_ODNOKL' 	=> 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'] . '&amp;title=' . $topic_data['topic_title'],		
+		'U_BLOGSPOT'	=> 'http://blogspot.com/share?u=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'],
+		'U_YARU'	=> 'http://wow.ya.ru/posts_share_link.xml?url=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'],
+		'U_LIVEJ'	=> 'http://www.livejournal.com/update.bml?event=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'],
+		'U_GBUZZ'	=> 'http://www.google.com/reader/link?url=' . generate_board_url() . '/viewtopic.php?t='. $topic_data['topic_id'],
+		
+		// Share On 2.0.0 MOD
+		
 		'U_REPORT'			=> ($auth->acl_get('f_report', $forum_id)) ? append_sid("{$phpbb_root_path}report.$phpEx", 'f=' . $forum_id . '&amp;p=' . $row['post_id']) : '',
 		'U_MCP_REPORT'		=> ($auth->acl_get('m_report', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=reports&amp;mode=report_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $user->session_id) : '',
 		'U_MCP_APPROVE'		=> ($auth->acl_get('m_approve', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=queue&amp;mode=approve_details&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $user->session_id) : '',
@@ -1609,6 +1631,30 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'S_CUSTOM_FIELDS'	=> (isset($cp_row['row']) && sizeof($cp_row['row'])) ? true : false,
 		'S_TOPIC_POSTER'	=> ($topic_data['topic_poster'] == $poster_id) ? true : false,
 
+		// Share On 2.0.0 MOD	
+		'S_SO_STATUS'		=> $config['so_status'],
+		'S_SO_FACEBOOK'		=> $config['so_facebook'],
+		'S_SO_TWITTER'		=> $config['so_twitter'],
+		'S_SO_TUENTI'		=> $config['so_tuenti'],
+		'S_SO_SONICO'		=> $config['so_sonico'],
+		'S_SO_FRIENDFEED'	=> $config['so_friendfeed'],
+		'S_SO_ORKUT'		=> $config['so_orkut'],
+		'S_SO_DIGG'		=> $config['so_digg'],
+		'S_SO_MYSPACE'		=> $config['so_myspace'],
+		'S_SO_DELICIOUS' 	=> $config['so_delicious'],
+		'S_SO_TECHNORATI'	=> $config['so_technorati'],
+		
+		'S_SO_VK'		=> $config['so_vk'],
+		'S_SO_MAIL'	=> $config['so_mail'],
+		'S_SO_ODNOKL'		=> $config['so_odnokl'],
+		'S_SO_BLOGSPOT'		=> $config['so_blogspot'],
+		'S_SO_YARU'		=> $config['so_yaru'],
+		'S_SO_LIVEJ' 	=> $config['so_livej'],
+		'S_SO_GBUZZ'	=> $config['so_gbuzz'],
+		
+		'S_SHARE_ON_FIRST_POST'	=> ($row['post_id'] == $topic_data['topic_first_post_id']) ? true : false,
+		// Share On 2.0.0 MOD
+		
 		'S_IGNORE_POST'		=> ($row['hide_post']) ? true : false,
 		'L_IGNORE_POST'		=> ($row['hide_post']) ? sprintf($user->lang['POST_BY_FOE'], get_username_string('full', $poster_id, $row['username'], $row['user_colour'], $row['post_username']), '<a href="' . $viewtopic_url . "&amp;p={$row['post_id']}&amp;view=show#p{$row['post_id']}" . '">', '</a>') : '',
 	);
