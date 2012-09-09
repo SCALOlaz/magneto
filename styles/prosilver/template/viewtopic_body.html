@@ -152,7 +152,31 @@
 			<!-- ENDIF -->
 		<!-- ENDIF -->
 			
-			<h4 <!-- IF postrow.S_FIRST_ROW -->class="first"<!-- ENDIF -->><!-- IF postrow.POST_ICON_IMG --><img src="{T_ICONS_PATH}{postrow.POST_ICON_IMG}" width="{postrow.POST_ICON_IMG_WIDTH}" height="{postrow.POST_ICON_IMG_HEIGHT}" alt="" /> <!-- ENDIF --><!-- IF not postrow.S_FIRST_ROW --><a href="#p{postrow.POST_ID}">{postrow.POST_SUBJECT}</a><!-- ELSE -->&nbsp;Here a social links Buttons.....<!-- ENDIF --></h4>
+			<h4 <!-- IF postrow.S_FIRST_ROW -->class="first"<!-- ENDIF -->><!-- IF postrow.POST_ICON_IMG --><img src="{T_ICONS_PATH}{postrow.POST_ICON_IMG}" width="{postrow.POST_ICON_IMG_WIDTH}" height="{postrow.POST_ICON_IMG_HEIGHT}" alt="" /> <!-- ENDIF --><!-- IF not postrow.S_FIRST_ROW --><a href="#p{postrow.POST_ID}">{postrow.POST_SUBJECT}</a><!-- ELSE -->
+				<ul class="social-icons">
+					<!-- Share_On_2.0.0_MOD -->
+						<!-- IF postrow.S_SHARE_ON_FIRST_POST and postrow.S_SO_STATUS and S_USER_LOGGED_IN -->
+							<!-- IF postrow.S_SO_FACEBOOK --><li class="facebook-icon"><a href="{postrow.U_FACEBOOK}" title="{L_SHARE_ON_FACEBOOK}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_FACEBOOK}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_TWITTER --><li class="twitter-icon"><a href="{postrow.U_TWITTER}" title="{L_SHARE_ON_TWITTER}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_TWITTER}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_TUENTI --><li class="tuenti-icon"><a href="{postrow.U_TUENTI}" title="{L_SHARE_ON_TUENTI}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_TUENTI}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_SONICO --><li class="sonico-icon"><a href="{postrow.U_SONICO}" title="{L_SHARE_ON_SONICO}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_SONICO}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_FRIENDFEED --><li class="friendfeed-icon"><a href="{postrow.U_FRIENDFEED}" title="{L_SHARE_ON_FRIENDFEED}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_FRIENDFEED}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_ORKUT --><li class="orkut-icon"><a href="javascript:(function(){var d=document,l=d.location,e=encodeURIComponent,u='http://promote.orkut.com/preview?src=bkmrklt&amp;v=1&amp;nt=orkut.com&amp;du='+e(l.href)+'&amp;tt='+e(d.title),s='&amp;rdrinl=1';if(!window.open(u,'','height=575,width=700,directories=0,location=1,menubar=0,resizable=0,scrollbars=1,status=1,toolbar=0'))l.href=u+s;})();" title="{L_SHARE_ON_ORKUT}"><span>{L_SHARE_ON_ORKUT}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_DIGG --><li class="digg-icon"><a href="{postrow.U_DIGG}" title="{L_SHARE_ON_DIGG}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_DIGG}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_MYSPACE --><li class="myspace-icon"><a href="{postrow.U_MYSPACE}" title="{L_SHARE_ON_MYSPACE}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_MYSPACE}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_DELICIOUS --><li class="delicious-icon"><a href="{postrow.U_DELICIOUS}" title="{L_SHARE_ON_DELICIOUS}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_DELICIOUS}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_TECHNORATI --><li class="technorati-icon"><a href="{postrow.U_TECHNORATI}" title="{L_SHARE_ON_TECHNORATI}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_TECHNORATI}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_VK --><li class="s_vk-icon"><a href="{postrow.U_VK}" title="{L_SHARE_ON_VK}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_VK}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_MAIL --><li class="s_mail-icon"><a href="{postrow.U_MAIL}" title="{L_SHARE_ON_MAIL}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_MAIL}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_ODNOKL --><li class="s_odnokl-icon"><a href="{postrow.U_ODNOKL}" title="{L_SHARE_ON_ODNOKL}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_ODNOKL}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_BLOGSPOT --><li class="s_blogspot-icon"><a href="{postrow.U_BLOGSPOT}" title="{L_SHARE_ON_BLOGSPOT}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_BLOGSPOT}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_YARU --><li class="s_yaru-icon"><a href="{postrow.U_YARU}" title="{L_SHARE_ON_YARU}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_YARU}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_LIVEJ --><li class="s_livej-icon"><a href="{postrow.U_LIVEJ}" title="{L_SHARE_ON_LIVEJ}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_LIVEJ}</span></a></li><!-- ENDIF -->
+							<!-- IF postrow.S_SO_GBUZZ --><li class="s_gbuzz-icon"><a href="{postrow.U_GBUZZ}" title="{L_SHARE_ON_GBUZZ}" onclick="window.open(this.href);return false;"><span>{L_SHARE_ON_GBUZZ}</span></a></li><!-- ENDIF -->
+						<!-- ENDIF -->
+					<!-- Share_On_2.0.0_MOD -->
+				</ul>
+			<!-- ENDIF --></h4>
 			<p class="author"><!-- IF S_IS_BOT -->{postrow.MINI_POST_IMG}<!-- ELSE --><!-- IF S_ENABLE_POST_NUM --><a title="{L_POST_NUM}" alt="{L_POST_NUM}" href="{postrow.U_MINI_POST}"<!-- IF S_ENABLE_POST_NUM_JS --> onclick="prompt('{LA_POST_DIRECT_LINK}',this.href); return false;"<!-- ENDIF -->><strong>{L_POST_NUM_SYMBOL}{postrow.POST_NUM}</strong></a>&nbsp;{postrow.MINI_POST_IMG}<!-- ELSE --><a href="{postrow.U_MINI_POST}">{postrow.MINI_POST_IMG}</a><!-- ENDIF --><!-- ENDIF -->{L_POST_BY_AUTHOR} <!-- We use "\r\n" newline here because insert_text() JS function doesn't insert newline with "\n" (at least in Windows) --><!-- IF S_QUICK_REPLY --><a href="#postform" title="{L_QUOTE_USERNAME}" onclick="dE('qr_editor_div', 1);dE('qr_showeditor_div', -1); insert_text('[b]{postrow.POSTER_QUOTE}[/b]'); return false;"<!-- IF postrow.POST_AUTHOR_COLOUR --> style="color: {postrow.POST_AUTHOR_COLOUR}" <!-- ENDIF -->><strong>{postrow.POST_AUTHOR}</strong></a><!-- ELSE --><!-- IF not postrow.U_POST_AUTHOR --><strong>{postrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{postrow.POST_AUTHOR_FULL}<!-- ENDIF --><!-- ENDIF --> &raquo; {postrow.POST_DATE} <!-- IF postrow.POSTER_IP -->&raquo; {L_IP}: {postrow.POSTER_IP}<!-- ENDIF --></p>
 			<hr>
 			<!-- IF postrow.S_POST_UNAPPROVED or postrow.S_POST_REPORTED -->
@@ -244,6 +268,53 @@
 			<br />
 		<!-- ENDIF -->
 
+	<!-- Share_On_2.0.0_MOD -->
+		<!-- IF postrow.S_FIRST_ROW and postrow.S_SO_STATUS and not S_USER_LOGGED_IN -->
+			<div class="panel">
+				<div class="inner">
+					<span class="corners-top"><span></span></span>
+						<center>
+							<!-- IF postrow.S_SO_FACEBOOK --><a href="{postrow.U_FACEBOOK}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_FACEBOOK}"><img class="facebook-icon" alt="{L_SHARE_ON_FACEBOOK}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_TWITTER --><a href="{postrow.U_TWITTER}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_TWITTER}"><img class="twitter-icon" alt="{L_SHARE_ON_TWITTER}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_TUENTI --><a href="{postrow.U_TUENTI}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_TUENTI}"><img class="tuenti-icon" alt="{L_SHARE_ON_TUENTI}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_SONICO --><a href="{postrow.U_SONICO}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_SONICO}"><img class="sonico-icon" alt="{L_SHARE_ON_SONICO}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_FRIENDFEED --><a href="{postrow.U_FRIENDFEED}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_FRIENDFEED}"><img class="friendfeed-icon" alt="{L_SHARE_ON_FRIENDFEED}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_ORKUT --><a title="{L_SHARE_ON_ORKUT}" href="javascript:(function(){var d=document,l=d.location,e=encodeURIComponent,u='http://promote.orkut.com/preview?src=bkmrklt&amp;v=1&amp;nt=orkut.com&amp;du='+e(l.href)+'&amp;tt='+e(d.title),s='&amp;rdrinl=1';if(!window.open(u,'','height=575,width=700,directories=0,location=1,menubar=0,resizable=0,scrollbars=1,status=1,toolbar=0'))l.href=u+s;})();" ><img class="orkut-icon" alt="{L_SHARE_ON_ORKUT}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_DIGG --><a href="{postrow.U_DIGG}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_DIGG}"><img class="digg-icon" alt="{L_SHARE_ON_DIGG}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_MYSPACE --><a href="{postrow.U_MYSPACE}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_MYSPACE}"><img class="myspace-icon" alt="{L_SHARE_ON_MYSPACE}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_DELICIOUS --><a href="{postrow.U_DELICIOUS}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_DELICIOUS}"><img class="delicious-icon" alt="{L_SHARE_ON_DELICIOUS}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_TECHNORATI --><a href="{postrow.U_TECHNORATI}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_TECHNORATI}"><img class="technorati-icon" alt="{L_SHARE_ON_TECHNORATI}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_VK --><a href="{postrow.U_VK}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_VK}"><img class="s_vk-icon" alt="{L_SHARE_ON_VK}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_MAIL --><a href="{postrow.U_MAIL}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_MAIL}"><img class="s_mail-icon" alt="{L_SHARE_ON_MAIL}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_ODNOKL --><a href="{postrow.U_ODNOKL}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_ODNOKL}"><img class="s_odnokl-icon" alt="{L_SHARE_ON_ODNOKL}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_BLOGSPOT --><a href="{postrow.U_BLOGSPOT}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_BLOGSPOT}"><img class="s_blogspot-icon" alt="{L_SHARE_ON_BLOGSPOT}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_YARU --><a href="{postrow.U_YARU}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_YARU}"><img class="s_yaru-icon" alt="{L_SHARE_ON_YARU}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_LIVEJ --><a href="{postrow.U_LIVEJ}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_LIVEJ}"><img class="s_livej-icon" alt="{L_SHARE_ON_LIVEJ}" /></a>
+							<!-- ENDIF -->
+							<!-- IF postrow.S_SO_GBUZZ --><a href="{postrow.U_GBUZZ}" onclick="window.open(this.href);return false;" title="{L_SHARE_ON_GBUZZ}"><img class="s_gbuzz-icon" alt="{L_SHARE_ON_GBUZZ}" /></a>
+							<!-- ENDIF -->							
+						</center>
+					<span class="corners-bottom"><span></span></span>
+				</div>
+			</div>
+		<!-- ENDIF -->
+	<!-- Share_On_2.0.0_MOD -->
+	
 		<!-- IF (ADS_5 and postrow.S_FIRST_ROW) or (ADS_6 and not postrow.S_FIRST_ROW) -->
 	<div class="post bg3">
 		<div class="inner"><span class="corners-top"><span></span></span>
@@ -274,7 +345,7 @@
 			<br /><br />
 		<!-- ENDIF -->
 	<!-- ENDIF -->
-	
+
 <!-- END postrow -->
 
 <!-- IF S_QUICK_REPLY -->
