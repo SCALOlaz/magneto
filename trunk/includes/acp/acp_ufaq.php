@@ -47,14 +47,44 @@ class acp_ufaq
 				$row = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
 
+				// Pics List
+				$imglist = filelist($phpbb_root_path . 'images/ufaq/', '');
+				$edit_img = $filename_list = '';
+				$ranks = array();
+				foreach ($imglist as $path => $img_ary)
+				{
+					sort($img_ary);
+					foreach ($img_ary as $img)
+					{
+						$img = $path . $img;
+						if ($row['cat_img'] && $img == $row['cat_img'])
+						{
+							$selected = ' selected="selected"';
+							$edit_img = $img;
+						}
+						else
+						{
+							$selected = '';
+						}
+						if (strlen($img) > 255)
+						{
+							continue;
+						}
+						$filename_list .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . $img . '</option>';
+					}
+				}
+				$filename_list = '<option value=""' . (($edit_img == '') ? ' selected="selected"' : '') . '>---------------</option>' . $filename_list;
+				
 				// Assign already existing data
 				$template->assign_vars(array(
 					'S_EDIT'			=> $action == 'add' ? '1' : '2',
 					'CAT_TITLE'			=> $row['cat_name'],
 					'CAT_IMG'			=> $row['cat_img'],
-					'U_CAT_IMG'		=> $row['cat_img'] ? $phpbb_root_path.'images/ufaq/'.$row['cat_img'] : '',
+					'U_CAT_IMG'		=> $row['cat_img'] ? $phpbb_root_path.'images/ufaq/'.$row['cat_img'] : './images/spacer.gif',
+					'UFAQPIC_PATH'	=> $phpbb_root_path.'images/ufaq/',
 					'U_BACK'			=> $this->u_action,
 					'U_ACTION'		=> $this->u_action . '&amp;id=' . $id,
+					'S_UFAQ_PIC_LIST'	=> $filename_list,
 				));
 
 		 }

@@ -1,5 +1,13 @@
 <!-- INCLUDE overall_header.html -->
+	<script type="text/javascript">
+	// <![CDATA[
+		function update_image(newimage)
+		{
+			document.getElementById('ufaq').src = (newimage) ? "{UFAQPIC_PATH}/" + encodeURI(newimage) : "./images/spacer.gif";
+		}
 
+	// ]]>
+	</script> 
 <a name="maincontent"></a>
 
 <!-- IF S_EDIT -->
@@ -12,12 +20,12 @@
 	<fieldset>
 	<dl>
 		<dt><label for="title">{L_UFAQ_CAT}:</label></dt>
-		<dd><input name="title" type="text" id="title" value="{CAT_TITLE}" maxlength="255" size="30" /></dd>
+		<dd><input name="title" type="text" id="title" value="{CAT_TITLE}" maxlength="255" size="50" /></dd>
 	</dl>
 	<dl>
 		<dt><label for="img">{L_UFAQ_CAT_IMG}:</label><br /><span>{L_UFAQ_CAT_IMG_EXPLAIN}</span></dt>
-		<dd><input name="img" type="text" id="img" value="{CAT_IMG}" maxlength="255" size="20" />
-		<!-- IF U_CAT_IMG --><br /><img src="{U_CAT_IMG}" alt="" /><!-- ENDIF --></dd>
+		<dd><select name="img" size="1" id="img" onchange="update_image(this.options[selectedIndex].value);">{S_UFAQ_PIC_LIST}</select>
+		<!-- IF U_CAT_IMG --><br /><img src="{U_CAT_IMG}" id="ufaq" alt="" /><!-- ENDIF --></dd>
 	</dl>
 	<p class="submit-buttons">
 		<input type="hidden" name="action" value="save" />
