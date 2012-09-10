@@ -1,0 +1,66 @@
+<!-- INCLUDE overall_header.html -->
+
+<a name="maincontent"></a>
+
+<!-- IF S_EDIT -->
+	<a href="{U_BACK}" style="float: {S_CONTENT_FLOW_END};">&laquo; {L_BACK}</a>
+
+	<h1><!-- IF S_EDIT == 1 -->{L_ACP_ADD_CAT}<!-- ELSE -->{L_ACP_CAT_EDITING}<!-- ENDIF --></h1>
+
+	<form id="acp_diafilms" method="post" action="{U_ACTION}">
+
+	<fieldset>
+	<dl>
+		<dt><label for="title">{L_UFAQ_CAT}:</label></dt>
+		<dd><input name="title" type="text" id="title" value="{CAT_TITLE}" maxlength="255" size="30" /></dd>
+	</dl>
+	<dl>
+		<dt><label for="img">{L_UFAQ_CAT_IMG}:</label><br /><span>{L_UFAQ_CAT_IMG_EXPLAIN}</span></dt>
+		<dd><input name="img" type="text" id="img" value="{CAT_IMG}" maxlength="255" size="20" />
+		<!-- IF U_CAT_IMG --><br /><img src="{U_CAT_IMG}" alt="" /><!-- ENDIF --></dd>
+	</dl>
+	<p class="submit-buttons">
+		<input type="hidden" name="action" value="save" />
+
+		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		{S_FORM_TOKEN}
+	</p>
+	</fieldset>
+	</form>
+
+<!-- ELSE -->
+
+	<h1>{L_UFAQ_CATS}</h1>
+
+	<form id="acp_ufaq" method="post" action="{U_ACTION}">
+	<fieldset class="tabulated">
+	<table cellspacing="1">
+	<tbody>
+	<th>ID</th>
+	<th colspan="2">{L_UFAQ_CAT}</th>
+	<th>{L_UFAQ_COUNT}</th>
+	<th>{L_ACTION}</th>
+<!-- BEGIN cats -->
+<!-- IF cats.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
+<td style="text-align: center;" width="10">{cats.CAT_ID}</td>
+<td width="52"><img src="{cats.CAT_IMG}" style="max-height: 50px;" alt=""></td>
+<td><a href="{cats.U_CAT}">{cats.CAT_NAME}</a></td>
+<td style="text-align: center;">{cats.CAT_COUNT}</td>
+<td style="text-align: center;"><a href="{cats.U_EDIT}">{ICON_EDIT}</a> <a href="{cats.U_DELETE}">{ICON_DELETE}</a></td>
+</tr>
+<!-- END cats -->
+	</tbody>
+	</table>
+
+	<p class="quick">
+		<input name="action" type="hidden" value="add">
+		<input class="button2" name="add" type="submit" value="{L_ACP_ADD_CAT}" />
+		{S_FORM_TOKEN}
+	</p>
+	</fieldset>
+	</form>
+
+<!-- ENDIF -->
+
+<!-- INCLUDE overall_footer.html -->

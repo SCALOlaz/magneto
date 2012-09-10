@@ -49,6 +49,9 @@
 .buttons div.newpm-icon		{ width: {IMG_BUTTON_PM_NEW_WIDTH}px; height: {IMG_BUTTON_PM_NEW_HEIGHT}px; }
 .buttons div.forwardpm-icon	{ width: {IMG_BUTTON_PM_FORWARD_WIDTH}px; height: {IMG_BUTTON_PM_FORWARD_HEIGHT}px; }
 
+.buttons div.question-new-icon { width: {IMG_BUTTON_QUESTION_NEW_WIDTH}px; height: {IMG_BUTTON_QUESTION_NEW_HEIGHT}px; }
+.buttons div.question-reply-icon { width: {IMG_BUTTON_QUESTION_REPLY_WIDTH}px; height: {IMG_BUTTON_QUESTION_REPLY_HEIGHT}px; }
+
 /* Sub-header (navigation bar)
 --------------------------------------------- */
 a.print, a.sendemail, a.fontsize {

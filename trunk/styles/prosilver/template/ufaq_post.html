@@ -1,0 +1,35 @@
+<form action="{S_ADD_A_ACTION}" method="post" name="postform">
+		<div class="panel">
+			<div class="inner"><span class="corners-top"><span></span></span>
+					<h2><!-- IF TEXT -->{L_UFAQ_EDIT}<!-- ELSEIF REPLY -->{L_UFAQ_ADD_ANSWER}<!-- ELSE -->{L_UFAQ_ADD_QUEST}<!-- ENDIF --></h2>
+					<fieldset class="fields1">
+						<!-- IF not REPLY --><dl>
+							<dt><label for="subject">{L_UFAQ_SUBJ}:</label></dt>
+							<dd><input type="text" name="subj" size="45" maxlength="64" value="{Q_SUBJ}" class="inputbox autowidth" /></dd>
+						</dl>
+						<dl>
+							<dt><label for="watch">{L_NOTIFY_REPLY}:</label></dt>
+							<dd><input type="checkbox" name="watch" value="1" <!-- IF Q_WATCH -->checked="checked" <!-- ENDIF -->/></dd>
+						</dl><!-- ENDIF -->
+					<!-- INCLUDE posting_buttons.html -->
+					<div id="smiley-box">
+						<strong>{L_SMILIES}</strong><br />
+						<!-- BEGIN smiley -->
+							<a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a>
+						<!-- END smiley -->
+					<!-- IF S_SHOW_SMILEY_LINK-->
+						<br /><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
+					<!-- ENDIF -->
+					</div>
+					<div id="message-box">
+						<textarea style="height: 9em;" name="message" rows="7" cols="76" class="inputbox">{TEXT}</textarea>
+					</div>
+					</fieldset>
+					<fieldset class="submit-buttons">
+						<input type="submit" name="post" value="{L_SUBMIT}" class="button1" />&nbsp;
+						<input name="reset" type="reset" id="reset" value="{L_RESET}" class="button2" />&nbsp;
+					</fieldset>
+			<span class="corners-bottom"><span></span></span></div>
+		</div>
+	</form>
+<br clear="all" />
