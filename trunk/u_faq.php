@@ -285,7 +285,7 @@ elseif($mode == 'q' && $id)
 {
     $q = $raters = '';
 
-    $sql = 'SELECT u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, q.*
+    $sql = 'SELECT u.*, q.*
 			FROM ' . USERS_TABLE . ' u, ' . Q_QUESTION_TABLE . " q
 			WHERE (q.q_parent_q = $id
 			OR q.q_id = $id)
@@ -339,7 +339,15 @@ elseif($mode == 'q' && $id)
 		'U_VIEW_FORUM'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=cat&amp;id='.$row['cat_id']),
 	)
 	);
-
+	get_user_rank($q['user_rank'], $q['user_posts'], $q['rank_title'], $q['rank_image'], $q['rank_image_src']);
+	$q['user_email'] = ((!empty($q['user_allow_viewemail']) || $auth->acl_get('a_email')) && ($q['user_email'] != '')) ? ($config['board_email_form'] && $config['email_enable']) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=email&amp;u=$poster_id") : (($config['board_hide_emails'] && !$auth->acl_get('a_email')) ? '' : 'mailto:' . $q['user_email']) : '';
+	$q['user_msnm'] = ($q['user_msnm'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=msnm&amp;u=$poster_id") : '';
+	$q['user_icq'] = (!empty($q['user_icq'])) ? 'http://www.icq.com/people/webmsg.php?to=' . $q['user_icq'] : '';
+	$q['user_icq_status_img'] = (!empty($q['user_icq'])) ? '<img src="http://web.icq.com/whitepages/online?icq=' . $q['user_icq'] . '&amp;img=5" width="18" height="18" alt="" />' : '';
+	$q['user_yim'] = ($q['user_yim']) ? 'http://edit.yahoo.com/config/send_webmesg?.target=' . $q['user_yim'] . '&amp;.src=pg' : '';
+	$q['user_aim'] = ($q['user_aim'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=aim&amp;u=$poster_id") : '';
+	$q['user_jabber'] = ($q['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '';
+	
 	$template->assign_vars(array(
 	'QUEST'	=> $q['q_subj'],
 	'AVATAR'	=> ($user->optionget('viewavatars')) ? get_user_avatar($q['user_avatar'], $q['user_avatar_type'], $q['user_avatar_width'], $q['user_avatar_height']) : '',
@@ -364,6 +372,22 @@ elseif($mode == 'q' && $id)
 	'U_DEL'	=> ($auth->acl_get('u_add_answers') && $user->data['user_id'] == $q['q_user_id']) || ($auth->acl_get('m_') && $auth->acl_get('u_add_answers')) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=del&amp;id='.$q['q_id']) : '',
 	'U_RATE'	=> $user_id != $q['q_user_id'] && !in_array($user_id, explode(",",$q['q_raters'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=rate&amp;id='.$q['q_id']) : '',
 	'U_WATCH'	=> $user_id != $q['q_user_id'] && !in_array($user_id, explode(",",$q['q_users_watch'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=watch&amp;id='.$q['q_id']) : '',
+		'RANK_TITLE'			=> $q['rank_title'],
+		'RANK_IMG'				=> $q['rank_image'],
+		'RANK_IMG_SRC'			=> $q['rank_image_src'],
+		'POSTER_POSTS'			=> $q['user_posts'],
+		'POSTER_JOINED'			=> $user->format_date($q['user_regdate']),
+		'POSTER_FROM'			=> $q['user_from'],
+		'U_PM'					=> ($poster_id != ANONYMOUS && $config['allow_privmsg'] && $auth->acl_get('u_sendpm') && ($q['user_allow_pm'] || $auth->acl_gets('a_', 'm_') || $auth->acl_getf_global('m_'))) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;mode=compose&amp;action=quotepost&amp;') : '',
+		'U_EMAIL'				=> $q['user_email'],
+		'U_WWW'					=> $q['user_website'],
+		'U_MSN'					=> $rq['user_msnm'],
+		'U_ICQ'					=> $q['user_icq'],
+		'U_YIM'					=> $q['user_yim'],
+		'U_AIM'					=> $q['user_aim'],
+		'U_JABBER'				=> $q['user_jabber'],
+
+	'MINI_POST_IMG'			=> $user->img('icon_post_target', 'POST'),
 	)
 	);
 
