@@ -1,0 +1,116 @@
+<!-- INCLUDE overall_header.html -->
+
+<!-- IF S_INDEX -->
+<div style="float: left; padding: 5px 0 4px 4px;"><a href="{U_FSEARCH_TOP}">{L_UFAQ_SEARCH_TOP}</a>&nbsp;&bull;&nbsp;<a href="{U_FSEARCH_NEW}">{L_UFAQ_SEARCH_NEW}</a></div>
+<table class="tablebg" width="100%" cellspacing="1">
+<tr>
+	<th>{L_UFAQ_CAT}</th>
+	<th>{L_UFAQ_COUNT}</th>
+	<th align="left">{L_UFAQ_LAST_Q}</th>
+</tr>
+<!-- BEGIN cats -->
+<tr>
+	<td class="row1">
+	<table><tr><!-- IF cats.CAT_IMG --><td width="25"><img src="{cats.CAT_IMG}" alt="{cats.TITLE}" /></td><!-- ENDIF -->
+	<td class="topicdetails"><a class="forumlink" href="{cats.U_CAT}">{cats.TITLE}</a></td></tr></table></td>
+	<td class="row2" align="center" width="50" nowrap="nowrap"><p class="topicdetails">{cats.COUNT}</p></td>
+	<td class="row2" width="250">
+	<!-- IF cats.LAST_Q --><p class="topicdetails"><a href="{cats.U_LAST_Q}">{cats.LAST_Q}</a></p>
+	<!-- ELSE --><p class="topicdetails">{L_UFAQ_EMPTY_CAT}</p><!-- ENDIF --></td>
+</tr>
+<!-- BEGINELSE -->
+<tr><td class="row1" colspan="3">{L_UFAQ_EMPTY_CAT}</td></tr>
+<!-- END cats -->
+</table>
+
+<!-- ELSEIF S_LIST_Q -->
+<!-- IF not S_IS_BOT and S_USER_LOGGED_IN --><!-- IF U_SORT_RATING --><div style="padding-bottom: 2px; float: left;"><a href="{U_ADD_QUEST}">{ADD_QUEST_IMG}</a></div><!-- ENDIF -->
+<div style="padding: 4px; float: left;">
+			<form method="post" action="{S_SEARCHBOX_ACTION}">
+				<input class="post"  type="text" name="search" size="20" value="<!-- IF HIDDEN -->{HIDDEN}<!-- ELSE -->{L_SEARCH}<!-- ENDIF -->"<!-- IF not HIDDEN --> onclick="if(this.value=='{L_SEARCH}')this.value='';" onblur="if(this.value=='')this.value='{L_SEARCH}';"<!-- ENDIF --> />
+				<input class="btnmain" type="submit" value="{L_SEARCH}" />
+			</form>
+		</div><div style="float: left; padding: 5px 0 4px 4px;"><a href="{U_FSEARCH_TOP}">{L_UFAQ_SEARCH_TOP}</a>&nbsp;&bull;&nbsp;<a href="{U_FSEARCH_NEW}">{L_UFAQ_SEARCH_NEW}</a></div><!-- ENDIF -->
+		<!-- IF PAGE_NUMBER --><div style="float: right; padding-top: 5px;">{PAGE_NUMBER}&nbsp;<!-- INCLUDE pagination.html --></div><!-- ENDIF -->
+<table class="tablebg" width="100%" cellspacing="1">
+<tr>
+	<th align="left">{PARENT}</th>
+	<th><!-- IF U_SORT_RATING --><a href="{U_SORT_RATING}"><!-- ENDIF -->{L_UFAQ_RATING}<!-- IF U_SORT_RATING --></a><!-- ENDIF --></th>
+	<th><!-- IF U_SORT_ANSWERS --><a href="{U_SORT_ANSWERS}"><!-- ENDIF -->{L_UFAQ_ANSWERS}<!-- IF U_SORT_ANSWERS --></a><!-- ENDIF --></th>
+	<th>{L_UFAQ_VIEWS}</th>
+	<th align="left">{L_UFAQ_QUESTOR}</th>
+</tr>
+<!-- BEGIN q -->
+<tr>
+	<td class="row1"><a class="forumlink" href="{q.U_QUESTION}">{q.SUBJ}</a></td>
+	<td class="row2" width="50" align="center"><p class="topicdetails">{q.RATING}</p></td>
+	<td class="row1" align="center" width="50"><p class="topicdetails">{q.ANSWERS}</p></td>
+	<td class="row2" width="50" align="center"><p class="topicdetails">{q.VIEWS}</p></td>
+	<td class="row1" width="220"><p class="topicdetails">{q.QUESTOR}<br />{q.TIME}</p></td>
+</tr>
+
+<!-- BEGINELSE -->
+<tr><td class="row1" colspan="6">{L_UFAQ_EMPTY_CAT}</td></tr>
+<!-- END q -->
+<tr><td class="cat" colspan="6">&nbsp;</td></tr>
+</table>
+<!-- IF PAGE_NUMBER --><div style="float: right;">{PAGE_NUMBER}&nbsp;<!-- INCLUDE pagination.html --></div><!-- ENDIF -->
+<!-- IF U_SORT_RATING --><!-- IF not S_IS_BOT and S_USER_LOGGED_IN --><div style="padding-top: 2px; float: left;"><a href="{U_ADD_QUEST}">{ADD_QUEST_IMG}</a></div><!-- ENDIF -->
+<br clear="all" />
+<div align="right" class="gen">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div><!-- ENDIF -->
+<!-- ELSEIF QUEST -->
+<div id="pageheader">
+	<h2><a class="titles" href="{U_LINK}">{QUEST}</a></h2>
+</div>
+<br clear="all" /><br />
+<table class="tablebg" width="100%" cellspacing="1">
+<tr>
+	<th colspan="2">{L_UFAQ_NAME}</th>
+</tr>
+<tr>
+	<td class="row1" align="center" valign="top" rowspan="2" width="200">{USER}<!-- IF AVATAR --><div style="margin: 4px;"><a href="{U_USER}">{AVATAR}</a></div><!-- ENDIF --></td>
+	<td class="row2"><span style="float: {S_CONTENT_FLOW_BEGIN}"><a href="{U_LINK}">{QUEST}</a></span><span style="float: {S_CONTENT_FLOW_END}">{TIME}</span></td>
+</tr>
+<tr>
+	<td class="row1" valign="top"><div class="postbody"><div style="float: right; font-weight: bold; font-size: 18px; color: green;">{L_UFAQ_RATING}: {RATING}</div>{Q_TEXT}</div><!-- IF not S_IS_BOT and S_USER_LOGGED_IN --><br clear="all" /><div align="right"><!-- IF U_RATE --><span style="float: left;">{L_UFAQ_RATE}: <a href="{U_RATE}"><b>{L_UFAQ_RATE_Q}</b></a></span><!-- ENDIF --><!-- IF U_EDIT --><a href="{U_EDIT}">{EDIT_IMG}</a><!-- ENDIF --><!-- IF U_DEL -->&nbsp;<a href="{U_DEL}">{DELETE_IMG}</a><!-- ENDIF --></div><!-- ENDIF --></td>
+</tr>
+<tr><td class="cat" colspan="2" align="right"><!-- IF not S_IS_BOT and S_USER_LOGGED_IN and U_WATCH --><a href="{U_WATCH}" title="{L_UFAQ_WATCH_EXP}">{L_UFAQ_WATCH}</a><!-- ENDIF -->&nbsp;</td></tr>
+</table>
+<!-- IF REPLY --><div style="padding-top: 4px;"><a href="#" onclick="getElementById('answer').style.display=''; this.style.display='none'; return false;">{REPLY}</a></div>
+<div id="answer" style="display: none; padding-top: 4px;"><!-- INCLUDE ufaq_post.html --></div>
+<!-- ENDIF -->
+<br clear="all" />
+<br clear="all" />
+<!-- IF .answers -->
+<table class="tablebg" width="100%" cellspacing="1">
+<tr>
+	<th colspan="2">{L_UFAQ_ANSWERS_V}</th>
+</tr>
+<!-- BEGIN answers -->
+<tr>
+	<td class="row1" align="center" valign="top" rowspan="2" width="170">{answers.USER}<!-- IF answers.AVATAR --><div style="margin: 4px;"><a href="{answers.U_USER}">{answers.AVATAR}</a></div><!-- ENDIF --></td>
+	<td class="row2"><a name="{answers.ID}" href="#{answers.ID}">{answers.TIME}</a></td>
+</tr>
+<tr>
+	<td class="row1" valign="top"><div class="postbody"><div style="float: right; font-weight: bold; font-size: 18px; color: green;">{L_UFAQ_RATING}: {answers.RATING}</div>{answers.TEXT}</div><!-- IF not S_IS_BOT and S_USER_LOGGED_IN --><br clear="all" /><div align="right"><!-- IF answers.U_RATE --><span style="float: left;">{L_UFAQ_RATE}: <a href="{answers.U_RATE}"><b>{L_UFAQ_RATE_A}</b></a></span><!-- ENDIF --><!-- IF answers.U_EDIT --><a href="{answers.U_EDIT}">{EDIT_IMG}</a><!-- ENDIF --><!-- IF answers.U_DEL -->&nbsp;<a href="{answers.U_DEL}">{DELETE_IMG}</a><!-- ENDIF --></div><!-- ENDIF --></td>
+</tr>
+<!-- IF not answers.S_LAST_ROW --><tr><td class="spacer" colspan="2"><img src="{T_THEME_PATH}/images/spacer.gif" width="1" height="2" alt="" /></td></tr><!-- ENDIF -->
+<!-- END answers -->
+<tr><td class="cat" colspan="2">&nbsp;</td></tr>
+</table>
+<!-- ELSE -->
+<div class="postbody forumrules">{L_UFAQ_EMPTY_Q}</div>
+<!-- ENDIF -->
+<div align="right" class="gen">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div>
+<!-- ELSEIF ADD_QUEST -->
+<!-- INCLUDE ufaq_post.html -->
+<!-- ELSE -->
+<table class="tablebg" width="100%" cellspacing="1">
+<tr><td class="row3"><big>{L_NO_MODE}</big></td></tr>
+</table>
+<!-- ENDIF -->
+
+<br clear="all" />
+<!-- INCLUDE breadcrumbs.html -->
+<div align="center" class="copyright" style="padding: 5px;">Powered by <a href="http://www.phpbbstyle.ru/">phpBBstyle</a></div>
+<!-- INCLUDE overall_footer.html -->

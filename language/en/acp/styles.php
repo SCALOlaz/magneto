@@ -257,6 +257,9 @@ $lang = array_merge($lang, array(
 	'IMG_BUTTON_TOPIC_NEW'		=> 'New topic',
 	'IMG_BUTTON_TOPIC_REPLY'	=> 'Reply topic',
 
+	'IMG_BUTTON_QUESTION_NEW'	=> 'New question',
+	'IMG_BUTTON_QUESTION_REPLY'	=> 'Answer',
+	
 	'IMG_USER_ICON1'		=> 'User defined image 1',
 	'IMG_USER_ICON2'		=> 'User defined image 2',
 	'IMG_USER_ICON3'		=> 'User defined image 3',

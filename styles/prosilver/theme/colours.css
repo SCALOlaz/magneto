@@ -676,6 +676,9 @@ Colours and backgrounds for buttons.css
 .newpm-icon span 	{ background-image: url("{IMG_BUTTON_PM_NEW_SRC}") ;}
 .forwardpm-icon span	{ background-image: url("{IMG_BUTTON_PM_FORWARD_SRC}") ;}
 
+.question-new-icon span { background-image: url("{IMG_BUTTON_QUESTION_NEW_SRC}"); }
+.question-reply-icon span { background-image: url("{IMG_BUTTON_QUESTION_REPLY_SRC}"); }
+
 a.print {
 	background-image: url("{T_THEME_PATH}/images/icon_print.gif");
 }
