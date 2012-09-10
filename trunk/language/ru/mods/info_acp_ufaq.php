@@ -45,6 +45,7 @@ $lang = array_merge($lang, array(
 	'UFAQ_CATS'			=> 'Разделы',
 	'UFAQ_COUNT'			=> 'Вопросов',
 	'UFAQ_LAST_Q'			=> 'Последний вопрос',
+	'UFAQ_LAST_A'			=> 'Последний ответ',
 	'UFAQ_EMPTY_CAT'		=> 'Вопросов нет',
 	'UFAQ_EMPTY_Q'		=> 'На этот вопрос пока нет ответов',
 	'UFAQ_NAME'			=> 'Вопрос',

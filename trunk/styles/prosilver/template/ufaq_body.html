@@ -2,15 +2,18 @@
 <!-- IF U_MCP --><p>[<!-- IF U_ACP -->&nbsp;<a href="{U_ACP}" target="_blank">{L_ACP}</a>,&nbsp;<!-- ENDIF -->&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ENDIF -->
 	
 <!-- IF S_INDEX -->
-<div style="float: left; padding: 5px 0 4px 4px;"><a href="{U_FSEARCH_TOP}">{L_UFAQ_SEARCH_TOP}</a>&nbsp;&bull;&nbsp;<a href="{U_FSEARCH_NEW}">{L_UFAQ_SEARCH_NEW}</a></div>
+<br clear="all" />
+		<ul class="linklist">
+			<li class="rlefttside">&nbsp;<a href="{U_FSEARCH_TOP}">{L_UFAQ_SEARCH_TOP}</a>&nbsp;&bull;&nbsp;<a href="{U_FSEARCH_NEW}">{L_UFAQ_SEARCH_NEW}</a></li>
+		</ul>
 		<div class="forabg">
 			<div class="inner"><span class="corners-top"><span></span></span>
 			<ul class="topiclist">
 				<li class="header">
 					<dl>
-						<dt>{L_UFAQ_CAT}</dt>
+						<dt style="width: 50%;">{L_UFAQ_CAT}</dt>
 						<dd class="topics">{L_UFAQ_COUNT}</dd>
-						<dd class="lastpost"><span>{L_UFAQ_LAST_Q}</span></dd>
+						<dd class="lastpost" style="width: 30%;"><span>{L_UFAQ_LAST_Q}</span></dd>
 					</dl>
 				</li>
 			</ul>
@@ -18,9 +21,11 @@
 <!-- BEGIN cats -->
 		<li class="row">
 			<dl>
-				<dt><!-- IF cats.CAT_IMG --><div style="float: left; padding-right: 5px;"><img src="{cats.CAT_IMG}" alt="{cats.TITLE}" /></div><!-- ENDIF --><a class="forumtitle" href="{cats.U_CAT}">{cats.TITLE}</a></dt>
+				<dt style="width: 50%;"><!-- IF cats.CAT_IMG --><div style="float: left; padding-right: 5px;"><img src="{cats.CAT_IMG}" alt="{cats.TITLE}" /></div><!-- ENDIF --><a class="forumtitle" href="{cats.U_CAT}">{cats.TITLE}</a></dt>
 					<dd class="topics">{cats.COUNT}</dd>
-					<dd class="lastpost"><span><!-- IF cats.LAST_Q --><a href="{cats.U_LAST_Q}">{cats.LAST_Q}</a><!-- ELSE -->{L_UFAQ_EMPTY_CAT}<!-- ENDIF --></span></dd>
+					<dd class="lastpost" style="width: 30%;"><span><!-- IF cats.LAST_Q --><a href="{cats.U_LAST_Q}">{cats.LAST_Q}</a>
+					<!-- IF not S_IS_BOT --><a href="{cats.U_LAST_Q}#{cats.ANSWER_ID}">{MINI_POST_IMG}</a><!-- ELSE -->{MINI_POST_IMG}<!-- ENDIF --><br>
+					<span>{cats.QUESTER_USER} &raquo; {cats.QUESTER_TIME}</span><!-- ELSE -->{L_UFAQ_EMPTY_CAT}<!-- ENDIF --></span></dd>
 			</dl>
 		</li>
 <!-- BEGINELSE -->
@@ -34,32 +39,37 @@
 			<span class="corners-bottom"><span></span></span></div>
 		</div>
 <!-- ELSEIF S_LIST_Q -->
-<!-- IF not S_IS_BOT and S_USER_LOGGED_IN --><!-- IF U_SORT_RATING --><div class="buttons"><div class="question-new-icon"><a href="{U_ADD_QUEST}" title="{L_UFAQ_ADD_QUEST}"><span></span>{L_UFAQ_ADD_QUEST}</a></div></div><!-- ENDIF -->
-<div class="search-box">
+<br clear="all" />
+<!-- IF not S_IS_BOT and S_CAN_QUEST -->
+		<div class="search-box">
 			<form method="post" action="{S_SEARCHBOX_ACTION}">
 			<fieldset>
-				<input class="inputbox search tiny"  type="text" name="search" size="20" value="<!-- IF HIDDEN -->{HIDDEN}<!-- ELSE -->{L_SEARCH}<!-- ENDIF -->"<!-- IF not HIDDEN --> onclick="if(this.value=='{L_SEARCH}')this.value='';" onblur="if(this.value=='')this.value='{L_SEARCH}';"<!-- ENDIF --> />
+				<input class="inputbox search tiny"  type="text" name="search" size="30" value="<!-- IF HIDDEN -->{HIDDEN}<!-- ELSE -->{L_SEARCH}<!-- ENDIF -->"<!-- IF not HIDDEN --> onclick="if(this.value=='{L_SEARCH}')this.value='';" onblur="if(this.value=='')this.value='{L_SEARCH}';"<!-- ENDIF --> />
 				<input class="button2" type="submit" value="{L_SEARCH}" />
 			</fieldset>
-
 			</form>
-		</div><div style="float: left; padding: 5px 0 0 4px;"><a href="{U_FSEARCH_TOP}">{L_UFAQ_SEARCH_TOP}</a>&nbsp;&bull;&nbsp;<a href="{U_FSEARCH_NEW}">{L_UFAQ_SEARCH_NEW}</a></div><!-- ENDIF -->
-		<!-- IF PAGINATION -->
-		<div class="pagination">
-			<!-- IF PAGE_NUMBER --><!-- IF PAGINATION --><a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE --> &bull; {PAGE_NUMBER}<!-- ENDIF --><!-- ENDIF -->
 		</div>
-	<!-- ENDIF -->
-<br clear="all" />
+<!-- ENDIF -->
+
+		<ul class="linklist">
+			<li class="leftside">&nbsp;<a href="{U_FSEARCH_TOP}">{L_UFAQ_SEARCH_TOP}</a>&nbsp;&bull;&nbsp;<a href="{U_FSEARCH_NEW}">{L_UFAQ_SEARCH_NEW}</a></li>
+			<li class="rightside">
+				<div class="pagination">		
+					<!-- IF PAGE_NUMBER > 0 --><!-- IF PAGINATION --> &bull; <a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE --> &bull; {PAGE_NUMBER}<!-- ENDIF --><!-- ENDIF -->
+				</div>			
+			</li>
+		</ul>
+
 		<div class="forabg">
 			<div class="inner"><span class="corners-top"><span></span></span>
 			<ul class="topiclist">
 				<li class="header">
 					<dl>
-						<dt>{PARENT}</dt>
+						<dt>{L_UFAQ_SUBJ} {PARENT}</dt>
 						<dd class="topics"><!-- IF U_SORT_RATING --><a href="{U_SORT_RATING}"><!-- ENDIF -->{L_UFAQ_RATING}<!-- IF U_SORT_RATING --></a><!-- ENDIF --></dd>
-						<dd class="posts"><!-- IF U_SORT_ANSWERS --><a href="{U_SORT_ANSWERS}"><!-- ENDIF -->{L_UFAQ_ANSWERS}<!-- IF U_SORT_ANSWERS --></a><!-- ENDIF --></dd>
 						<dd class="views">{L_UFAQ_VIEWS}</dd>
-						<dd class="lastpost" style="width: 22%;"><span>{L_UFAQ_QUESTOR}</span></dd>
+						<dd class="posts"><!-- IF U_SORT_ANSWERS --><a href="{U_SORT_ANSWERS}"><!-- ENDIF -->{L_UFAQ_ANSWERS}<!-- IF U_SORT_ANSWERS --></a><!-- ENDIF --></dd>
+						<dd class="lastpost" style="width: 22%;"><span>{L_UFAQ_LAST_A}</span></dd>
 					</dl>
 				</li>
 			</ul>
@@ -67,11 +77,13 @@
 <!-- BEGIN q -->
 		<li class="row<!-- IF q.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
 			<dl>
-				<dt><a class="topictitle" href="{q.U_QUESTION}">{q.SUBJ}</a></dt>
+				<dt><a class="topictitle" href="{q.U_QUESTION}">{q.SUBJ}</a><br /><span>{q.QUESTOR} &raquo; {q.TIME}</span></dt>
 				<dd class="topics">{q.RATING}</dd>
+				<dd class="views">{q.VIEWS}</dd>				
 				<dd class="posts">{q.ANSWERS}</dd>
-				<dd class="views">{q.VIEWS}</dd>
-				<dd class="lastpost" style="width: 22%;"><span>{q.QUESTOR}<br />{q.TIME}</span></dd>
+				<dd class="lastpost" style="width: 22%;"><span><!-- IF q.ANSWERS == 0 -->{L_UFAQ_EMPTY_Q}<!-- ELSE -->{q.ANSWER_USER}
+				<!-- IF not S_IS_BOT --><a href="{q.U_QUESTION}#{q.ANSWER_ID}">{MINI_POST_IMG}</a><!-- ELSE -->{MINI_POST_IMG}<!-- ENDIF -->
+				<br />{q.ANSWER_TIME}<!-- ENDIF --></span></dd>
 			</dl>
 		</li>
 <!-- BEGINELSE -->
@@ -89,7 +101,8 @@
 			<!-- IF PAGE_NUMBER --><!-- IF PAGINATION --><a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE --> &bull; {PAGE_NUMBER}<!-- ENDIF --><!-- ENDIF -->
 		</div>
 	<!-- ENDIF -->
-<!-- IF U_SORT_RATING --><!-- IF not S_IS_BOT and S_USER_LOGGED_IN --><div class="buttons"><div class="question-new-icon"><a href="{U_ADD_QUEST}" title="{L_UFAQ_ADD_QUEST}"><span></span>{L_UFAQ_ADD_QUEST}</a></div></div><!-- ENDIF -->
+
+<!-- IF U_SORT_RATING --><!-- IF not S_IS_BOT and S_CAN_QUEST --><div class="buttons"><div class="question-new-icon"><a href="{U_ADD_QUEST}" title="{L_UFAQ_ADD_QUEST}"><span></span>{L_UFAQ_ADD_QUEST}</a></div></div><!-- ENDIF -->
 
 <div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div><!-- ENDIF -->
 <!-- ELSEIF QUEST -->
@@ -149,20 +162,19 @@
 						</dd>
 					<!-- ENDIF -->
 					<!-- ENDIF -->
-					
-
 			</dl>
 		<span class="corners-bottom"><span></span></span></div>
 	</div>
 
+<!-- IF not S_IS_BOT -->
 	<hr class="divider" />
-
 <br clear="all" />
-
 <!-- IF REPLY --><div class="buttons"><div class="question-reply-icon"><a href="#" onclick="getElementById('answer').style.display=''; this.style.display='none'; return false;" title="{L_UFAQ_ADD_ANSWER}"><span></span>{L_UFAQ_ADD_ANSWER}</a></div></div>
 <div id="answer" style="display: none; padding-top: 4px;"><!-- INCLUDE ufaq_post.html --></div>
 <!-- ENDIF -->
 <br clear="all" />
+<!-- ENDIF -->
+
 <!-- IF .answers -->
 	<h2>{L_UFAQ_ANSWERS_V}:</h2>
 <!-- BEGIN answers -->
@@ -175,21 +187,15 @@
 					<!-- IF answers.U_EDIT --><li class="edit-icon"><a href="{answers.U_EDIT}" title="{L_UFAQ_EDIT}"><span>{L_UFAQ_EDIT}</span></a></li><!-- ENDIF -->
 					<!-- IF answers.U_DEL --><li class="delete-icon"><a href="{answers.U_DEL}" title="{L_DELETE}"><span>{L_DELETE}</span></a></li><!-- ENDIF -->
 				</ul><!-- ENDIF -->
-			<p class="author">{answers.USER} &raquo; <a name="{answers.ID}" href="#{answers.ID}">{answers.TIME}</a> &raquo; <b style="color: green;">{L_UFAQ_RATING}: {answers.RATING}</b></p>
+			<p class="author"><!-- IF S_IS_BOT -->{answers.MINI_POST_IMG}<!-- ELSE --><a name="{answers.ID}" href="{answers.U_LINK}#{answers.ID}">{answers.MINI_POST_IMG}</a><!-- ENDIF --> {answers.USER} &raquo; {answers.TIME} &raquo; <b style="color: green;">{L_UFAQ_RATING}: {answers.RATING}</b></p>
 			<hr/>
 			<div class="content">{answers.TEXT}</div>
 			<!-- IF answers.U_RATE --><div class="signature">{L_UFAQ_RATE}: <a href="{answers.U_RATE}"><b>{L_UFAQ_RATE_A}</b></a></div><!-- ENDIF -->
 		</div>
 			<dl class="postprofile" id="profile1">
 			<dt>
-				{answers.USER}
-				<hr/>
-				<table><tr><td valign="top">
-				<!-- IF answers.AVATAR --><br /><a href="{answers.U_USER}">{answers.AVATAR}</a><!-- ENDIF -->
-				</td><td valign="top">
-				<br />
-				some text...
-				</td></tr></table>
+				<!-- IF answers.AVATAR_ON --><a href="{answers.U_USER}">{answers.AVATAR}</a><br /><!-- ENDIF -->
+				{answers.USER}				
 			</dt>
 			</dl>
 		<span class="corners-bottom"><span></span></span></div>
@@ -197,10 +203,6 @@
 	</td></tr></table>
 	<hr class="divider" />
 <!-- END answers -->
-
-<!-- IF REPLY --><div class="buttons"><div class="question-reply-icon"><a href="#" onclick="getElementById('answer').style.display=''; this.style.display='none'; return false;" title="{L_UFAQ_ADD_ANSWER}"><span></span>{L_UFAQ_ADD_ANSWER}</a></div></div>
-<div id="answer" style="display: none; padding-top: 4px;"><!-- INCLUDE ufaq_post.html --></div>
-<!-- ENDIF -->
 
 <tr><td class="cat" colspan="2">&nbsp;</td></tr>
 </table>
