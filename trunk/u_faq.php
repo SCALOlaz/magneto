@@ -47,9 +47,6 @@ $template->assign_block_vars('navlinks',array(
 
 if(!$mode)
 {
-
-$qu_user = $an_user = $an_time = $an_id = '';
-
 	$sql = 'SELECT *
 			FROM ' . Q_CATS_TABLE . '
 			ORDER BY cat_name ASC, cat_id ASC';
@@ -57,20 +54,23 @@ $qu_user = $an_user = $an_time = $an_id = '';
 
 			while($row = $db->sql_fetchrow($result))
 			{
-				    $sql_a = 'SELECT u.user_id, u.username, u.user_colour, q.*
+					$qu_user = $an_user = $an_time = $an_id = '';
+					
+				    $sql_a = 'SELECT u.username, u.user_colour, q.*
 							FROM ' . USERS_TABLE . ' u, ' . Q_QUESTION_TABLE . " q
 							WHERE q.q_parent = " . $row['cat_id'] . "
 							AND q.q_type = 1
-							AND u.user_id = q.q_user_id";
-							//ORDER BY q.q_id DESC LIMIT 1";
+							AND u.user_id = q.q_user_id
+							ORDER BY q.q_time DESC LIMIT 1";
 							$result_a = $db->sql_query($sql_a);
 
 							while($qa = $db->sql_fetchrow($result_a))
 							{
 							// Last Question Author
-								$qu_user = get_username_string('full', $qa['user_id'], $qa['username'], $qa['user_colour']);
+								$qu_user = get_username_string('full', $qa['q_user_id'], $qa['username'], $qa['user_colour']);
 								
-							// Last Answer for This Question data
+							// Last Answer data for This Question data
+							// Временно закомментируем, ибо не юзаем пока
 							//	$an_user = $qa['q_user_id'];	// answer
 							//	$an_time = $qa['q_time'];	// answer
 							//	$an_id = $qa['q_id'];		// answer
