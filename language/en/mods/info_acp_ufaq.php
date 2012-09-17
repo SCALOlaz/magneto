@@ -73,9 +73,10 @@ $lang = array_merge($lang, array(
 	'UFAQ_RATING'		=> 'Rating',
 	'UFAQ_RATE_Q'		=> 'I am also interested in this question',
 	'UFAQ_RATE_A'		=> 'This answer was helpful',
+	'UFAQ_RATE_A_MINUS'		=> 'This is a useless answer',
 	'UFAQ_RATED'		=> 'Thank you for your vote counted!<br /><br /><a href="%1$s">Back to the question</a><br /><br /><a href="%2$s">Back to index</a>',
 	'UFAQ_ALREDY_RATED'		=> 'You have already voted!',
-	'UFAQ_PM_SUBJECT'		=> 'Your question is received a new answer',
+	'UFAQ_PM_SUBJECT'		=> 'For Your question...',
 	'UFAQ_PM_MESSAGE'		=> 'You can read it by clicking on the link below.<br /><a href="%1$s">%2$s</a>',
 
 	'ACP_ADD_CAT'			=> 'Add section',
@@ -87,7 +88,7 @@ $lang = array_merge($lang, array(
 
 	// Версия 1.0.2
 	'UFAQ_CAT_IMG'		=> 'Section icon',
-	'UFAQ_CAT_IMG_EXPLAIN'		=> 'Enter the filename of the image section. The file must be in a folder <b>/images/ufaq/</b>',
+	'UFAQ_CAT_IMG_EXPLAIN'		=> 'Select the file of the image selection. The files must be in a folder <b>/images/ufaq/</b>',
 	'UFAQ_CAN_QUEST'		=> 'You <b>can</b> to ask questions',
 	'UFAQ_CANT_QUEST'		=> 'You <b>cant</b> to ask questions',
 	'UFAQ_CAN_ANSWER'		=> 'You <b>can</b> to answer questions',
@@ -100,10 +101,16 @@ $lang = array_merge($lang, array(
 	'UFAQ_SEARCH_NEW'		=> 'Unanswered Questions',
 	'UFAQ_WATCH'		=> 'Subscribe to answers',
 	'UFAQ_WATCH_EXP'		=> 'You will be notified by PM of each answer to this question',
-	'UFAQ_PM_SUBJ_WATCH'	=> 'A new answer to a question',
+	'UFAQ_PM_SUBJ_WATCH'	=> 'Answer...',
+	'UFAQ_UNWATCH'		=> 'Unsubscribe from theme',
 	'UFAQ_PM_MESSAGE_WATCH'		=> 'Added a new answer to the question to which you have subscribed.<br />You can read it by clicking on the link below.<br /><a href="%1$s">%2$s</a>',
 	'UFAQ_ALREDY_WATCH'		=> 'You are already subscribed to the answers to this question!',
+	'UFAQ_ALREDY_UNWATCH'		=> 'You are not subscribed to the answers',
 	'UFAQ_WATCH_SELF'	=> 'You are the author of this question, subscribe to enable editing question.',
 	'UFAQ_WATCHED'		=> 'You have successfully signed up for the answers to this question!<br /><br /><a href="%1$s">Back to question</a><br /><br /><a href="%2$s">Back to index</a>',
+	'UFAQ_UNWATCHED'		=> 'You have successfully unsubscribed from the answers to this question!<br /><br /><a href="%1$s">Back to question</a><br /><br /><a href="%2$s">Back to index</a>',
+	
+	'UFAQ_CAT_WATCH'		=> 'Subscribe to kategory',
+	'UFAQ_CAT_WATCH_EXP'	=> 'You will be notified by PM of each question',
 ));
 ?>

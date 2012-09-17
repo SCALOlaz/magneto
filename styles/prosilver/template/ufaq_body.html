@@ -65,7 +65,7 @@
 			<ul class="topiclist">
 				<li class="header">
 					<dl>
-						<dt>{L_UFAQ_SUBJ} {PARENT}</dt>
+						<dt><!-- IF CAT_IMG --><span class="ufaq"><img src="{CAT_IMG}"/></span>&nbsp;&raquo;&nbsp;<!-- ENDIF --><!-- IF PARENT -->{PARENT}<!-- ELSE -->{L_UFAQ_NAME}<!-- ENDIF --></dt>
 						<dd class="topics"><!-- IF U_SORT_RATING --><a href="{U_SORT_RATING}"><!-- ENDIF -->{L_UFAQ_RATING}<!-- IF U_SORT_RATING --></a><!-- ENDIF --></dd>
 						<dd class="views">{L_UFAQ_VIEWS}</dd>
 						<dd class="posts"><!-- IF U_SORT_ANSWERS --><a href="{U_SORT_ANSWERS}"><!-- ENDIF -->{L_UFAQ_ANSWERS}<!-- IF U_SORT_ANSWERS --></a><!-- ENDIF --></dd>
@@ -78,7 +78,7 @@
 		<li class="row<!-- IF q.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
 			<dl>
 				<dt><a class="topictitle" href="{q.U_QUESTION}">{q.SUBJ}</a><br /><span>{q.QUESTOR} &raquo; {q.TIME}</span></dt>
-				<dd class="topics">{q.RATING}</dd>
+				<dd class="topics"><b style="color: <!-- IF q.RATING > 0 -->green<!-- ELSEIF q.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF q.RATING > 0 -->+<!-- ENDIF -->{q.RATING}</b></dd>
 				<dd class="views">{q.VIEWS}</dd>				
 				<dd class="posts">{q.ANSWERS}</dd>
 				<dd class="lastpost" style="width: 22%;"><span><!-- IF q.ANSWERS == 0 -->{L_UFAQ_EMPTY_Q}<!-- ELSE -->{q.ANSWER_USER}
@@ -102,6 +102,19 @@
 		</div>
 	<!-- ENDIF -->
 
+	<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and ( S_CAN_WATCH_CAT or S_CAN_UNWATCH_CAT ) -->
+		<ul class="linklist">
+			<li class="lefttside">
+				<!-- IF S_CAN_WATCH_CAT -->
+					<a href="{S_CAN_WATCH_CAT}" title="{L_UFAQ_CAT_WATCH_EXP}"><img src="{T_THEME_PATH}/images/icon_subscribe.gif"/>{L_UFAQ_CAT_WATCH}</a>
+				<!-- ENDIF -->
+				<!-- IF S_CAN_UNWATCH_CAT -->
+					<a href="{S_CAN_UNWATCH_CAT}" title="{L_UFAQ_UNWATCH}"><img src="{T_THEME_PATH}/images/icon_unsubscribe.gif"/>{L_UFAQ_CAT_UNWATCH}</a>
+				<!-- ENDIF -->
+			</li>
+		</ul>
+	<!-- ENDIF -->
+	
 <!-- IF U_SORT_RATING --><!-- IF not S_IS_BOT and S_CAN_QUEST --><div class="buttons"><div class="question-new-icon"><a href="{U_ADD_QUEST}" title="{L_UFAQ_ADD_QUEST}"><span></span>{L_UFAQ_ADD_QUEST}</a></div></div><!-- ENDIF -->
 
 <div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div><!-- ENDIF -->
@@ -117,16 +130,41 @@
 					<!-- IF U_EDIT --><li class="edit-icon"><a href="{U_EDIT}" title="{L_UFAQ_EDIT}"><span>{L_UFAQ_EDIT}</span></a></li><!-- ENDIF -->
 					<!-- IF U_DEL --><li class="delete-icon"><a href="{U_DEL}" title="{L_DELETE}"><span>{L_DELETE}</span></a></li><!-- ENDIF -->
 				</ul><!-- ENDIF -->
-			<p class="author"><!-- IF S_IS_BOT -->{MINI_POST_IMG}<!-- ELSE --><a href="{U_LINK}">{MINI_POST_IMG}</a><!-- ENDIF --> {USER} &raquo; {TIME} &raquo; <b style="color: green;">{L_UFAQ_RATING}: {RATING}</b></p>
+			<p class="author"><!-- IF S_IS_BOT -->{MINI_POST_IMG}<!-- ELSE --><a href="{U_LINK}">{MINI_POST_IMG}</a><!-- ENDIF --> {USER} &raquo; {TIME}</p>
 			<hr/>
 			<div class="content">{Q_TEXT}</div>
-			<!-- IF U_RATE --><div class="signature">{L_UFAQ_RATE}: <a href="{U_RATE}"><b>{L_UFAQ_RATE_Q}</b></a></div><!-- ENDIF -->
+			
+			<div class="signature">
+				<ul class="linklist">
+					<li class="leftside"><span style="font-size: 16px"><b style="color: <!-- IF RATING > 0 -->green<!-- ELSEIF RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF RATING > 0 -->+<!-- ENDIF -->{RATING}</b></span></li>
+				<!-- IF not S_IS_BOT -->
+					<!-- IF U_RATE_PLUS and S_USER_LOGGED_IN -->			
+						<li class="leftside"><a href="{U_RATE_PLUS}" title="{L_UFAQ_RATE_A}"><img src="{T_THEME_PATH}/images/icon_rate_plus.gif"/></a></li>
+					<!-- ELSE -->
+						<li class="leftside"><img src="{T_THEME_PATH}/images/icon_rate_plus_off.gif"/></li>
+					<!-- ENDIF -->
+					<!-- IF U_RATE_MINUS and S_USER_LOGGED_IN -->	
+						<li class="leftside"><a href="{U_RATE_MINUS}" title="{L_UFAQ_RATE_A_MINUS}"><img src="{T_THEME_PATH}/images/icon_rate_minus.gif"/></a></li>
+					<!-- ELSE -->
+						<li class="leftside"><img src="{T_THEME_PATH}/images/icon_rate_minus_off.gif"/></li>
+					<!-- ENDIF -->
+				<!-- ENDIF -->			
+
+				<!-- IF not S_IS_BOT and S_USER_LOGGED_IN -->
+					<!-- IF U_WATCH -->
+						<li class="rightside"><a href="{U_WATCH}" title="{L_UFAQ_WATCH_EXP}"><img src="{T_THEME_PATH}/images/icon_subscribe.gif"/>{L_UFAQ_WATCH}</a></li>
+					<!-- ENDIF -->
+					<!-- IF U_UNWATCH -->
+						<li class="rightside"><a href="{U_UNWATCH}" title="{L_UFAQ_UNWATCH}"><img src="{T_THEME_PATH}/images/icon_unsubscribe.gif"/>{L_UFAQ_UNWATCH}</a></li>
+					<!-- ENDIF -->
+				<!-- ENDIF -->
+				</ul>
+			</div>
 		</div>
 			<dl class="postprofile" id="profile1">
 				<dt>
-					<!-- IF AVATAR --><a href="{U_USER}">{AVATAR}</a><!-- ENDIF --><br />
+					<!-- IF AVATAR --><a href="{U_USER}">{AVATAR}</a><br /><!-- ENDIF -->
 					<strong>{USER}</strong><br />
-					<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and U_WATCH --><a href="{U_WATCH}" title="{L_UFAQ_WATCH_EXP}">{L_UFAQ_WATCH}</a><br /><!-- ENDIF -->
 				</dt>
 			
 					<!-- IF RANK_TITLE or RANK_IMG --><dd>{RANK_TITLE}<!-- IF RANK_TITLE and RANK_IMG --><br /><!-- ENDIF -->{RANK_IMG}</dd><!-- ENDIF -->
@@ -166,56 +204,84 @@
 		<span class="corners-bottom"><span></span></span></div>
 	</div>
 
-<!-- IF not S_IS_BOT -->
-	<hr class="divider" />
-<br clear="all" />
-<!-- IF REPLY --><div class="buttons"><div class="question-reply-icon"><a href="#" onclick="getElementById('answer').style.display=''; this.style.display='none'; return false;" title="{L_UFAQ_ADD_ANSWER}"><span></span>{L_UFAQ_ADD_ANSWER}</a></div></div>
-<div id="answer" style="display: none; padding-top: 4px;"><!-- INCLUDE ufaq_post.html --></div>
-<!-- ENDIF -->
-<br clear="all" />
-<!-- ENDIF -->
+	<!-- IF ADS_5 -->
+	<div class="post bg3">
+		<div class="inner"><span class="corners-top"><span></span></span>
+			<div class="postbody" style="width: 100%;">
+				<h3>{L_ADVERTISEMENT}</h3>
+				<div style="font-size: 1.1em; margin: 0px auto; text-align: center;">
+					{ADS_5}
+				</div>
+			</div>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+	<!-- ENDIF -->
 
 <!-- IF .answers -->
-	<h2>{L_UFAQ_ANSWERS_V}:</h2>
+	<h2>{L_UFAQ_ANSWERS_V} ( ):</h2>
 <!-- BEGIN answers -->
 	<table><tr width="98%"><td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="99%">
 	<div id="p1" class="post <!-- IF answers.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
 		<div class="inner"><span class="corners-top"><span></span></span>
 		<div class="postbody">
-				<!-- IF not S_IS_BOT and S_USER_LOGGED_IN -->
 				<ul class="profile-icons">
+					<li class="rightside"><b style="color: <!-- IF answers.RATING > 0 -->green<!-- ELSEIF answers.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF answers.RATING > 0 -->+<!-- ENDIF -->{answers.RATING}</b></li>
+				
+				<!-- IF not S_IS_BOT -->
+					<!-- IF answers.U_RATE_PLUS and S_USER_LOGGED_IN -->			
+						<li class="rightside"><a href="{answers.U_RATE_PLUS}" title="{L_UFAQ_RATE_PLUS}"><img src="{T_THEME_PATH}/images/icon_rate_plus.gif"/></a></li>
+					<!-- ELSE -->
+						<li class="rightside"><img src="{T_THEME_PATH}/images/icon_rate_plus_off.gif"/></li>
+					<!-- ENDIF -->
+					<!-- IF answers.U_RATE_MINUS and S_USER_LOGGED_IN -->	
+						<li class="rightside"><a href="{answers.U_RATE_MINUS}" title="{L_UFAQ_RATE_MINUS}"><img src="{T_THEME_PATH}/images/icon_rate_minus.gif"/></a></li>
+					<!-- ELSE -->
+						<li class="rightside"><img src="{T_THEME_PATH}/images/icon_rate_minus_off.gif"/></li>
+					<!-- ENDIF -->
+				<!-- ENDIF -->
+				
+				<!-- IF not S_IS_BOT and S_USER_LOGGED_IN -->
 					<!-- IF answers.U_EDIT --><li class="edit-icon"><a href="{answers.U_EDIT}" title="{L_UFAQ_EDIT}"><span>{L_UFAQ_EDIT}</span></a></li><!-- ENDIF -->
 					<!-- IF answers.U_DEL --><li class="delete-icon"><a href="{answers.U_DEL}" title="{L_DELETE}"><span>{L_DELETE}</span></a></li><!-- ENDIF -->
-				</ul><!-- ENDIF -->
-			<p class="author"><!-- IF S_IS_BOT -->{answers.MINI_POST_IMG}<!-- ELSE --><a name="{answers.ID}" href="{answers.U_LINK}#{answers.ID}">{answers.MINI_POST_IMG}</a><!-- ENDIF --> {answers.USER} &raquo; {answers.TIME} &raquo; <b style="color: green;">{L_UFAQ_RATING}: {answers.RATING}</b></p>
+				<!-- ENDIF -->					
+				</ul>
+
+			<p class="author">
+			<!-- IF S_IS_BOT -->{answers.MINI_POST_IMG}<!-- ELSE --><a name="{answers.ID}" href="{answers.U_LINK}#{answers.ID}">{answers.MINI_POST_IMG}</a><!-- ENDIF -->
+			<!-- IF answers.AVATAR_ON --><a href="{answers.U_USER}">{answers.AVATAR}</a> <!-- ENDIF -->
+			{answers.USER} &raquo; {answers.TIME}</p>
 			<hr/>
+
 			<div class="content">{answers.TEXT}</div>
-			<!-- IF answers.U_RATE --><div class="signature">{L_UFAQ_RATE}: <a href="{answers.U_RATE}"><b>{L_UFAQ_RATE_A}</b></a></div><!-- ENDIF -->
+
 		</div>
-			<dl class="postprofile" id="profile1">
-			<dt>
-				<!-- IF answers.AVATAR_ON --><a href="{answers.U_USER}">{answers.AVATAR}</a><br /><!-- ENDIF -->
-				{answers.USER}				
-			</dt>
-			</dl>
 		<span class="corners-bottom"><span></span></span></div>
 	</div>
 	</td></tr></table>
 	<hr class="divider" />
 <!-- END answers -->
 
-<tr><td class="cat" colspan="2">&nbsp;</td></tr>
-</table>
-<!-- ELSE -->
-	<div class="rules">
-		<div class="inner"><span class="corners-top"><span></span></span>
-		{L_UFAQ_EMPTY_Q}
-		<span class="corners-bottom"><span></span></span></div>
-	</div>
-<!-- ENDIF -->
-<div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div>
+	<tr><td class="cat" colspan="2">&nbsp;</td></tr>
+	</table>
+	<!-- ELSE -->
+		<div class="rules">
+			<div class="inner"><span class="corners-top"><span></span></span>
+			{L_UFAQ_EMPTY_Q}
+			<span class="corners-bottom"><span></span></span></div>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF not S_IS_BOT -->
+		<br clear="all" />
+		<!-- IF REPLY --><div class="buttons"><div class="question-reply-icon"><a href="#" onclick="getElementById('answer').style.display=''; this.style.display='none'; return false;" title="{L_UFAQ_ADD_ANSWER}"><span></span>{L_UFAQ_ADD_ANSWER}</a></div></div>
+		<div id="answer" style="display: none; padding-top: 4px;"><!-- INCLUDE ufaq_post.html --></div>
+		<!-- ENDIF -->
+		<br clear="all" />
+	<!-- ENDIF -->
+
+	<div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div>
 <!-- ELSEIF ADD_QUEST -->
-<!-- INCLUDE ufaq_post.html -->
+	<!-- INCLUDE ufaq_post.html -->
 <!-- ELSE -->
 	<div class="rules">
 		<div class="inner"><span class="corners-top"><span></span></span>
