@@ -152,6 +152,22 @@ $versions = array(
 			array($table_prefix . 'ufaq_questions', 'q_users_watch', array('TEXT', '')),
 		),
 	),
+
+    // Version 1.0.3.1
+	'1.0.31' => array(
+
+		'table_column_add' => array(
+			array($table_prefix . 'ufaq_questions', 'q_raters_minus', array('TEXT', '')),
+		),
+	),	
+
+	// Version 1.0.3.2
+	'1.0.32' => array(
+
+		'table_column_add' => array(
+			array($table_prefix . 'ufaq_cats', 'cat_users_watch', array('TEXT', '')),
+		),
+	),
 );
 
 // Include the UMIL Auto file, it handles the rest
