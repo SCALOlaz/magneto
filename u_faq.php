@@ -375,16 +375,20 @@ elseif($mode == 'q' && $id)
 			AND u.user_id = q.q_user_id
 			ORDER BY q.q_type DESC, q.q_time ASC";		// SORTING - q.q_rating DESC,  (DESC)
 			$result = $db->sql_query($sql);
+			
+			$result_count = mysql_num_rows($result);
 			while($row = $db->sql_fetchrow($result))
 			{
 				if($row['q_type'] == '1')
-				{					$q = $row;				}
+				{					$q = $row;
+					$result_count = $result_count - 1;				}
 				else
 				{					$raters_pl = explode(",",$row['q_raters']);	// Raters PLUS
 					$raters_mi = explode(",",$row['q_raters_minus']);	// Raters MINUS
 
 					$template->assign_block_vars('answers',array(
-						'AVATAR'	=> ($user->optionget('viewavatars')) ? get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '',
+					//	'AVATAR'	=> ($user->optionget('viewavatars')) ? get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '',
+						'AVATAR'	=> ($user->optionget('viewavatars')) ? get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 20, 20) : '',
 						'U_USER'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u='.$row['q_user_id']),
 						'RATING'	=> $row['q_rating'],
 						'ID'	=> $row['q_id'],
@@ -459,7 +463,7 @@ elseif($mode == 'q' && $id)
 	'REPLY'		=> /*$user->data['user_id'] == ANONYMOUS ||*/ $user->data['is_bot'] || !$auth->acl_get('u_add_answers') ? '' : $user->img('button_question_reply', 'UFAQ_ADD_ANSWER'),
 	'U_EDIT'	=> ($auth->acl_get('u_add_question') && $user->data['user_id'] == $q['q_user_id']) || ($auth->acl_get('m_') && $auth->acl_get('u_add_answers')) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=edit&amp;id='.$q['q_id']) : '',
 	'U_DEL'	=> ($auth->acl_get('u_add_answers') && $user->data['user_id'] == $q['q_user_id']) || ($auth->acl_get('m_') && $auth->acl_get('u_add_answers')) || $auth->acl_get('a_') ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=del&amp;id='.$q['q_id']) : '',
-
+	'COUNT' => $result_count,
 	'U_RATE_PLUS'	=> $user_id != $q['q_user_id'] && !in_array($user_id, explode(",",$q['q_raters'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=rate&amp;id='.$q['q_id']) : '',
 	'U_RATE_MINUS'	=> $user_id != $q['q_user_id'] && !in_array($user_id, explode(",",$q['q_raters_minus'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=unrate&amp;id='.$q['q_id']) : '',
 
@@ -601,17 +605,18 @@ elseif($mode == 'add_a' && $id && !$user->data['is_bot'])
 		WHERE q_id ='.$id;
 	$db->sql_query($sql);
 
-	// Мессаги подписчикам
-	if($row['q_users_watch'])
-	{
 		$sql = 'SELECT q_id
 			FROM ' . Q_QUESTION_TABLE . '
 			WHERE q_time = '.$time;
 			$result = $db->sql_query($sql);
 			$q = $db->sql_fetchrow($result);
 
-			include($phpbb_root_path . 'includes/functions_privmsgs.' . $phpEx);
+			$ids = $q['q_id'] ? '#' . $q['q_id'] : '';	
 
+	// Мессаги подписчикам
+	if($row['q_users_watch'])
+	{
+			include($phpbb_root_path . 'includes/functions_privmsgs.' . $phpEx);
 			$send_list = $row['q_users_watch'] ? explode(",", $row['q_users_watch']) : '';
 			foreach ($send_list as $i => $watcher_id)
 	        {
@@ -638,8 +643,8 @@ elseif($mode == 'add_a' && $id && !$user->data['is_bot'])
 			}
 
 	}
-	// сабж
-	$meta_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=q&amp;id='.$id);
+
+	$meta_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=q&amp;id='.$id.$ids);
 	$index_u = append_sid("{$phpbb_root_path}index.$phpEx");
 	meta_refresh(2, $meta_url);
 	trigger_error(sprintf($user->lang['UFAQ_ANSWER_ADDED'], $meta_url, $index_u));
