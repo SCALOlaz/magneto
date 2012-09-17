@@ -149,15 +149,6 @@
 						<li class="leftside"><img src="{T_THEME_PATH}/images/icon_rate_minus_off.gif"/></li>
 					<!-- ENDIF -->
 				<!-- ENDIF -->			
-
-				<!-- IF not S_IS_BOT and S_USER_LOGGED_IN -->
-					<!-- IF U_WATCH -->
-						<li class="rightside"><a href="{U_WATCH}" title="{L_UFAQ_WATCH_EXP}"><img src="{T_THEME_PATH}/images/icon_subscribe.gif"/>{L_UFAQ_WATCH}</a></li>
-					<!-- ENDIF -->
-					<!-- IF U_UNWATCH -->
-						<li class="rightside"><a href="{U_UNWATCH}" title="{L_UFAQ_UNWATCH}"><img src="{T_THEME_PATH}/images/icon_unsubscribe.gif"/>{L_UFAQ_UNWATCH}</a></li>
-					<!-- ENDIF -->
-				<!-- ENDIF -->
 				</ul>
 			</div>
 		</div>
@@ -217,13 +208,26 @@
 	</div>
 	<!-- ENDIF -->
 
+	<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and ( U_WATCH or U_UNWATCH ) -->
+		<ul class="linklist">
+			<li class="lefttside">
+				<!-- IF U_WATCH -->
+					<a href="{U_WATCH}" title="{L_UFAQ_WATCH_EXP}"><img src="{T_THEME_PATH}/images/icon_subscribe.gif"/>{L_UFAQ_WATCH}</a>
+				<!-- ENDIF -->
+				<!-- IF U_UNWATCH -->
+					<a href="{U_UNWATCH}" title="{L_UFAQ_UNWATCH}"><img src="{T_THEME_PATH}/images/icon_unsubscribe.gif"/>{L_UFAQ_UNWATCH}</a>
+				<!-- ENDIF -->
+			</li>
+		</ul>
+	<!-- ENDIF -->
+				
 <!-- IF .answers -->
-	<h2>{L_UFAQ_ANSWERS_V} ( ):</h2>
+	<h2>{L_UFAQ_ANSWERS_V} ( {COUNT} ):</h2>
 <!-- BEGIN answers -->
 	<table><tr width="98%"><td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="99%">
 	<div id="p1" class="post <!-- IF answers.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
 		<div class="inner"><span class="corners-top"><span></span></span>
-		<div class="postbody">
+		<div class="ufaqbody">
 				<ul class="profile-icons">
 					<li class="rightside"><b style="color: <!-- IF answers.RATING > 0 -->green<!-- ELSEIF answers.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF answers.RATING > 0 -->+<!-- ENDIF -->{answers.RATING}</b></li>
 				
@@ -248,7 +252,7 @@
 
 			<p class="author">
 			<!-- IF S_IS_BOT -->{answers.MINI_POST_IMG}<!-- ELSE --><a name="{answers.ID}" href="{answers.U_LINK}#{answers.ID}">{answers.MINI_POST_IMG}</a><!-- ENDIF -->
-			<!-- IF answers.AVATAR_ON --><a href="{answers.U_USER}">{answers.AVATAR}</a> <!-- ENDIF -->
+			<!-- IF answers.AVATAR --><a href="{answers.U_USER}"><span class="ufaq2">{answers.AVATAR}</span></a> <!-- ENDIF -->
 			{answers.USER} &raquo; {answers.TIME}</p>
 			<hr/>
 
@@ -263,13 +267,13 @@
 
 	<tr><td class="cat" colspan="2">&nbsp;</td></tr>
 	</table>
-	<!-- ELSE -->
+<!-- ELSE -->
 		<div class="rules">
 			<div class="inner"><span class="corners-top"><span></span></span>
 			{L_UFAQ_EMPTY_Q}
 			<span class="corners-bottom"><span></span></span></div>
 		</div>
-	<!-- ENDIF -->
+<!-- ENDIF -->
 
 	<!-- IF not S_IS_BOT -->
 		<br clear="all" />

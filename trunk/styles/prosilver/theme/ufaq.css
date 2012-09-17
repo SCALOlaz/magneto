@@ -6,9 +6,70 @@ span.ufaq img {
 	margin-top: -1.30em;
 	margin-bottom: -.58em;
 	}
+span.ufaq2 img {
+	border: 0;
+	margin-top: -0.35em;
+	margin-bottom: -0.50em;
+	}
 #vcentred span.ufaq {
 	vertical-align: middle;
 	display: inline-block;	
 	padding-left: -1px;
 	padding-right: 3px;
 	}
+
+.ufaqbody {
+	color: #333333;
+}
+
+.ufaqbody ul.profile-icons {
+	float: right;
+	width: auto;
+	padding: 0;
+}
+
+.ufaqbody ul.profile-icons li {
+	margin: 0 3px 3px 0;
+}
+
+.rtl .ufaqbody {
+	float: right;
+}
+
+.ufaqbody {
+	padding: 0;
+	line-height: 1.48em;
+	color: #333333;
+	width: 100%;
+	float: left;
+	clear: both;
+}
+
+.ufaqbody .ignore {
+	font-size: 1.1em;
+}
+
+.ufaqbody h3.first {
+	/* The first post on the page uses this */
+	font-size: 1.7em;
+}
+
+.ufaqbody h3 {
+	/* Postbody requires a different h3 format - so change it here */
+	font-size: 1.5em;
+	padding: 0px 0 0 0;
+	margin: 0 0 0.3em 0 !important;
+	text-transform: none;
+	border: none;
+	font-family: "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
+	line-height: 100%;
+}
+
+.ufaqbody h3 img {
+	/* Also see tweaks.css */
+	vertical-align: bottom;
+}
+
+.ufaqbody .content {
+	font-size: 1.3em;
+}
