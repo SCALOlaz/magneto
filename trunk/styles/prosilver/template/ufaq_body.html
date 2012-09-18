@@ -65,7 +65,7 @@
 			<ul class="topiclist">
 				<li class="header">
 					<dl>
-						<dt><!-- IF CAT_IMG --><span class="ufaq"><img src="{CAT_IMG}"/></span>&nbsp;&raquo;&nbsp;<!-- ENDIF --><!-- IF PARENT -->{PARENT}<!-- ELSE -->{L_UFAQ_NAME}<!-- ENDIF --></dt>
+						<dt><!-- IF CAT_IMG --><span class="ufaq"><img src="{CAT_IMG}"/></span>&nbsp;&raquo;&nbsp;<!-- ENDIF --><!-- IF PARENT -->{PARENT}<!-- ELSE --><!-- IF SEARCH -->{L_UFAQ_CAT} &raquo; <!-- ENDIF -->{L_UFAQ_NAME}<!-- ENDIF --></dt>
 						<dd class="topics"><!-- IF U_SORT_RATING --><a href="{U_SORT_RATING}"><!-- ENDIF -->{L_UFAQ_RATING}<!-- IF U_SORT_RATING --></a><!-- ENDIF --></dd>
 						<dd class="views">{L_UFAQ_VIEWS}</dd>
 						<dd class="posts"><!-- IF U_SORT_ANSWERS --><a href="{U_SORT_ANSWERS}"><!-- ENDIF -->{L_UFAQ_ANSWERS}<!-- IF U_SORT_ANSWERS --></a><!-- ENDIF --></dd>
@@ -77,7 +77,7 @@
 <!-- BEGIN q -->
 		<li class="row<!-- IF q.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
 			<dl>
-				<dt><a class="topictitle" href="{q.U_QUESTION}">{q.SUBJ}</a><br /><span>{q.QUESTOR} &raquo; {q.TIME}</span></dt>
+				<dt><!-- IF SEARCH --><a class="topictitle" href="{q.U_CAT_URL}">{q.PARENT}</a> &raquo; <!-- ENDIF --><a class="topictitle" href="{q.U_QUESTION}">{q.SUBJ}</a><br /><span>{q.QUESTOR} &raquo; {q.TIME}</span></dt>
 				<dd class="topics"><b style="color: <!-- IF q.RATING > 0 -->green<!-- ELSEIF q.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF q.RATING > 0 -->+<!-- ENDIF -->{q.RATING}</b></dd>
 				<dd class="views">{q.VIEWS}</dd>				
 				<dd class="posts">{q.ANSWERS}</dd>
@@ -106,10 +106,10 @@
 		<ul class="linklist">
 			<li class="lefttside">
 				<!-- IF S_CAN_WATCH_CAT -->
-					<a href="{S_CAN_WATCH_CAT}" title="{L_UFAQ_CAT_WATCH_EXP}"><img src="{T_THEME_PATH}/images/icon_subscribe.gif"/>{L_UFAQ_CAT_WATCH}</a>
+					<a href="{S_CAN_WATCH_CAT}" title="{L_UFAQ_CAT_WATCH_EXP}"><img src="{T_THEME_PATH}/images/icon_subscribe.gif"/>{L_UFAQ_CAT_WATCH}<!-- IF PARENT --> "{PARENT}"<!-- ENDIF --></a>
 				<!-- ENDIF -->
 				<!-- IF S_CAN_UNWATCH_CAT -->
-					<a href="{S_CAN_UNWATCH_CAT}" title="{L_UFAQ_UNWATCH}"><img src="{T_THEME_PATH}/images/icon_unsubscribe.gif"/>{L_UFAQ_CAT_UNWATCH}</a>
+					<a href="{S_CAN_UNWATCH_CAT}" title="{L_UFAQ_CAT_UNWATCH_EXP}"><img src="{T_THEME_PATH}/images/icon_unsubscribe.gif"/>{L_UFAQ_CAT_UNWATCH}</a>
 				<!-- ENDIF -->
 			</li>
 		</ul>
