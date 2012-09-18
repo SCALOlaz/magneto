@@ -112,5 +112,14 @@ $lang = array_merge($lang, array(
 	
 	'UFAQ_CAT_WATCH'		=> 'Subscribe to kategory',
 	'UFAQ_CAT_WATCH_EXP'	=> 'You will be notified by PM of each question',
+	'UFAQ_CAT_UNWATCH'		=> 'Отписаться от категории',
+	'UFAQ_CAT_UNWATCH_EXP'		=> 'Уведомление о новых вопросах будет прекращено',
+	'UFAQ_CAT_WATCHED'		=> 'Вы успешно подписались на новые вопросы в этой категории.<br /><br /><a href="%1$s">Вернуться к списку категорий</a><br /><br /><a href="%2$s">Перейти на главную страницу форума</a>',
+	'UFAQ_CAT_UNWATCHED'		=> 'Вы успешно отписались от этой категории.<br /><br /><a href="%1$s">Вернуться к списку категорий</a><br /><br /><a href="%2$s">Перейти на главную страницу форума</a>',
+	'UFAQ_CAT_ALREDY_WATCH'		=> 'Вы уже подписаны на эту категорию',
+	'UFAQ_CAT_ALREDY_UNWATCH'		=> 'Вы ещё не подписывались на категорию',
+	'UFAQ_CAT_PM_SUBJ_WATCH'	=> 'Вопросы...',
+	'UFAQ_CAT_PM_MESSAGE_WATCH'		=> 'Добавлен новый вопрос в категории, на которую вы подписались.<br />Вы можете посмотреть его перейдя по ссылке ниже.<br /><a href="%1$s">%2$s</a>',
+
 ));
 ?>

@@ -322,7 +322,18 @@ $an_user = $an_time = $an_id = '';
 						$an_id = $q['q_id'];
 					}		
 					$db->sql_freeresult($result_ca);
-							
+
+					$sql_se = 'SELECT cat_id, cat_name, cat_img
+							FROM ' . Q_CATS_TABLE . '
+							WHERE cat_id = "' . $row['q_parent'] . '"';
+							$result_se = $db->sql_query($sql_se);
+							$row_se = $db->sql_fetchrow($result_se);
+							$db->sql_freeresult($result_se);
+					$cat_name = $row_se['cat_name'] ? $row_se['cat_name'] : '';
+					//$cat_count = $row['cat_count'];
+					$cat_img = $row_se['cat_img'] ? $phpbb_root_path.'images/ufaq/'.$row_se['cat_img'] : '';
+					$cat_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=cat&amp;id='.$row_se['cat_id']);
+					
 				$template->assign_block_vars('q',array(
 					'SUBJ'		=> $row['q_subj'],
 					'ANSWERS'	=> $row['q_answers'],
@@ -335,6 +346,10 @@ $an_user = $an_time = $an_id = '';
 					'ANSWER_ID'	=> $an_id,
 					'ANSWER_USER' => get_username_string('full', $an_user, $row['username'], $row['user_colour']),
 					'ANSWER_TIME' => $user->format_date($an_time),
+					
+					'CAT_IMG'		=> $cat_img,
+					'PARENT'	=> $cat_name,
+					'U_CAT_URL'	=> $cat_url,
 				)
 				);
 			}
@@ -342,7 +357,6 @@ $an_user = $an_time = $an_id = '';
 
 	$template->assign_vars(array(
 	'S_LIST_Q'	=> true,
-	'PARENT'	=> $row['cat_name'],
 	'ADD_QUEST_IMG' 			=> $user->img('button_question_new', 'UFAQ_ADD_QUEST'),
 	'S_CAN_QUEST'		=> $auth->acl_get('u_add_question') /*&& $user->data['user_id'] != ANONYMOUS*/ ? $user->lang['UFAQ_CAN_QUEST'] : $user->lang['UFAQ_CANT_QUEST'],
 	'S_CAN_ANSWER'		=> $auth->acl_get('u_add_answers') /*&& $user->data['user_id'] != ANONYMOUS*/ ? $user->lang['UFAQ_CAN_ANSWER'] : $user->lang['UFAQ_CANT_ANSWER'],
@@ -353,7 +367,8 @@ $an_user = $an_time = $an_id = '';
 	'S_SEARCHBOX_ACTION'	=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=search&amp;id='.$id),
 	'HIDDEN'	=>	$string,
 	'MINI_POST_IMG'			=> $user->img('icon_post_target', 'POST'),
-	'CAT_IMG'		=> $row['cat_img'],
+	
+	'SEARCH' 	=> true,
 	)
 	);
 
@@ -717,7 +732,7 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'])
 	    'last_question_name' => $subj,
 	    'last_question_time' => $time,
 
-		'q_users_watch'	=> 0,
+	//	'cat_users_watch'	=> 0,
 	);
 
 	$sql = 'UPDATE ' . Q_CATS_TABLE . '
@@ -1147,6 +1162,85 @@ elseif( ($mode == 'watch' || $mode == 'unwatch') && $id && !$user->data['is_bot'
 		else
 		{
 			trigger_error(sprintf($user->lang['UFAQ_UNWATCHED'], $meta_url, $index_u));
+		}
+	}
+	else
+	{
+		trigger_error($user->lang['NO_MODE']);
+	}
+}
+elseif( ($mode == 'catw' || $mode == 'catunw') && $id && !$user->data['is_bot'])
+{
+	$sql = 'SELECT cat_users_watch
+			FROM ' . Q_CATS_TABLE . '
+			WHERE cat_id = '.$id;
+			$result = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+
+	if($row)
+	{
+		$watcher = '';
+		$watcher = explode(",",$row['cat_users_watch']);
+		if ( $mode == 'catw' )
+		{
+			if(in_array($user_id, $watcher))
+			{
+				$meta_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=cat&amp;id='.$id);
+				meta_refresh(2, $meta_url);
+				trigger_error($user->lang['UFAQ_CAT_ALREDY_WATCH']);
+			}
+			else
+			{
+				$watcher[] = $user_id;
+			}
+		}
+		if ( $mode == 'catunw' )
+		{
+			if(!in_array($user_id, $watcher))
+			{
+				$meta_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=cat&amp;id='.$id);
+				meta_refresh(2, $meta_url);
+				trigger_error($user->lang['UFAQ_CAT_ALREDY_UNWATCH']);
+			}		
+			else
+			{
+				if (count($watcher) == 1 && in_array($user_id, $watcher) )	// Костыль
+				{
+					$watcher = '';
+					$watcher[] = '0';
+				}
+				else
+				{				
+					$key = array_search($user_id, $watcher);
+						if ($key != false)
+						{
+							unset($watcher[$key]);
+						}
+					$watcher = array_values($watcher);
+				}
+			}
+		}
+		$watcher = implode(",",$watcher);
+		$sql_arr = array(
+		    'cat_users_watch' => $watcher,
+		);
+
+		$sql = 'UPDATE ' . Q_CATS_TABLE . '
+				SET ' . $db->sql_build_array('UPDATE', $sql_arr) . "
+				WHERE cat_id = $id";
+		$db->sql_query($sql);
+
+		$meta_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=cat&amp;id='.$id);
+		$index_u = append_sid("{$phpbb_root_path}index.$phpEx");
+		meta_refresh(3, $meta_url);
+		if ($mode == 'catw')
+		{
+			trigger_error(sprintf($user->lang['UFAQ_CAT_WATCHED'], $meta_url, $index_u));
+		}
+		else
+		{
+			trigger_error(sprintf($user->lang['UFAQ_CAT_UNWATCHED'], $meta_url, $index_u));
 		}
 	}
 	else
