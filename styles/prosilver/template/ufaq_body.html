@@ -1,6 +1,8 @@
 <!-- INCLUDE overall_header.html -->
 <!-- IF U_MCP --><p>[<!-- IF U_ACP -->&nbsp;<a href="{U_ACP}" target="_blank">{L_ACP}</a>,&nbsp;<!-- ENDIF -->&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ENDIF -->
-	
+
+<!-- IF UFAQ_ENABLE -->
+
 <!-- IF S_INDEX -->
 <br clear="all" />
 		<ul class="linklist">
@@ -66,7 +68,7 @@
 				<li class="header">
 					<dl>
 						<dt><!-- IF CAT_IMG --><span class="ufaq"><img src="{CAT_IMG}"/></span>&nbsp;&raquo;&nbsp;<!-- ENDIF --><!-- IF PARENT -->{PARENT}<!-- ELSE --><!-- IF SEARCH -->{L_UFAQ_CAT} &raquo; <!-- ENDIF -->{L_UFAQ_NAME}<!-- ENDIF --></dt>
-						<dd class="topics"><!-- IF U_SORT_RATING --><a href="{U_SORT_RATING}"><!-- ENDIF -->{L_UFAQ_RATING}<!-- IF U_SORT_RATING --></a><!-- ENDIF --></dd>
+						<!-- IF RATING_USE --><dd class="topics"><!-- IF U_SORT_RATING --><a href="{U_SORT_RATING}"><!-- ENDIF -->{L_UFAQ_RATING}<!-- IF U_SORT_RATING --></a><!-- ENDIF --></dd><!-- ENDIF -->
 						<dd class="views">{L_UFAQ_VIEWS}</dd>
 						<dd class="posts"><!-- IF U_SORT_ANSWERS --><a href="{U_SORT_ANSWERS}"><!-- ENDIF -->{L_UFAQ_ANSWERS}<!-- IF U_SORT_ANSWERS --></a><!-- ENDIF --></dd>
 						<dd class="lastpost" style="width: 22%;"><span>{L_UFAQ_LAST_A}</span></dd>
@@ -78,7 +80,7 @@
 		<li class="row<!-- IF q.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
 			<dl>
 				<dt><!-- IF SEARCH --><a class="topictitle" href="{q.U_CAT_URL}">{q.PARENT}</a> &raquo; <!-- ENDIF --><a class="topictitle" href="{q.U_QUESTION}">{q.SUBJ}</a><br /><span>{q.QUESTOR} &raquo; {q.TIME}</span></dt>
-				<dd class="topics"><b style="color: <!-- IF q.RATING > 0 -->green<!-- ELSEIF q.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF q.RATING > 0 -->+<!-- ENDIF -->{q.RATING}</b></dd>
+				<!-- IF RATING_USE --><dd class="topics"><b style="color: <!-- IF q.RATING > 0 -->green<!-- ELSEIF q.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF q.RATING > 0 -->+<!-- ENDIF -->{q.RATING}</b></dd><!-- ENDIF -->
 				<dd class="views">{q.VIEWS}</dd>				
 				<dd class="posts">{q.ANSWERS}</dd>
 				<dd class="lastpost" style="width: 22%;"><span><!-- IF q.ANSWERS == 0 -->{L_UFAQ_EMPTY_Q}<!-- ELSE -->{q.ANSWER_USER}
@@ -136,8 +138,8 @@
 			
 			<div class="signature">
 				<ul class="linklist">
+				<!-- IF not S_IS_BOT and RATING_USE -->				
 					<li class="leftside"><span style="font-size: 16px"><b style="color: <!-- IF RATING > 0 -->green<!-- ELSEIF RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF RATING > 0 -->+<!-- ENDIF -->{RATING}</b></span></li>
-				<!-- IF not S_IS_BOT -->
 					<!-- IF U_RATE_PLUS and S_USER_LOGGED_IN -->			
 						<li class="leftside"><a href="{U_RATE_PLUS}" title="{L_UFAQ_RATE_A}"><img src="{T_THEME_PATH}/images/icon_rate_plus.gif"/></a></li>
 					<!-- ELSE -->
@@ -229,9 +231,8 @@
 		<div class="inner"><span class="corners-top"><span></span></span>
 		<div class="ufaqbody">
 				<ul class="profile-icons">
+				<!-- IF not S_IS_BOT and RATING_USE -->				
 					<li class="rightside"><b style="color: <!-- IF answers.RATING > 0 -->green<!-- ELSEIF answers.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF answers.RATING > 0 -->+<!-- ENDIF -->{answers.RATING}</b></li>
-				
-				<!-- IF not S_IS_BOT -->
 					<!-- IF answers.U_RATE_PLUS and S_USER_LOGGED_IN -->			
 						<li class="rightside"><a href="{answers.U_RATE_PLUS}" title="{L_UFAQ_RATE_PLUS}"><img src="{T_THEME_PATH}/images/icon_rate_plus.gif"/></a></li>
 					<!-- ELSE -->
@@ -294,6 +295,13 @@
 	</div>
 <!-- ENDIF -->
 
+<!-- ELSE -->
+	<div class="rules">
+		<div class="inner"><span class="corners-top"><span></span></span>
+		<center>{L_UFAQ}<br /><br />{L_UFAQ_DISABLED}</center>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+<!-- ENDIF -->
 <br clear="all" />
 <div class="copyright">Powered by <a href="http://www.phpbbstyle.ru/">phpBBstyle</a></div>
 

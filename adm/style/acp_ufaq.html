@@ -29,7 +29,7 @@
 	</dl>
 	<p class="submit-buttons">
 		<input type="hidden" name="action" value="save" />
-
+		<input type="hidden" name="cat_users_watch" type="text" id="cat_users_watch" value="{CAT_USERS_WATCH}" />
 		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
 		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
 		{S_FORM_TOKEN}
@@ -39,8 +39,56 @@
 
 <!-- ELSE -->
 
-	<h1>{L_UFAQ_CATS}</h1>
+	<h1>{L_UFAQ} &raquo; {L_UFAQ_SETTINGS}</h1>
 
+<form id="acp_ufaq" method="post" action="{U_ACTION}">
+	<fieldset>
+		<legend>{L_UFAQ_SELECT}</legend>	
+		<dl>
+			<dt><label>{L_UFAQ_VERSION}</label></dt>
+			<dd><strong>{S_UFAQ_VERSION}</strong></dd>
+		</dl>
+		<dl>
+			<dt><label for="ufaq_enable">{L_UFAQ_STATUS}</label></dt>
+			<dd><input type="radio" class="radio" name="ufaq_enable" value="1" <!-- IF UFAQ_ENABLE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="ufaq_enable" value="0" <!-- IF not UFAQ_ENABLE -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="ufaq_use_rating">{L_UFAQ_USE_RATING}</label></dt>
+			<dd><input type="radio" class="radio" name="ufaq_use_rating" value="1" <!-- IF UFAQ_USE_RATING -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="ufaq_use_rating" value="0" <!-- IF not UFAQ_USE_RATING -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="sufaq_use_watching">{L_UFAQ_USE_WATCHING}</label></dt>
+			<dd><input type="radio" class="radio" name="ufaq_use_watching" value="1" <!-- IF UFAQ_USE_WATCHING -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="ufaq_use_watching" value="0" <!-- IF not UFAQ_USE_WATCHING -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>{L_UFAQ_USERS_SELECT}</legend>
+		<dl>
+			<dt><label for="ufaq_avatar_questors">{L_UFAQ_USE_AVATAR_QUESTOR}</label></dt>
+			<dd><input type="radio" class="radio" name="ufaq_avatar_questors" value="1" <!-- IF UFAQ_USE_AVATAR_QUESTOR -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="ufaq_avatar_questors" value="0" <!-- IF not UFAQ_USE_AVATAR_QUESTOR -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="ufaq_avatar_answers">{L_UFAQ_USE_AVATAR_ANSWER}</label></dt>
+			<dd><input type="radio" class="radio" name="ufaq_avatar_answers" value="1" <!-- IF UFAQ_USE_AVATAR_ANSWER -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="ufaq_avatar_answers" value="0" <!-- IF not UFAQ_USE_AVATAR_ANSWER -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<p class="submit-buttons">
+			<input name="action" type="hidden" value="submit">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		</p>
+	</fieldset>
+	{S_FORM_TOKEN}
+</form>
+
+	<h1>{L_UFAQ_CATS_LIST}</h1>
+	
 	<form id="acp_ufaq" method="post" action="{U_ACTION}">
 	<fieldset class="tabulated">
 	<table cellspacing="1">

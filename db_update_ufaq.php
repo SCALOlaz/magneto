@@ -168,6 +168,20 @@ $versions = array(
 			array($table_prefix . 'ufaq_cats', 'cat_users_watch', array('TEXT', '')),
 		),
 	),
+
+	'1.0.45'	=> array(
+      // Lets add a config setting
+      'config_add' => array(
+        array('ufaq_enable', '1'),
+		array('ufaq_use_rating', '1'),
+		array('ufaq_use_watching', '1'),
+		array('ufaq_avatar_questors', '0'),
+		array('ufaq_avatar_answers', '0'),
+//			array('ufaq_quest_questing'),
+//			array('ufaq_quest_answering'),
+		),
+	),
+	
 );
 
 // Include the UMIL Auto file, it handles the rest

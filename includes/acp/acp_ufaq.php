@@ -1,4 +1,10 @@
 <?php
+
+if (!defined('IN_PHPBB'))
+{
+	exit;
+}
+
 class acp_ufaq
 {
    var $u_action;
@@ -9,11 +15,11 @@ class acp_ufaq
       global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
       $form_name = 'acp_ufaq';
 		add_form_key($form_name);
-            $this->page_title = 'UFAQ_CATS';
+            $this->page_title = 'UFAQ_SETTINGS';
             $this->tpl_name = 'acp_ufaq';
       $action = request_var('action', '');
       $id = (int) request_var('id', 0);
-
+			
       switch($mode)
       {
          case 'index':
@@ -23,7 +29,7 @@ class acp_ufaq
          		FROM ' . Q_CATS_TABLE . '
 				ORDER BY cat_name ASC, cat_id ASC';
 			$result = $db->sql_query($sql);
-
+		
 			while($row = $db->sql_fetchrow($result))
 			{
 				$template->assign_block_vars('cats',array(
@@ -37,7 +43,27 @@ class acp_ufaq
 				)
 				);
 			}
+		$template->assign_vars(array(
+			'S_UFAQ_VERSION'		=> $config['ufaq_version'],
+			'UFAQ_ENABLE'	=> $config['ufaq_enable'],
+			'UFAQ_USE_RATING'	=> $config['ufaq_use_rating'],
+			'UFAQ_USE_WATCHING'	=> $config['ufaq_use_watching'],
+			'UFAQ_USE_AVATAR_QUESTOR'	=> $config['ufaq_avatar_questors'],
+			'UFAQ_USE_AVATAR_ANSWER'	=> $config['ufaq_avatar_answers'],
+			'U_ACTION'		=> $this->u_action,
+		));
 		 }
+		 elseif($action == 'submit')
+		 {
+			set_config('ufaq_enable', request_var('ufaq_enable', 0));
+			set_config('ufaq_use_rating', request_var('ufaq_use_rating', 0));
+			set_config('ufaq_use_watching', request_var('ufaq_use_watching', 0));
+			set_config('ufaq_avatar_questors', request_var('ufaq_avatar_questors', 0));
+			set_config('ufaq_avatar_answers', request_var('ufaq_avatar_answers', 0));
+			
+			trigger_error($user->lang['UFAQ_SET_SAVED'] . adm_back_link($this->u_action));
+			$action = '';
+		}
 		 elseif($action == 'add' || $action == 'edit')
 		 {
 			$sql = 'SELECT *
@@ -80,6 +106,7 @@ class acp_ufaq
 					'S_EDIT'			=> $action == 'add' ? '1' : '2',
 					'CAT_TITLE'			=> $row['cat_name'],
 					'CAT_IMG'			=> $row['cat_img'],
+					'CAT_USERS_WATCH'	=> $row['cat_users_watch'] ? $row['cat_users_watch'] : '0',
 					'U_CAT_IMG'		=> $row['cat_img'] ? $phpbb_root_path.'images/ufaq/'.$row['cat_img'] : './images/spacer.gif',
 					'UFAQPIC_PATH'	=> $phpbb_root_path.'images/ufaq/',
 					'U_BACK'			=> $this->u_action,
@@ -93,16 +120,16 @@ class acp_ufaq
 			// Get all the data
 				$cat_name = utf8_normalize_nfc(request_var('title', '', true));
 				$cat_img = request_var('img', '', true);
-
+				$cat_users_watch = request_var('cat_users_watch', '', true);
 				// Check the fields, we don't want empty ones
 				if (!$cat_name)
 				{
 					trigger_error($user->lang['ACP_NO_CATNAME'] . adm_back_link($this->u_action), E_USER_WARNING);
 				}
-
 				$sql_ary = array(
 					'cat_name'				=> $cat_name,
 					'cat_img'				=> $cat_img,
+					'cat_users_watch'		=> $cat_users_watch,
 				);
 
 				// Update or new cat?
