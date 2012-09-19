@@ -42,7 +42,7 @@ $lang = array_merge($lang, array(
 	'UFAQ_SUBJ'			=> 'Qustion title',
 	'UFAQ_VIEWS'		=> 'Views',
 	'UFAQ_CAT'			=> 'Section',
-	'UFAQ_CATS'			=> 'Sections',
+	'UFAQ_CATS'			=> 'Configuration',
 	'UFAQ_COUNT'			=> 'Questions',
 	'UFAQ_LAST_Q'			=> 'The last question',
 	'UFAQ_LAST_A'			=> 'Last answer',
@@ -120,6 +120,18 @@ $lang = array_merge($lang, array(
 	'UFAQ_CAT_ALREDY_UNWATCH'		=> 'Вы ещё не подписывались на категорию',
 	'UFAQ_CAT_PM_SUBJ_WATCH'	=> 'Вопросы...',
 	'UFAQ_CAT_PM_MESSAGE_WATCH'		=> 'Добавлен новый вопрос в категории, на которую вы подписались.<br />Вы можете посмотреть его перейдя по ссылке ниже.<br /><a href="%1$s">%2$s</a>',
-
+	
+	'UFAQ_SETTINGS'	=> 'Settings',
+	'UFAQ_CATS_LIST' => 'Список Разделов',
+	'UFAQ_STATUS'	=> 'Enable "Answer-Question" MOD',
+	'UFAQ_DISABLED'	=> 'Система отключена администратором',
+	'UFAQ_VERSION'	=> 'Version',
+	'UFAQ_SELECT'	=> 'Настройки системы',
+	'UFAQ_USERS_SELECT'	=> 'Пользовательские настройки',
+	'UFAQ_SET_SAVED'	=> 'Настройки UFAQ успешно сохранены',
+	'UFAQ_USE_RATING'	=> 'Включить систему рейтингов',
+	'UFAQ_USE_WATCHING'	=> 'Включить систему подписок на категории и ответы',
+	'UFAQ_USE_AVATAR_QUESTOR'	=> 'Показывать аватар пользователя, автора вопроса',
+	'UFAQ_USE_AVATAR_ANSWER'	=> 'Показывать аватары ответивших пользователей',
 ));
 ?>
