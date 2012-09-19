@@ -141,12 +141,12 @@
 				<!-- IF not S_IS_BOT and RATING_USE -->				
 					<li class="leftside"><span style="font-size: 16px"><b style="color: <!-- IF RATING > 0 -->green<!-- ELSEIF RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF RATING > 0 -->+<!-- ENDIF -->{RATING}</b></span></li>
 					<!-- IF U_RATE_PLUS and S_USER_LOGGED_IN -->			
-						<li class="leftside"><a href="{U_RATE_PLUS}" title="{L_UFAQ_RATE_A}"><img src="{T_THEME_PATH}/images/icon_rate_plus.gif"/></a></li>
+						<li class="leftside"><a href="{U_RATE_PLUS}" title="{L_UFAQ_RATE_Q}"><img src="{T_THEME_PATH}/images/icon_rate_plus.gif"/></a></li>
 					<!-- ELSE -->
 						<li class="leftside"><img src="{T_THEME_PATH}/images/icon_rate_plus_off.gif"/></li>
 					<!-- ENDIF -->
 					<!-- IF U_RATE_MINUS and S_USER_LOGGED_IN -->	
-						<li class="leftside"><a href="{U_RATE_MINUS}" title="{L_UFAQ_RATE_A_MINUS}"><img src="{T_THEME_PATH}/images/icon_rate_minus.gif"/></a></li>
+						<li class="leftside"><a href="{U_RATE_MINUS}" title="{L_UFAQ_RATE_Q_MINUS}"><img src="{T_THEME_PATH}/images/icon_rate_minus.gif"/></a></li>
 					<!-- ELSE -->
 						<li class="leftside"><img src="{T_THEME_PATH}/images/icon_rate_minus_off.gif"/></li>
 					<!-- ENDIF -->
@@ -234,12 +234,12 @@
 				<!-- IF not S_IS_BOT and RATING_USE -->				
 					<li class="rightside"><b style="color: <!-- IF answers.RATING > 0 -->green<!-- ELSEIF answers.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF answers.RATING > 0 -->+<!-- ENDIF -->{answers.RATING}</b></li>
 					<!-- IF answers.U_RATE_PLUS and S_USER_LOGGED_IN -->			
-						<li class="rightside"><a href="{answers.U_RATE_PLUS}" title="{L_UFAQ_RATE_PLUS}"><img src="{T_THEME_PATH}/images/icon_rate_plus.gif"/></a></li>
+						<li class="rightside"><a href="{answers.U_RATE_PLUS}" title="{L_UFAQ_RATE_A}"><img src="{T_THEME_PATH}/images/icon_rate_plus.gif"/></a></li>
 					<!-- ELSE -->
 						<li class="rightside"><img src="{T_THEME_PATH}/images/icon_rate_plus_off.gif"/></li>
 					<!-- ENDIF -->
 					<!-- IF answers.U_RATE_MINUS and S_USER_LOGGED_IN -->	
-						<li class="rightside"><a href="{answers.U_RATE_MINUS}" title="{L_UFAQ_RATE_MINUS}"><img src="{T_THEME_PATH}/images/icon_rate_minus.gif"/></a></li>
+						<li class="rightside"><a href="{answers.U_RATE_MINUS}" title="{L_UFAQ_RATE_A_MINUS}"><img src="{T_THEME_PATH}/images/icon_rate_minus.gif"/></a></li>
 					<!-- ELSE -->
 						<li class="rightside"><img src="{T_THEME_PATH}/images/icon_rate_minus_off.gif"/></li>
 					<!-- ENDIF -->
