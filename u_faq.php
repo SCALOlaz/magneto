@@ -695,7 +695,7 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'])
 	}
 
 	// Проверяем есть ли такой раздел
-	$sql = 'SELECT cat_count
+	$sql = 'SELECT cat_count, cat_users_watch
 		FROM ' . Q_CATS_TABLE . '
 		WHERE cat_id = '.$id;
 		$result = $db->sql_query($sql);
@@ -763,6 +763,36 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'])
 			WHERE cat_id = $id";
 	$db->sql_query($sql);
 
+		// Мессаги подписчикам
+		if($row['cat_users_watch'] && $ufaq_use_watching)
+		{
+				include($phpbb_root_path . 'includes/functions_privmsgs.' . $phpEx);
+				$send_list = $row['cat_users_watch'] ? explode(",", $row['cat_users_watch']) : '';
+				foreach ($send_list as $i => $watcher_id)
+				{
+					if ($watcher_id && $watcher_id != $user_id)
+					{
+						$pm_data = array(
+							'from_user_id'			=> $user->data['user_id'],
+							'from_user_ip'			=> $user->ip,
+							'from_username'			=> $user->data['username'],
+							'enable_sig'			=> false,
+							'enable_bbcode'			=> false,
+							'enable_smilies'		=> false,
+							'enable_urls'			=> false,
+							'icon_id'				=> 0,
+							'bbcode_bitfield'		=> '',
+							'bbcode_uid'			=> '',
+							'message'				=> sprintf($user->lang['UFAQ_CAT_PM_MESSAGE_WATCH'], $phpbb_root_path.'u_faq.php?mode=q&id='.$qwestion['q_id'], $subj),
+							'address_list'			=> array('u' => array($watcher_id => 'to')),
+						);
+						submit_pm('post', '[UAFQ] "'.$subj.'" ' . $user->lang['UFAQ_CAT_PM_SUBJ_WATCH'], $pm_data, false);
+					}
+				}
+
+		}
+
+	
 	$meta_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=q&amp;id='.$qwestion['q_id']);
 	$index_u = append_sid("{$phpbb_root_path}index.$phpEx");
 	meta_refresh(5, $meta_url);
