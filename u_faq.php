@@ -27,6 +27,7 @@ $mode = request_var('mode', '');
 $id = (int) request_var('id', 0);
 $user_id = $user->data['user_id'];
 $ufaq_enable = $config['ufaq_enable'];
+//$user_anonim = false;	//$user->data['user_id'] == ANONYMOUS ? true : false;
 
 // Хлебные крошки
 $template->assign_vars(array(
@@ -34,14 +35,12 @@ $template->assign_vars(array(
 )
 );
 
-
-
 if ($ufaq_enable)	// UFAQ_ENABLE_BEGIN
 {
 	$ufaq_use_rating = $config['ufaq_use_rating'];
 	$ufaq_use_watching = $config['ufaq_use_watching'];
 	
-	if ($user->data['user_id'] == ANONYMOUS && $mode && ($mode != 'cat' && $mode != 'q'  && $mode != 'add_q' && $mode != 'add_a' && $mode != 'save_q'))
+	if (/*$user_anonim &&*/ $mode && ($mode != 'cat' && $mode != 'q' && ( ($mode != 'add_q' && $mode != 'save_q' && !$auth->acl_get('u_add_question')) || ($mode != 'add_a' && !$auth->acl_get('u_add_answer') ))  ))
 	{
 		login_box('', $user->lang['LOGIN']);
 	}
@@ -222,25 +221,25 @@ $an_user = $an_time = $an_id = '';
 	$template->assign_vars(array(
 	'S_LIST_Q'	=> true,
 	'PARENT'	=> $cat_name,
-	'ADD_QUEST_IMG' 			=> $user->img('button_question_new', 'UFAQ_ADD_QUEST'),
-	'S_CAN_QUEST'		=> $auth->acl_get('u_add_question') /*&& $user->data['user_id'] != ANONYMOUS*/ ? $user->lang['UFAQ_CAN_QUEST'] : $user->lang['UFAQ_CANT_QUEST'],
-	'S_CAN_ANSWER'		=> $auth->acl_get('u_add_answers') /*&& $user->data['user_id'] != ANONYMOUS*/ ? $user->lang['UFAQ_CAN_ANSWER'] : $user->lang['UFAQ_CANT_ANSWER'],
+	'ADD_QUEST_IMG' 	=> $user->img('button_question_new', 'UFAQ_ADD_QUEST'),
+	'S_CAN_QUEST'		=> $auth->acl_get('u_add_question') /*&& !$user_anonim*/ ? $user->lang['UFAQ_CAN_QUEST'] : $user->lang['UFAQ_CANT_QUEST'],
+	'S_CAN_ANSWER'		=> $auth->acl_get('u_add_answers') /*&& !$user_anonim*/ ? $user->lang['UFAQ_CAN_ANSWER'] : $user->lang['UFAQ_CANT_ANSWER'],
 
 	'S_CAN_WATCH_CAT'	=> $ufaq_use_watching && !$user->data['is_bot'] /*$user_id != $q['q_user_id']*/ && !in_array($user_id, explode(",",$cat_watchers)) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=catw&amp;id='.$id) : '',
 	'S_CAN_UNWATCH_CAT'	=> $ufaq_use_watching && !$user->data['is_bot'] /*$user_id != $q['q_user_id']*/ && in_array($user_id, explode(",",$cat_watchers)) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=catunw&amp;id='.$id) : '',
 	
 	'PAGE_NUMBER'       => on_page($cat_count, $limit, $start),
-	'U_ADD_QUEST'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=add_q&amp;id='.$id),
-	'U_SORT_ANSWERS'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=cat&amp;id='.$id.'&amp;sort=1'.$s1),
+	'U_ADD_QUEST'		=> $auth->acl_get('u_add_question') /*&& !$user_anonim*/ ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=add_q&amp;id='.$id) : '',
+	'U_SORT_ANSWERS'	=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=cat&amp;id='.$id.'&amp;sort=1'.$s1),
 	'U_SORT_RATING'		=> $ufaq_use_rating ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=cat&amp;id='.$id.'&amp;sort=2'.$s2) : '',
 	'U_ADD_REVIEW'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=add&amp;id='.$id),
 	'PAGINATION'        => generate_pagination($pagination_url, $cat_count, $limit, $start),
 	'S_SEARCHBOX_ACTION'	=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=search&amp;id='.$id),
-	'MINI_POST_IMG'			=> $user->img('icon_post_target', 'POST'),
-	'CAT_IMG'		=> $cat_img,
+	'MINI_POST_IMG'		=> $user->img('icon_post_target', 'POST'),
+	'CAT_IMG'			=> $cat_img,
 	
-	'RATING_USE'	=> $ufaq_use_rating,
-	'WATCHING_USE'	=> $ufaq_use_watching,
+	'RATING_USE'		=> $ufaq_use_rating,
+	'WATCHING_USE'		=> $ufaq_use_watching,
 	)
 	);
 
@@ -376,11 +375,11 @@ $an_user = $an_time = $an_id = '';
 
 	$template->assign_vars(array(
 	'S_LIST_Q'	=> true,
-	'ADD_QUEST_IMG' 			=> $user->img('button_question_new', 'UFAQ_ADD_QUEST'),
-	'S_CAN_QUEST'		=> $auth->acl_get('u_add_question') /*&& $user->data['user_id'] != ANONYMOUS*/ ? $user->lang['UFAQ_CAN_QUEST'] : $user->lang['UFAQ_CANT_QUEST'],
-	'S_CAN_ANSWER'		=> $auth->acl_get('u_add_answers') /*&& $user->data['user_id'] != ANONYMOUS*/ ? $user->lang['UFAQ_CAN_ANSWER'] : $user->lang['UFAQ_CANT_ANSWER'],
+	'ADD_QUEST_IMG' 	=> $user->img('button_question_new', 'UFAQ_ADD_QUEST'),
+	'S_CAN_QUEST'		=> $auth->acl_get('u_add_question') /*&& !$user_anonim*/ ? $user->lang['UFAQ_CAN_QUEST'] : $user->lang['UFAQ_CANT_QUEST'],
+	'S_CAN_ANSWER'		=> $auth->acl_get('u_add_answers') /*&& !$user_anonim*/ ? $user->lang['UFAQ_CAN_ANSWER'] : $user->lang['UFAQ_CANT_ANSWER'],
 	'PAGE_NUMBER'       => on_page($q_count, $limit, $start),
-	'U_ADD_QUEST'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=add_q&amp;id='.$id),
+	'U_ADD_QUEST'		=> $auth->acl_get('u_add_question') /*&& !$user_anonim*/ ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=add_q&amp;id='.$id) : '',
 	'U_ADD_REVIEW'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=add&amp;id='.$id),
 	'PAGINATION'        => generate_pagination($pagination_url, $q_count, $limit, $start),
 	'S_SEARCHBOX_ACTION'	=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=search&amp;id='.$id),
@@ -422,7 +421,6 @@ elseif($mode == 'q' && $id)
 					$raters_mi = explode(",",$row['q_raters_minus']);	// Raters MINUS
 
 					$template->assign_block_vars('answers',array(
-					//	'AVATAR'	=> ($user->optionget('viewavatars')) ? get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '',
 						'AVATAR'	=>  $config['ufaq_avatar_answers'] ? ($user->optionget('viewavatars') ? get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 20, 20) : '') : '',
 						'U_USER'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u='.$row['q_user_id']),
 						'RATING'	=> $row['q_rating'],
@@ -493,12 +491,12 @@ elseif($mode == 'q' && $id)
 	'USER'		=> get_username_string('full', $q['q_user_id'], $q['username'], $q['user_colour']),
 	'U_USER'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u='.$q['q_user_id']),
 	'U_LINK'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=q&amp;id='.$q['q_id']),
-	'S_CAN_QUEST'		=> $auth->acl_get('u_add_question') /*&& $user->data['user_id'] != ANONYMOUS*/ ? $user->lang['UFAQ_CAN_QUEST'] : $user->lang['UFAQ_CANT_QUEST'],
-	'S_CAN_ANSWER'		=> $auth->acl_get('u_add_answers') /*&& $user->data['user_id'] != ANONYMOUS*/ ? $user->lang['UFAQ_CAN_ANSWER'] : $user->lang['UFAQ_CANT_ANSWER'],
+	'S_CAN_QUEST'		=> $auth->acl_get('u_add_question') /*&& !$user_anonim*/ ? $user->lang['UFAQ_CAN_QUEST'] : $user->lang['UFAQ_CANT_QUEST'],
+	'S_CAN_ANSWER'		=> $auth->acl_get('u_add_answers') /*&& !$user_anonim*/ ? $user->lang['UFAQ_CAN_ANSWER'] : $user->lang['UFAQ_CANT_ANSWER'],
 	'S_ADD_A_ACTION'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=add_a&amp;id='.$q['q_id']),
 	'S_SHOW_SMILEY_LINK' 	=> true,
 	'U_MORE_SMILIES' 		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=smilies'),
-	'REPLY'		=> /*$user->data['user_id'] == ANONYMOUS ||*/ $user->data['is_bot'] || !$auth->acl_get('u_add_answers') ? '' : $user->img('button_question_reply', 'UFAQ_ADD_ANSWER'),
+	'REPLY'		=> /*$user_anonim ||*/ $user->data['is_bot'] || !$auth->acl_get('u_add_answers') ? '' : $user->img('button_question_reply', 'UFAQ_ADD_ANSWER'),
 	'U_EDIT'	=> ($auth->acl_get('u_add_question') && $user->data['user_id'] == $q['q_user_id']) || ($auth->acl_get('m_') && $auth->acl_get('u_add_answers')) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=edit&amp;id='.$q['q_id']) : '',
 	'U_DEL'	=> ($auth->acl_get('u_add_answers') && $user->data['user_id'] == $q['q_user_id']) || ($auth->acl_get('m_') && $auth->acl_get('u_add_answers')) || $auth->acl_get('a_') ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=del&amp;id='.$q['q_id']) : '',
 	'COUNT' => $result_count,
@@ -567,7 +565,7 @@ elseif($mode == 'add_q' && $id && !$user->data['is_bot'])
 	}
 
 	$template->assign_vars(array(
-	'ADD_QUEST'	=> true,
+	'ADD_QUEST'	=> $auth->acl_get('u_add_question') /*&& !$user_anonim*/ ? true : false,
 	'S_BBCODE_ALLOWED'	=> true,
 	'S_BBCODE_QUOTE'	=> true,
 	'S_BBCODE_IMG'	=> true,
@@ -673,8 +671,6 @@ elseif($mode == 'add_a' && $id && !$user->data['is_bot'])
 						'bbcode_uid'			=> '',
 						'message'				=> sprintf($user->lang['UFAQ_PM_MESSAGE_WATCH'], $phpbb_root_path.'u_faq.php?mode=q&id='.$id.'#'.$q['q_id'], $row['q_subj']),
 						'address_list'			=> array('u' => array($watcher_id => 'to')),
-						
-					//	'address_list'			=> array('u' => array($row['q_user_id'] => 'to')),
 					);
 					submit_pm('post', '[UAFQ] "'.$row['q_subj'].'" ' . $user->lang['UFAQ_PM_SUBJ_WATCH'], $pm_data, false);
 				}
@@ -724,7 +720,6 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'])
 	generate_text_for_storage($text, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
     $time = time();
 
-	// $watch : ЭТО ВОПРОС !!!
 	$sql_ary = array(
 		'q_parent'			=> $id,
 		'q_type'			=> 1,
@@ -754,8 +749,6 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'])
 	    'last_question_id' => $qwestion['q_id'],
 	    'last_question_name' => $subj,
 	    'last_question_time' => $time,
-
-	//	'cat_users_watch'	=> 0,
 	);
 
 	$sql = 'UPDATE ' . Q_CATS_TABLE . '
@@ -789,9 +782,7 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'])
 						submit_pm('post', '[UAFQ] "'.$subj.'" ' . $user->lang['UFAQ_CAT_PM_SUBJ_WATCH'], $pm_data, false);
 					}
 				}
-
 		}
-
 	
 	$meta_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=q&amp;id='.$qwestion['q_id']);
 	$index_u = append_sid("{$phpbb_root_path}index.$phpEx");
@@ -1075,8 +1066,8 @@ elseif( ($mode == 'rate' || $mode == 'unrate') && $id && !$user->data['is_bot'])
 				meta_refresh(3, $meta_url);
 				trigger_error($user->lang['UFAQ_ALREDY_RATED']);
 			}
-			else					// ДОБАВЛЯЕМ ЮЗЕРА
-			{				if ( $mode == 'rate' )	// ПЛЮСУЕМ
+			else
+			{				if ( $mode == 'rate' )
 				{
 					if ( in_array($user_id, $raters_mi) )
 					{
@@ -1087,10 +1078,10 @@ elseif( ($mode == 'rate' || $mode == 'unrate') && $id && !$user->data['is_bot'])
 						}
 					}
 
-					$raters_pl[] = $user_id;	// add $user_id to RATE
+					$raters_pl[] = $user_id;
 					$rating = $rating + 1;
 				}
-				else					// МИНУСУЕМ
+				else
 				{
 					if ( in_array($user_id, $raters_pl) )
 					{
@@ -1101,7 +1092,7 @@ elseif( ($mode == 'rate' || $mode == 'unrate') && $id && !$user->data['is_bot'])
 						}
 					}
 
-					$raters_mi[] = $user_id;	// add $user_id to UNRATE
+					$raters_mi[] = $user_id;
 					$rating = $rating - 1;
 				}
 				$raters_pl = array_values($raters_pl);
