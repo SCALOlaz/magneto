@@ -42,7 +42,7 @@
 		</div>
 <!-- ELSEIF S_LIST_Q -->
 <br clear="all" />
-<!-- IF not S_IS_BOT and S_CAN_QUEST -->
+<!-- IF not S_IS_BOT -->
 		<div class="search-box">
 			<form method="post" action="{S_SEARCHBOX_ACTION}">
 			<fieldset>
@@ -117,9 +117,14 @@
 		</ul>
 	<!-- ENDIF -->
 	
-<!-- IF U_SORT_RATING --><!-- IF not S_IS_BOT and S_CAN_QUEST --><div class="buttons"><div class="question-new-icon"><a href="{U_ADD_QUEST}" title="{L_UFAQ_ADD_QUEST}"><span></span>{L_UFAQ_ADD_QUEST}</a></div></div><!-- ENDIF -->
+<!-- IF not S_IS_BOT and U_ADD_QUEST -->
+	<div class="buttons"><div class="question-new-icon"><a href="{U_ADD_QUEST}" title="{L_UFAQ_ADD_QUEST}"><span></span>{L_UFAQ_ADD_QUEST}</a></div></div>
+<!-- ENDIF -->
 
-<div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div><!-- ENDIF -->
+<!-- IF U_SORT_RATING -->
+<div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div>
+<!-- ENDIF -->
+
 <!-- ELSEIF QUEST -->
 <div id="page-body">
 <h2>&nbsp;<a href="{U_LINK}">{QUEST}</a></h2>
@@ -276,7 +281,7 @@
 		</div>
 <!-- ENDIF -->
 
-	<!-- IF not S_IS_BOT -->
+	<!-- IF not S_IS_BOT and REPLY -->
 		<br clear="all" />
 		<!-- IF REPLY --><div class="buttons"><div class="question-reply-icon"><a href="#" onclick="getElementById('answer').style.display=''; this.style.display='none'; return false;" title="{L_UFAQ_ADD_ANSWER}"><span></span>{L_UFAQ_ADD_ANSWER}</a></div></div>
 		<div id="answer" style="display: none; padding-top: 4px;"><!-- INCLUDE ufaq_post.html --></div>

@@ -36,8 +36,8 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
-	'acl_u_add_answers'    => array('lang' => 'Может давать ответы на вопросы', 'cat' => 'misc'),
-    'acl_u_add_question'    => array('lang' => 'Может задавать вопросы', 'cat' => 'misc'),
+	'acl_u_add_answers'    => array('lang' => 'Может давать ответы на вопросы (UFAQ)', 'cat' => 'misc'),
+    'acl_u_add_question'    => array('lang' => 'Может задавать вопросы (UFAQ)', 'cat' => 'misc'),
 	'UFAQ'			=> 'Пользовательский FAQ',
 	'UFAQ_SUBJ'			=> 'Заголовок вопроса',
 	'UFAQ_VIEWS'		=> 'Просмотров',
