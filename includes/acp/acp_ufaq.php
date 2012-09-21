@@ -50,6 +50,7 @@ class acp_ufaq
 			'UFAQ_USE_WATCHING'	=> $config['ufaq_use_watching'],
 			'UFAQ_USE_AVATAR_QUESTOR'	=> $config['ufaq_avatar_questors'],
 			'UFAQ_USE_AVATAR_ANSWER'	=> $config['ufaq_avatar_answers'],
+			'UFAQ_TOOLTIP_LEN'	=> $config['ufaq_tooltip_len'],			
 			'U_ACTION'		=> $this->u_action,
 		));
 		 }
@@ -60,6 +61,7 @@ class acp_ufaq
 			set_config('ufaq_use_watching', request_var('ufaq_use_watching', 0));
 			set_config('ufaq_avatar_questors', request_var('ufaq_avatar_questors', 0));
 			set_config('ufaq_avatar_answers', request_var('ufaq_avatar_answers', 0));
+			set_config('ufaq_tooltip_len', max(1, request_var('ufaq_tooltip_len', 0)));
 			
 			trigger_error($user->lang['UFAQ_SET_SAVED'] . adm_back_link($this->u_action));
 			$action = '';

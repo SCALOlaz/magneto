@@ -25,8 +25,11 @@
 			<dl>
 				<dt style="width: 50%;"><!-- IF cats.CAT_IMG --><div style="float: left; padding-right: 5px;"><img src="{cats.CAT_IMG}" alt="{cats.TITLE}" /></div><!-- ENDIF --><a class="forumtitle" href="{cats.U_CAT}">{cats.TITLE}</a></dt>
 					<dd class="topics">{cats.COUNT}</dd>
-					<dd class="lastpost" style="width: 30%;"><span><!-- IF cats.LAST_Q --><a href="{cats.U_LAST_Q}">{cats.LAST_Q}</a>
-					<!-- IF not S_IS_BOT --><a href="{cats.U_LAST_Q}#{cats.ANSWER_ID}">{MINI_POST_IMG}</a><!-- ELSE -->{MINI_POST_IMG}<!-- ENDIF --><br>
+					<dd class="lastpost" style="width: 30%;"><span><!-- IF cats.LAST_Q --><a href="{cats.U_LAST_Q}" title="{cats.QUESTION_TEXT}">{cats.LAST_Q}</a>
+					(Ответов: {cats.ANSWERS} 
+					<!-- IF cats.ANSWERS >= 0 -->
+						<!-- IF not S_IS_BOT --><a href="{cats.U_LAST_Q}#{cats.ANSWER_ID}" title="{cats.ANSWER_TEXT}">{MINI_POST_IMG}</a><!-- ELSE -->{MINI_POST_IMG}<!-- ENDIF -->
+					<!-- ENDIF -->)<br>
 					<span>{cats.QUESTER_USER} &raquo; {cats.QUESTER_TIME}</span><!-- ELSE -->{L_UFAQ_EMPTY_CAT}<!-- ENDIF --></span></dd>
 			</dl>
 		</li>
@@ -79,12 +82,12 @@
 <!-- BEGIN q -->
 		<li class="row<!-- IF q.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
 			<dl>
-				<dt><!-- IF SEARCH --><a class="topictitle" href="{q.U_CAT_URL}">{q.PARENT}</a> &raquo; <!-- ENDIF --><a class="topictitle" href="{q.U_QUESTION}">{q.SUBJ}</a><br /><span>{q.QUESTOR} &raquo; {q.TIME}</span></dt>
+				<dt><!-- IF SEARCH --><a class="topictitle" href="{q.U_CAT_URL}">{q.PARENT}</a> &raquo; <!-- ENDIF --><a class="topictitle" href="{q.U_QUESTION}" title="{q.QUESTION_TEXT}">{q.SUBJ}</a><br /><span>{q.QUESTOR} &raquo; {q.TIME}</span></dt>
 				<!-- IF RATING_USE --><dd class="topics"><b style="color: <!-- IF q.RATING > 0 -->green<!-- ELSEIF q.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF q.RATING > 0 -->+<!-- ENDIF -->{q.RATING}</b></dd><!-- ENDIF -->
 				<dd class="views">{q.VIEWS}</dd>				
 				<dd class="posts">{q.ANSWERS}</dd>
 				<dd class="lastpost" style="width: 22%;"><span><!-- IF q.ANSWERS == 0 -->{L_UFAQ_EMPTY_Q}<!-- ELSE -->{q.ANSWER_USER}
-				<!-- IF not S_IS_BOT --><a href="{q.U_QUESTION}#{q.ANSWER_ID}">{MINI_POST_IMG}</a><!-- ELSE -->{MINI_POST_IMG}<!-- ENDIF -->
+				<!-- IF not S_IS_BOT --><a href="{q.U_QUESTION}#{q.ANSWER_ID}" title="{q.ANSWER_TEXT}"><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/></a><!-- ELSE --><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/><!-- ENDIF -->
 				<br />{q.ANSWER_TIME}<!-- ENDIF --></span></dd>
 			</dl>
 		</li>
@@ -265,6 +268,7 @@
 			<div class="content">{answers.TEXT}</div>
 
 		</div>
+
 		<span class="corners-bottom"><span></span></span></div>
 	</div>
 	</td></tr></table>
