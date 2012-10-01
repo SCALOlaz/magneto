@@ -187,6 +187,23 @@ $versions = array(
 		),
 	),
 
+	'1.0.49'	=> array(
+		'table_column_add' => array(
+			array($table_prefix . 'ufaq_questions', 'q_subj_author', array('VCHAR:40', '')),	// Custom NickName
+			array($table_prefix . 'ufaq_questions', 'q_user_hidenick', array('INT:1', 0)),	// Hide Nick
+			array($table_prefix . 'ufaq_questions', 'q_user_ip', array('VCHAR:40', '')),	// IPv4
+			array($table_prefix . 'ufaq_questions', 'q_mode', array('INT:1', 0)),	//0 or '' - open, 9 - locked, 1 - premode
+		),
+	),
+
+	'1.0.50'	=> array(
+		// Lets add a config setting
+		'config_add' => array(
+		array('ufaq_guest_premode', '1'),
+		),
+	),
+
+	
 );
 
 // Include the UMIL Auto file, it handles the rest

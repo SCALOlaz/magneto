@@ -62,9 +62,14 @@
 				<input type="radio" class="radio" name="ufaq_use_rating" value="0" <!-- IF not UFAQ_USE_RATING -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
 		</dl>
 		<dl>
-			<dt><label for="sufaq_use_watching">{L_UFAQ_USE_WATCHING}</label></dt>
+			<dt><label for="ufaq_use_watching">{L_UFAQ_USE_WATCHING}</label></dt>
 			<dd><input type="radio" class="radio" name="ufaq_use_watching" value="1" <!-- IF UFAQ_USE_WATCHING -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
 				<input type="radio" class="radio" name="ufaq_use_watching" value="0" <!-- IF not UFAQ_USE_WATCHING -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="ufaq_guest_premode">{L_UFAQ_GUEST_PREMODE}</label><br /><span>{L_UFAQ_GUEST_PREMODE_EXPLAIN}</span></dt>
+			<dd><input type="radio" class="radio" name="ufaq_guest_premode" value="1" <!-- IF UFAQ_GUEST_PREMODE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="ufaq_guest_premode" value="0" <!-- IF not UFAQ_GUEST_PREMODE -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
 		</dl>
 	</fieldset>
 	<fieldset>

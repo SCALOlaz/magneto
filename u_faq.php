@@ -44,7 +44,7 @@ if ($ufaq_enable)	// UFAQ_ENABLE_BEGIN
 	if ($mode && ( 
 				( $mode == 'add_q' || $mode == 'save_q' || $mode == 'add_a' || $mode == 'save' || $mode == 'del' )
 				&& 
-				( !$auth->acl_get('u_add_question') && !$auth->acl_get('u_add_answer') )
+				( !$auth->acl_get('u_add_question') && !$auth->acl_get('u_add_answers') )
 				)
 	)
 	{
@@ -88,16 +88,38 @@ if(!$mode)
 							// Last Question Author
 								$qu_user = get_username_string('full', $qa['q_user_id'], $qa['username'], $qa['user_colour']);
 								$qu_text = ufaq_make_message_len($qa['q_text'], $qa['bbcode_uid'], $qa['bbcode_bitfield']);
+								$qu_user_id = $qa['q_user_id'];
+								$qu_fakenick = /*$qa['q_user_id'] == ANONYMOUS &&*/ isset($qa['q_subj_author']) ? $qa['q_subj_author'] : '';
+								$qu_hidenick = $qa['q_user_id'] != ANONYMOUS && $qa['q_user_hidenick'] != 0 ? true : false;
 							}		
 							$db->sql_freeresult($result_a);
 
-							/*	// Last Answer data for This Question data
-							// Временно закомментируем, ибо не юзаем пока
-								$an_user = $qa['q_user_id'];	// answer
-								$an_time = $qa['q_time'];	// answer
-								$an_id = $qa['q_id'];		// answer
-								$an_text = ufaq_make_message_len($qa['q_text'], $qa['bbcode_uid'], $qa['bbcode_bitfield']);
-							*/
+					$sql_cn = "SELECT COUNT(q_id) AS cn_count
+							FROM " . Q_QUESTION_TABLE . " q
+							WHERE q.q_parent_q = " . $row['last_question_id'] . "
+							AND q.q_type = 0";
+						$result_cn = $db->sql_query($sql_cn);
+						$an_count = (int) $db->sql_fetchfield('cn_count');
+						$db->sql_freeresult($result_cn);
+
+				    $sql_qa = 'SELECT u.username, u.user_colour, q.*
+							FROM ' . USERS_TABLE . ' u, ' . Q_QUESTION_TABLE . " q
+							WHERE q.q_parent_q = " . $row['last_question_id'] . "
+							AND q.q_type = 0
+							AND u.user_id = q.q_user_id
+							ORDER BY q_time DESC LIMIT 1";
+							$result_qa = $db->sql_query($sql_qa);
+
+							while($qa = $db->sql_fetchrow($result_qa))
+							{
+								$an_fakenick = $qa['q_user_id'] == ANONYMOUS && isset($qa['q_subj_author']) ? $qa['q_subj_author'] : "";
+								
+								$an_user = get_username_string('full', $qa['q_user_id'], $qa['username'], $qa['user_colour']);
+								$an_time = $qa['q_time'];
+								$an_id = $qa['q_id'];
+								$an_text = $user->format_date($an_time) . "<br />" /*. ($an_fakenick != '' ? $an_fakenick : $an_user) . "<br />" */. ufaq_make_message_len($qa['q_text'], $qa['bbcode_uid'], $qa['bbcode_bitfield']);
+							}		
+							$db->sql_freeresult($result_qa);
 
 				$template->assign_block_vars('cats',array(
 					'TITLE'		=> $row['cat_name'],
@@ -110,13 +132,17 @@ if(!$mode)
 					'QUESTER_TIME' => $user->format_date($row['last_question_time']),
 					'QUESTION_TEXT'	=> $qu_text,
 					
-				/*	// Last Answer block
-					'ANSWERS'	=> '0',
+					// Last Answer block
+					'ANSWERS'	=> $an_count,
 					'ANSWER_ID'	=> $an_id,
 					'ANSWER_USER' => $an_user,
-					'ANSWER_TIME' => $an_time,
+					'ANSWER_TIME' => $user->format_date($an_time),
 					'ANSWER_TEXT'	=> $an_text,
-				*/
+					
+					'QUESTOR_FAKENICK'	=> $qu_fakenick,
+					'QUESTOR_HIDENICK'	=> $qu_hidenick,
+					'VIEW_RIGHTS'	=> $qu_user_id == $user_id || $auth->acl_get('m_') || $auth->acl_get('a_') ? true : false,
+					'POSTER_FAKENICK'	=> $an_fakenick,
 				)
 				);
 			}
@@ -212,6 +238,8 @@ $an_user = $an_time = $an_id = $an_text = '';
 								$an_time = $q['q_time'];
 								$an_id = $q['q_id'];
 								$an_text = ufaq_make_message_len($q['q_text'], $q['bbcode_uid'], $q['bbcode_bitfield']);
+								
+								$an_fakenick = $q['q_user_id'] == ANONYMOUS && isset($q['q_subj_author']) ? $q['q_subj_author'] : '';
 							}		
 							$db->sql_freeresult($result_c);
 							
@@ -230,6 +258,13 @@ $an_user = $an_time = $an_id = $an_text = '';
 					'ANSWER_USER' => $an_user,
 					'ANSWER_TIME' => $user->format_date($an_time),
 					'ANSWER_TEXT'	=> $an_text,
+					
+					'S_MODE'	=> $row['q_mode'],
+
+					'QUESTOR_FAKENICK'	=> /*$row['q_user_id'] == ANONYMOUS && */isset($row['q_subj_author']) ? $row['q_subj_author'] : '',
+					'QUESTOR_HIDENICK'	=> $row['q_user_id'] != ANONYMOUS && $row['q_user_hidenick'] != 0 ? true : false,
+					'VIEW_RIGHTS'	=> $row['q_user_id'] == $user_id || $auth->acl_get('m_') || $auth->acl_get('a_') ? true : false,
+					'POSTER_FAKENICK'	=> $an_fakenick,
 				)
 				);
 			}
@@ -354,6 +389,8 @@ $an_user = $an_time = $an_id = $an_text = '';
 						$an_time = $q['q_time'];
 						$an_id = $q['q_id'];
 						$an_text = ufaq_make_message_len($q['q_text'], $q['bbcode_uid'], $q['bbcode_bitfield']);
+						
+						$an_fakenick = $q['q_user_id'] == ANONYMOUS && isset($q['q_subj_author']) ? $q['q_subj_author'] : '';
 					}		
 					$db->sql_freeresult($result_ca);
 
@@ -387,6 +424,11 @@ $an_user = $an_time = $an_id = $an_text = '';
 					'CAT_IMG'		=> $cat_img,
 					'PARENT'	=> $cat_name,
 					'U_CAT_URL'	=> $cat_url,
+					
+					'QUESTOR_FAKENICK'	=> /*$row['q_user_id'] == ANONYMOUS &&*/ isset($row['q_subj_author']) ? $row['q_subj_author'] : '',
+					'QUESTOR_HIDENICK'	=> $row['q_user_id'] != ANONYMOUS && $row['q_user_hidenick'] != 0 ? true : false,
+					'VIEW_RIGHTS'	=> $row['q_user_id'] == $user_id || $auth->acl_get('m_') || $auth->acl_get('a_') ? true : false,
+					'POSTER_FAKENICK'	=> $an_fakenick,
 				)
 				);
 			}
@@ -420,7 +462,8 @@ elseif($mode == 'q' && $id)
 {
     $q = $raters_pl = $raters_mi = '';
 
-    $sql = 'SELECT u.*, q.*
+    $sql = 'SELECT 
+			u.*, q.*
 			FROM ' . USERS_TABLE . ' u, ' . Q_QUESTION_TABLE . " q
 			WHERE (q.q_parent_q = $id
 			OR q.q_id = $id)
@@ -428,20 +471,29 @@ elseif($mode == 'q' && $id)
 			ORDER BY q.q_type DESC, q.q_time ASC";		// SORTING - q.q_rating DESC,  (DESC)
 			$result = $db->sql_query($sql);
 			
-			$result_count = mysql_num_rows($result);
+			$result_count = 0;
 			while($row = $db->sql_fetchrow($result))
 			{
 				if($row['q_type'] == '1')
 				{					$q = $row;
-					$result_count = $result_count - 1;				}
+				}
 				else
-				{					$raters_pl = explode(",",$row['q_raters']);	// Raters PLUS
+				{
+					$result_count ++;					$raters_pl = explode(",",$row['q_raters']);	// Raters PLUS
 					$raters_mi = explode(",",$row['q_raters_minus']);	// Raters MINUS
-
+					
+					$answer_color = 0;
+					if ($row['q_rating'] < 0)
+					{
+						$answer_color = 0.90 - ( abs($row['q_rating']) / 90);
+						if ($answer_color <= 0.15) $answer_color = 0.15;						
+					}
+				
 					$template->assign_block_vars('answers',array(
 						'AVATAR'	=>  $config['ufaq_avatar_answers'] ? ($user->optionget('viewavatars') ? get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 20, 20) : '') : '',
 						'U_USER'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u='.$row['q_user_id']),
 						'RATING'	=> $row['q_rating'],
+						'COLOR'	=> $answer_color,
 						'ID'	=> $row['q_id'],
 						'TEXT'	=> censor_text(generate_text_for_display($row['q_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], 7)),
 						'TIME'		=> $user->format_date($row['q_time']),
@@ -456,6 +508,9 @@ elseif($mode == 'q' && $id)
 						
 						'U_LINK'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=q&amp;id='.$q['q_id']),
 						'MINI_POST_IMG'			=> $user->img('icon_post_target', 'POST'),
+						
+						'POSTER_IP'		=> ($auth->acl_get('m_') || $auth->acl_get('a_')) && isset($row['q_user_ip']) ? $row['q_user_ip'] : '',
+						'POSTER_HIDENICK'	=> $row['q_user_id'] != ANONYMOUS && $row['q_user_hidenick'] != 0 && ($auth->acl_get('m_') || $auth->acl_get('a_')) ? true : false,
 					)
 					);				}
 			}
@@ -485,13 +540,18 @@ elseif($mode == 'q' && $id)
 	)
 	);
 	get_user_rank($q['user_rank'], $q['user_posts'], $q['rank_title'], $q['rank_image'], $q['rank_image_src']);
-	$q['user_email'] = ((!empty($q['user_allow_viewemail']) || $auth->acl_get('a_email')) && ($q['user_email'] != '')) ? ($config['board_email_form'] && $config['email_enable']) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=email&amp;u=$poster_id") : (($config['board_hide_emails'] && !$auth->acl_get('a_email')) ? '' : 'mailto:' . $q['user_email']) : '';
-	$q['user_msnm'] = ($q['user_msnm'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=msnm&amp;u=$poster_id") : '';
-	$q['user_icq'] = (!empty($q['user_icq'])) ? 'http://www.icq.com/people/webmsg.php?to=' . $q['user_icq'] : '';
-	$q['user_icq_status_img'] = (!empty($q['user_icq'])) ? '<img src="http://web.icq.com/whitepages/online?icq=' . $q['user_icq'] . '&amp;img=5" width="18" height="18" alt="" />' : '';
-	$q['user_yim'] = ($q['user_yim']) ? 'http://edit.yahoo.com/config/send_webmesg?.target=' . $q['user_yim'] . '&amp;.src=pg' : '';
-	$q['user_aim'] = ($q['user_aim'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=aim&amp;u=$poster_id") : '';
-	$q['user_jabber'] = ($q['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '';
+	$q_user_email = ((!empty($q['user_allow_viewemail']) || $auth->acl_get('a_email')) && ($q['user_email'] != '')) ? ($config['board_email_form'] && $config['email_enable']) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=email&amp;u=".$q['user_id']) : (($config['board_hide_emails'] && !$auth->acl_get('a_email')) ? '' : 'mailto:' . $q['user_email']) : '';
+	$q_user_msnm = ($q['user_msnm'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=msnm&amp;u=".$q['user_id']) : '';
+	$q_user_icq = (!empty($q['user_icq'])) ? 'http://www.icq.com/people/webmsg.php?to=' . $q['user_icq'] : '';
+	$q_user_icq_status_img = (!empty($q['user_icq'])) ? '<img src="http://web.icq.com/whitepages/online?icq=' . $q['user_icq'] . '&amp;img=5" width="18" height="18" alt="" />' : '';
+	$q_user_yim = ($q['user_yim']) ? 'http://edit.yahoo.com/config/send_webmesg?.target=' . $q['user_yim'] . '&amp;.src=pg' : '';
+	$q_user_aim = ($q['user_aim'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=aim&amp;u=".$q['user_id']) : '';
+	$q_user_jabber = ($q['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=jabber&amp;u=".$q['user_id']) : '';
+
+$topic_mod = '';
+$topic_mod .= ( $auth->acl_get('m_') || $auth->acl_get('a_') || $user_id == $q['q_user_id'] ) && $q['q_mode'] == 0 ? '<option value="lock">' . $user->lang['UFAQ_MOD_CLOSE'] . '</option>' : '';
+$topic_mod .= ( $auth->acl_get('m_') || $auth->acl_get('a_') ) && ( $q['q_mode'] == 9 || $q['q_mode'] == 1 ) ? '<option value="unlock">' . $user->lang['UFAQ_MOD_OPEN'] . '</option>' : '';
+$topic_mod .= ($auth->acl_get('m_') || $auth->acl_get('a_')) ? '<option value="move">' . $user->lang['UFAQ_MOD_MOVE'] . '</option>' : '';
 	
 	$template->assign_vars(array(
 	'QUEST'	=> $q['q_subj'],
@@ -521,6 +581,11 @@ elseif($mode == 'q' && $id)
 	'U_RATE_PLUS'	=> $user_id != $q['q_user_id'] && !in_array($user_id, explode(",",$q['q_raters'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=rate&amp;id='.$q['q_id']) : '',
 	'U_RATE_MINUS'	=> $user_id != $q['q_user_id'] && !in_array($user_id, explode(",",$q['q_raters_minus'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=unrate&amp;id='.$q['q_id']) : '',
 
+	'POSTER_IP'		=> ($auth->acl_get('m_') || $auth->acl_get('a_')) && isset($q['q_user_ip']) ? $q['q_user_ip'] : '',
+	'POSTER_FAKENICK'	=> ($q['q_user_id'] == ANONYMOUS && isset($q['q_subj_author'])) || (isset($q['q_subj_author']) && $q['q_user_hidenick'] != 0) ? $q['q_subj_author'] : '',
+	'POSTER_HIDENICK'	=> $q['q_user_hidenick'] != 0 && ($auth->acl_get('m_') || $auth->acl_get('a_') || $q['q_user_id'] == $user_id) ? true : false,
+	// && ($auth->acl_get('m_') || $auth->acl_get('a_'))
+	
 	'U_WATCH'	=> $ufaq_use_watching && !$user->data['is_bot'] && !in_array($user_id, explode(",",$q['q_users_watch'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=watch&amp;id='.$q['q_id']) : '',
 	'U_UNWATCH'	=> $ufaq_use_watching && !$user->data['is_bot'] && in_array($user_id, explode(",",$q['q_users_watch'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=unwatch&amp;id='.$q['q_id']) : '',
 	
@@ -530,16 +595,21 @@ elseif($mode == 'q' && $id)
 		'POSTER_POSTS'			=> ($q['q_user_id'] != ANONYMOUS ? $q['user_posts'] : ''),
 		'POSTER_JOINED'			=> ($q['q_user_id'] != ANONYMOUS ? $user->format_date($q['user_regdate']) : ''),
 		'POSTER_FROM'			=> ($q['q_user_id'] != ANONYMOUS ? $q['user_from'] : ''),
-		'U_PM'					=> ($q['q_user_id'] != ANONYMOUS && $config['allow_privmsg'] && $auth->acl_get('u_sendpm') && ($q['user_allow_pm'] || $auth->acl_gets('a_', 'm_') || $auth->acl_getf_global('m_'))) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;mode=compose&amp;action=quotepost&amp;') : '',
-		'U_EMAIL'				=> ($q['q_user_id'] != ANONYMOUS ? $q['user_email'] : ''),
+		'U_PM'					=> ($q['q_user_id'] != ANONYMOUS && $config['allow_privmsg'] && $q['q_user_id'] != $q['user_id'] && $auth->acl_get('u_sendpm') && ($q['user_allow_pm'] || $auth->acl_gets('a_', 'm_') || $auth->acl_getf_global('m_'))) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;mode=compose&amp;action=quotepost&amp;') : '',
+		'U_EMAIL'				=> ($q['q_user_id'] != ANONYMOUS ? $q_user_email : ''),
 		'U_WWW'					=> ($q['q_user_id'] != ANONYMOUS ? $q['user_website'] : ''),
-		'U_MSN'					=> ($q['q_user_id'] != ANONYMOUS ? $q['user_msnm'] : ''),
-		'U_ICQ'					=> ($q['q_user_id'] != ANONYMOUS ? $q['user_icq'] : ''),
-		'U_YIM'					=> ($q['q_user_id'] != ANONYMOUS ? $q['user_yim'] : ''),
-		'U_AIM'					=> ($q['q_user_id'] != ANONYMOUS ? $q['user_aim'] : ''),
-		'U_JABBER'				=> ($q['q_user_id'] != ANONYMOUS ? $q['user_jabber'] : ''),
+		'U_MSN'					=> ($q['q_user_id'] != ANONYMOUS ? $q_user_msnm : ''),
+		'U_ICQ'					=> ($q['q_user_id'] != ANONYMOUS ? $q_user_icq : ''),
+		'U_YIM'					=> ($q['q_user_id'] != ANONYMOUS ? $q_user_yim : ''),
+		'U_AIM'					=> ($q['q_user_id'] != ANONYMOUS ? $q_user_aim : ''),
+		'U_JABBER'				=> ($q['q_user_id'] != ANONYMOUS ? $q_user_jabber : ''),
 
 	'MINI_POST_IMG'			=> $user->img('icon_post_target', 'POST'),
+
+	'S_TOPIC_MOD' 			=> ($topic_mod != '') ? '<select name="action" id="quick-mod-select">' . $topic_mod . '</select>' : '',
+	'S_MOD_ACTION' 			=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=mod&amp;id='.$id),
+	
+	'S_MODE'	=> $q['q_mode'],
 	)
 	);
 
@@ -584,6 +654,8 @@ elseif($mode == 'add_q' && $id && !$user->data['is_bot'] && $auth->acl_get('u_ad
 
 	$template->assign_vars(array(
 	'ADD_QUEST'	=> $auth->acl_get('u_add_question') ? true : false,
+	'Q_HIDENICK'	=> false,
+	'Q_QUESTNAME'	=> '',
 	'S_BBCODE_ALLOWED'	=> true,
 	'S_BBCODE_QUOTE'	=> true,
 	'S_BBCODE_IMG'	=> true,
@@ -610,7 +682,7 @@ elseif($mode == 'add_q' && $id && !$user->data['is_bot'] && $auth->acl_get('u_ad
 	$template->set_filenames(array(
 	   'body' => 'ufaq_body.html')
 	);}
-elseif($mode == 'add_a' && $id && !$user->data['is_bot'] && $auth->acl_get('u_add_answer'))
+elseif($mode == 'add_a' && $id && !$user->data['is_bot'] && $auth->acl_get('u_add_answers'))
 {	if(!$auth->acl_get('u_add_answers'))
 	{
 		trigger_error($user->lang['UFAQ_NO_PERMISSION']);
@@ -620,6 +692,17 @@ elseif($mode == 'add_a' && $id && !$user->data['is_bot'] && $auth->acl_get('u_ad
 
 	if(!$text)
 	{		trigger_error($user->lang['UFAQ_NO_ANSWER']);	}
+
+	if ($user_id == ANONYMOUS)
+	{
+		$subj_author = utf8_normalize_nfc(request_var('subj_author', '', true));
+		if (!$subj_author) $subj_author = "{L_GUEST}";
+	}
+	else
+	{
+		$subj_author = '';
+	}
+	
 	// Проверяем есть ли такой вопрос
 	$sql = 'SELECT q_id, q_user_id, q_subj, q_users_watch
 		FROM ' . Q_QUESTION_TABLE . '
@@ -638,7 +721,7 @@ elseif($mode == 'add_a' && $id && !$user->data['is_bot'] && $auth->acl_get('u_ad
 	generate_text_for_storage($text, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
     $time = time();
 
-	$sql_ary = array(
+	$sql_ary = array(			// NEW ANSWER
 		'q_parent_q'			=> $id,
 		'q_time'				=> $time,
 		'q_text'				=> $text,
@@ -648,6 +731,11 @@ elseif($mode == 'add_a' && $id && !$user->data['is_bot'] && $auth->acl_get('u_ad
 		'q_raters'	=> 0,
 		'q_raters_minus'	=> 0,
 		'q_users_watch'	=> 0,
+
+		'q_user_ip'		=> $user->ip,
+		'q_subj_author'		=> $subj_author,
+		'q_user_hidenick'		=> 0,
+		'q_mode'		=> 0,
 	);
 
 	$sql = 'INSERT INTO ' . Q_QUESTION_TABLE . $db->sql_build_array('INSERT', $sql_ary);
@@ -720,10 +808,29 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'] && $auth->acl_get('u_a
 		}
 		$db->sql_freeresult($result);
 
+	$q_mode = 0;
 	$subj = utf8_normalize_nfc(request_var('subj', '', true));
 	$text = utf8_normalize_nfc(request_var('message', '', true));
 	$watch = (int) request_var('watch', 0);
+	$subj_authorhide = (int) request_var('authorhide', 0);
+	$subj_author = utf8_normalize_nfc(request_var('subj_author', '', true));	
 
+	if ($user_id == ANONYMOUS)
+	{
+		if (!$subj_author) $subj_author = "{L_GUEST}";
+		if ($config['ufaq_guest_premode']) $q_mode = 1;	// Premoderation
+	}
+	else
+	{
+		if ($subj_authorhide != 0)
+		{
+			if (!$subj_author)
+			{
+				$subj_authorhide = 0;
+			}
+		}
+	}
+	
 	if(!$subj)
 	{
 		trigger_error($user->lang['UFAQ_NO_SUBJ']);
@@ -738,12 +845,16 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'] && $auth->acl_get('u_a
 	generate_text_for_storage($text, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
     $time = time();
 
-	$sql_ary = array(
+	$sql_ary = array(		// NEW QUESTION
 		'q_parent'			=> $id,
 		'q_type'			=> 1,
 		'q_time'				=> $time,
 		'q_subj'				=> $subj,
 		'q_text'				=> $text,
+		'q_subj_author'		=> $subj_author,
+		'q_user_hidenick'		=> $subj_authorhide,
+		'q_user_ip'			=> $user->ip,
+		'q_mode'				=>  $q_mode,
 		'bbcode_uid'			=> $uid,
 		'bbcode_bitfield'			=> $bitfield,
 		'q_user_id'			=> $user->data['user_id'],
@@ -891,7 +1002,7 @@ elseif($mode == 'del' && $id && !$user->data['is_bot'])
 elseif($mode == 'edit' && $id && !$user->data['is_bot'])
 {	$m_perm = $auth->acl_get('m_') && $auth->acl_get('u_add_answers') ? true : false;
 
-	$sql = 'SELECT q_type, q_subj, q_text, bbcode_uid, bbcode_bitfield, q_user_id, q_users_watch
+	$sql = 'SELECT *
 			FROM ' . Q_QUESTION_TABLE . '
 			WHERE q_id = '.$id;
 			$result = $db->sql_query($sql);
@@ -917,6 +1028,8 @@ elseif($mode == 'edit' && $id && !$user->data['is_bot'])
 	'ADD_QUEST'	=> true,
 	'REPLY'	=> $row['q_type'] ? false : true,
 	'Q_SUBJ'	=> $row['q_subj'],
+	'Q_QUESTNAME'	=> $row['q_subj_author'] ? $row['q_subj_author'] : '',
+	'Q_HIDENICK'	=> $row['q_user_hidenick'] ? $row['q_user_hidenick'] : 0,
 	'TEXT'	=> $row['q_text'],
 	'Q_WATCH'	=> in_array($user_id, explode(",",$row['q_users_watch'])) ? true : false,
 	'S_BBCODE_ALLOWED'	=> true,
@@ -942,7 +1055,7 @@ elseif($mode == 'edit' && $id && !$user->data['is_bot'])
 elseif($mode == 'save_edit' && $id && !$user->data['is_bot'])
 {	$m_perm = $auth->acl_get('m_') && $auth->acl_get('u_add_answers') ? true : false;
 
-	$sql = 'SELECT q_type, q_parent, q_parent_q, q_user_id, q_users_watch
+	$sql = 'SELECT *
 			FROM ' . Q_QUESTION_TABLE . '
 			WHERE q_id = '.$id;
 			$result = $db->sql_query($sql);
@@ -967,7 +1080,10 @@ elseif($mode == 'save_edit' && $id && !$user->data['is_bot'])
 	{
 		trigger_error($user->lang['UFAQ_NO_ANSWER']);
 	}
-
+	$subj_mode = $row['q_mode'];
+	$subj_authorhide = (int) request_var('authorhide', 0);
+	$subj_author = utf8_normalize_nfc(request_var('subj_author', '', true));	
+	
 	$watch = (int) request_var('watch', 0);
 
 	$uid = $bitfield = $options = '';
@@ -1024,6 +1140,11 @@ elseif($mode == 'save_edit' && $id && !$user->data['is_bot'])
 		    'bbcode_uid'			=> $uid,
 			'bbcode_bitfield'		=> $bitfield,
 			'q_users_watch' => $watcher,
+
+			'q_subj_author'		=> $subj_author,
+			'q_user_hidenick'		=> $subj_authorhide,
+			'q_user_ip'			=> $user->ip,
+			'q_mode'				=> $subj_mode,
 		);
 	}
 	else
@@ -1032,6 +1153,11 @@ elseif($mode == 'save_edit' && $id && !$user->data['is_bot'])
 		    'q_text' => $text,
 		    'bbcode_uid'			=> $uid,
 			'bbcode_bitfield'		=> $bitfield,
+
+			'q_subj_author'		=> $subj_author,
+			'q_user_hidenick'		=> $subj_authorhide,
+			'q_user_ip'			=> $user->ip,
+			'q_mode'				=> $subj_mode,
 		);	}
 
 	$sql = 'UPDATE ' . Q_QUESTION_TABLE . '
@@ -1302,6 +1428,40 @@ elseif($mode == 'smilies')
 {	include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
 	$sql = '';
 	generate_smilies('window', 0);}
+
+elseif( $mode == 'mod' && $id && !$user->data['is_bot'] && ($auth->acl_get('m_') || $auth->acl_get('a_')) )
+{
+	$mod_action = request_var('action', '');
+	if (!$mod_action)
+	{
+		trigger_error($user->lang['NO_MODE']);
+	}
+	$meta_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=q&amp;id='.$id);
+	
+	if ($mod_action == "lock" || $mod_action == "unlock")
+	{
+		$sql = 'UPDATE ' . Q_QUESTION_TABLE . '
+			SET q_mode = 9
+			WHERE q_id = ' . $id;
+		$db->sql_query($sql);
+	}
+	if ($mod_action == "unlock")
+	{
+		$sql = 'UPDATE ' . Q_QUESTION_TABLE . '
+			SET q_mode = 0
+			WHERE q_id = ' . $id;
+		$db->sql_query($sql);	
+	}
+	if ($mod_action == "move")
+	{
+	
+
+		
+	}
+	meta_refresh(0, $meta_url);
+	trigger_error(sprintf( "%s, %s", $mod_action, $mode));
+}
+
 else
 {	trigger_error($user->lang['NO_MODE']);}
 
