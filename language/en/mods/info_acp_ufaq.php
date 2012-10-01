@@ -139,7 +139,8 @@ $lang = array_merge($lang, array(
 	'UFAQ_GUEST_PREMODE_EXPLAIN'	=> '≈сли включено, то все новые вопросы от незарегистрированных пользователей автоматически будут поставлены на модерацию, в них будут недоступны функции рейтингов, ответа, подписки.',
 
 	'UFAQ_MOD_OPEN'	=>	'Open topic',
-	'UFAQ_MOD_CLOSE'	=> 'Close topic',
+	'UFAQ_MOD_CLOSE'	=> 'Finally close topic',
+	'UFAQ_MOD_CLOSE_MODERATION'	=> 'Turn to Moderation',
 	'UFAQ_MOD_MOVE'	=>	'Move topic',
 	
 	'UFAQ_MOD_CLOSED'	=> 'Topic closed. Answering, watching and rating is disabled.',

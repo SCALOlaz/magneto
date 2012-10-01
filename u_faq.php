@@ -549,8 +549,9 @@ elseif($mode == 'q' && $id)
 	$q_user_jabber = ($q['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=jabber&amp;u=".$q['user_id']) : '';
 
 $topic_mod = '';
-$topic_mod .= ( $auth->acl_get('m_') || $auth->acl_get('a_') || $user_id == $q['q_user_id'] ) && $q['q_mode'] == 0 ? '<option value="lock">' . $user->lang['UFAQ_MOD_CLOSE'] . '</option>' : '';
+$topic_mod .= ( $auth->acl_get('m_') || $auth->acl_get('a_') || $user_id == $q['q_user_id'] ) && $q['q_mode'] != 9 ? '<option value="lock">' . $user->lang['UFAQ_MOD_CLOSE'] . '</option>' : '';
 $topic_mod .= ( $auth->acl_get('m_') || $auth->acl_get('a_') ) && ( $q['q_mode'] == 9 || $q['q_mode'] == 1 ) ? '<option value="unlock">' . $user->lang['UFAQ_MOD_OPEN'] . '</option>' : '';
+$topic_mod .= ( $auth->acl_get('m_') || $auth->acl_get('a_') || $user_id == $q['q_user_id'] ) && $q['q_mode'] != 1 ? '<option value="lockmod">' . $user->lang['UFAQ_MOD_CLOSE_MODERATION'] . '</option>' : '';
 $topic_mod .= ($auth->acl_get('m_') || $auth->acl_get('a_')) ? '<option value="move">' . $user->lang['UFAQ_MOD_MOVE'] . '</option>' : '';
 	
 	$template->assign_vars(array(
@@ -1438,10 +1439,17 @@ elseif( $mode == 'mod' && $id && !$user->data['is_bot'] && ($auth->acl_get('m_')
 	}
 	$meta_url = append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=q&amp;id='.$id);
 	
-	if ($mod_action == "lock" || $mod_action == "unlock")
+	if ($mod_action == "lock")
 	{
 		$sql = 'UPDATE ' . Q_QUESTION_TABLE . '
 			SET q_mode = 9
+			WHERE q_id = ' . $id;
+		$db->sql_query($sql);
+	}
+	if ($mod_action == "lockmod")
+	{
+		$sql = 'UPDATE ' . Q_QUESTION_TABLE . '
+			SET q_mode = 1
 			WHERE q_id = ' . $id;
 		$db->sql_query($sql);
 	}
