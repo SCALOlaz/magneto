@@ -22,6 +22,10 @@ span.ufaq2 img {
 	color: #333333;
 }
 
+.ufaq_bg_mod {
+	background-color: #E1E1E1; 
+}
+
 .ufaqbody ul.profile-icons {
 	float: right;
 	width: auto;
@@ -70,6 +74,36 @@ span.ufaq2 img {
 	vertical-align: bottom;
 }
 
-.ufaqbody .content {
+.ufaq_content {
 	font-size: 1.3em;
+}
+
+.ufaq_answer_content {
+	font-size: 1.3em;
+}
+
+.ufaq_ex_style {
+	font-family: Calibri, Georgia, Tahoma, Veradana, Times New Roman;
+}
+
+.ufaq_ex {
+	font-size: 2em;
+	font-weight: bold;
+	padding: 7px;
+	color: #fff;
+	background-color: #fd8340;
+	text-align: center;
+	vertical-align: middle;
+	width: 5%;
+	height: auto;
+	border-radius: 9px 0px 0px 2px
+}
+
+.ufaq_ex_2 {
+	padding: 2px 6px 2px 6px;
+	font-size : 1.1em;
+	line-height: 100%;
+	color: black;
+	background-color: #f0f0f0;
+	border-radius: 0 2px 9px 0
 }
