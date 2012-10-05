@@ -258,6 +258,8 @@ $lang = array_merge($lang, array(
 
 	'IMG_BUTTON_QUESTION_NEW'	=> 'Новый вопрос',
 	'IMG_BUTTON_QUESTION_REPLY'	=> 'Ответ',
+	'IMG_ICON_POST_PLUS'		=> 'Плюс',
+	'IMG_ICON_POST_MINUS'		=> 'Минус',
 	
 	'IMG_USER_ICON1'		=> 'Пользовательское изображение 1',
 	'IMG_USER_ICON2'		=> 'Пользовательское изображение 2',
