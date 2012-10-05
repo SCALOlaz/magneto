@@ -202,19 +202,12 @@
 			<p class="author"><!-- IF S_IS_BOT -->{MINI_POST_IMG}<!-- ELSE --><a href="{U_LINK}">{MINI_POST_IMG}</a><!-- ENDIF -->
 			
 			<!-- IF POSTER_HIDENICK or POSTER_FAKENICK -->
-			<!-- IF VIEW_RIGHTS --> ( {USER} )<!-- ENDIF -->
-			<!-- ENDIF -->
-			
-			<!-- IF POSTER_HIDENICK -->
-				<!-- IF POSTER_FAKENICK -->
-					<strong>{POSTER_FAKENICK}</strong>
-				<!-- ELSE -->
-					<!-- IF POSTER_QUOTE --><strong>{POSTER_QUOTE}</strong><!-- ELSE -->{USER}<!-- ENDIF -->
-				<!-- ENDIF -->
+				<!-- IF VIEW_RIGHTS --> ( {USER} )<!-- ENDIF -->
+				<strong> {POSTER_FAKENICK}</strong>
 			<!-- ELSE -->
-				<!-- IF POSTER_QUOTE --><strong>{POSTER_QUOTE}</strong><!-- ELSE -->{USER}<!-- ENDIF -->
+				<strong> {USER}</strong>
 			<!-- ENDIF -->		
-			&raquo; {TIME} <!-- IF POSTER_IP -->&raquo; {L_IP}: {POSTER_IP}<!-- ENDIF --></p>
+			 &raquo; {TIME} <!-- IF POSTER_IP -->&raquo; {L_IP}: {POSTER_IP}<!-- ENDIF --></p>
 			<hr/>
 			<div class="ufaq_content">
 			<!-- IF S_MODE != 0 -->
@@ -264,18 +257,14 @@
 				<dt>
 					<!-- IF AVATAR and not POSTER_FAKENICK --><a href="{U_USER}">{AVATAR}</a><br /><!-- ENDIF -->
 					<strong>
-			<!-- IF POSTER_HIDENICK -->
+			<!-- IF POSTER_FAKENICK or POSTER_HIDENICK -->
 			<!-- IF VIEW_RIGHTS --> ( {USER} )<br /><!-- ENDIF -->
 			<!-- ENDIF -->
 			
-			<!-- IF POSTER_HIDENICK -->
-				<!-- IF POSTER_FAKENICK -->
-					<strong>{POSTER_FAKENICK}</strong>
-				<!-- ELSE -->
-					<!-- IF POSTER_QUOTE --><strong>{POSTER_QUOTE}</strong><!-- ELSE -->{USER}<!-- ENDIF -->
-				<!-- ENDIF -->
+			<!-- IF POSTER_FAKENICK -->
+					<strong> {POSTER_FAKENICK}</strong>
 			<!-- ELSE -->
-				<!-- IF POSTER_QUOTE --><strong>{POSTER_QUOTE}</strong><!-- ELSE -->{USER}<!-- ENDIF -->
+				<strong> {USER}</strong>
 			<!-- ENDIF -->
 					</strong><br />
 				</dt>
@@ -400,7 +389,7 @@
 			<!-- IF S_IS_BOT -->{answers.MINI_POST_IMG}<!-- ELSE --><a name="{answers.ID}" href="{answers.U_LINK}#{answers.ID}">{answers.MINI_POST_IMG}</a><!-- ENDIF -->
 			<!-- IF answers.AVATAR && not answers.POSTER_HIDENICK --><a href="{answers.U_USER}"><span class="ufaq2">{answers.AVATAR}</span></a> <!-- ENDIF -->
 			
-			<!-- IF answers.POSTER_HIDENICK -->
+			<!-- IF answers.POSTER_HIDENICK or answers.POSTER_FAKENICK -->
 			<!-- IF answers.VIEW_RIGHTS --> ( {answers.USER} )<!-- ENDIF -->
 			<!-- ENDIF -->
 			
@@ -408,10 +397,10 @@
 				<!-- IF answers.POSTER_FAKENICK -->
 					{answers.POSTER_FAKENICK}
 				<!-- ELSE -->
-					<!-- IF answers.S_QUICK_REPLY and answers.S_QUOTE --><a href="#postform" onclick="dE('qr_editor_div', 1); insert_text('[b]{answers.POSTER_QUOTE}[/b]'); return false;" <!-- IF answers.POST_AUTHOR_COLOUR --> style="color: {answers.POST_AUTHOR_COLOUR}" <!-- ENDIF -->><strong>{answers.POSTER_QUOTE}</strong></a><!-- ELSE -->{answers.USER}<!-- ENDIF -->
+					<!-- IF answers.S_QUICK_REPLY and answers.S_QUOTE --><a href="#postform" onclick="dE('qr_editor_div', 1); insert_text('[b]{answers.POSTER_QUOTE}[/b]'); return false;" <!-- IF answers.POST_AUTHOR_COLOUR --> style="color: {answers.POST_AUTHOR_COLOUR}" <!-- ENDIF -->><strong> {answers.POSTER_QUOTE}</strong></a><!-- ELSE --> {answers.USER}<!-- ENDIF -->
 				<!-- ENDIF -->
 			<!-- ELSE -->
-				<!-- IF answers.S_QUICK_REPLY and answers.S_QUOTE --><a href="#postform" onclick="dE('qr_editor_div', 1); insert_text('[b]{answers.POSTER_QUOTE}[/b]'); return false;" <!-- IF answers.POST_AUTHOR_COLOUR --> style="color: {answers.POST_AUTHOR_COLOUR}" <!-- ENDIF -->><strong>{answers.POSTER_QUOTE}</strong></a><!-- ELSE -->{answers.USER}<!-- ENDIF -->
+				<!-- IF answers.S_QUICK_REPLY and answers.S_QUOTE --><a href="#postform" onclick="dE('qr_editor_div', 1); insert_text('[b]{answers.POSTER_QUOTE}[/b]'); return false;" <!-- IF answers.POST_AUTHOR_COLOUR --> style="color: {answers.POST_AUTHOR_COLOUR}" <!-- ENDIF -->><strong> {answers.POSTER_QUOTE}</strong></a><!-- ELSE --> {answers.USER}<!-- ENDIF -->
 			<!-- ENDIF -->
 
 			&raquo; {answers.TIME} <!-- IF answers.POSTER_IP -->&raquo; {L_IP}: {answers.POSTER_IP}<!-- ENDIF -->
