@@ -643,7 +643,7 @@ elseif($mode == 'q' && $id)
 	'REPLY'		=> $user->data['is_bot'] || !$auth->acl_get('u_add_answers') ? '' : $user->img('button_question_reply', 'UFAQ_ADD_ANSWER'),
 	'U_EDIT'	=> ($auth->acl_get('u_add_question') && $user->data['user_id'] == $q['q_user_id'] && $q['q_mode'] != 9) || ($auth->acl_get('m_') && $auth->acl_get('u_add_answers') && $q['q_mode'] != 9) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=edit&amp;id='.$q['q_id']) : '',
 
-		'POSTER_QUOTE'		=> '',	//addslashes($quoted_username),
+		//'POSTER_QUOTE'		=> '',	//addslashes($quoted_username),
 		'S_QUOTE'	=> $auth->acl_get('u_add_answers') && $q['q_mode'] == 0 ? true : false,
 		'S_QUICK_REPLY'		=> true,
 	
@@ -653,7 +653,7 @@ elseif($mode == 'q' && $id)
 	'U_RATE_MINUS'	=> $q['q_mode'] == 0 && $user_id != $q['q_user_id'] && !in_array($user_id, explode(",",$q['q_raters_minus'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=unrate&amp;id='.$q['q_id']) : '',
 
 	'POSTER_IP'		=> ($auth->acl_get('m_') || $auth->acl_get('a_')) && isset($q['q_user_ip']) ? $q['q_user_ip'] : '',
-	'POSTER_FAKENICK'	=> isset($row['q_subj_author']) || (isset($q['q_subj_author']) && $q['q_user_hidenick'] != 0) ? $q['q_subj_author'] : '',
+	'POSTER_FAKENICK'	=> isset($q['q_subj_author']) || (isset($q['q_subj_author']) && $q['q_user_hidenick'] != 0) ? $q['q_subj_author'] : '',
 	'POSTER_HIDENICK'	=> $q['q_user_hidenick'] != 0 ? true : false,
 	'VIEW_RIGHTS'	=> ($user_id != ANONYMOUS && $q['q_user_id'] == $user_id) || $auth->acl_get('m_') || $auth->acl_get('a_') ? true : false,
 	
