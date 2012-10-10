@@ -1,6 +1,14 @@
 <!-- INCLUDE overall_header.html -->
 <!-- IF U_MCP --><p>[<!-- IF U_ACP -->&nbsp;<a href="{U_ACP}" target="_blank">{L_ACP}</a>,&nbsp;<!-- ENDIF -->&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ENDIF -->
-<h2><a href="{U_VIEW_TOPIC}">{TOPIC_TITLE}</a></h2>
+	<table width="100%"><tr>
+	<!-- IF $FLY_RIGHT_MENU -->	
+		<td width="190px" valign=top>
+		<!-- INCLUDE overall_right_menu.html -->
+		</td>
+		<td width="0.1%">&nbsp;</td>
+	<!-- ENDIF -->	
+	<td width="100%" style="float: {S_CONTENT_FLOW_BEGIN}">
+	<h2><a href="{U_VIEW_TOPIC}">{TOPIC_TITLE}</a></h2>
 <!-- NOTE: remove the style="display: none" when you want to have the forum description on the topic body -->
 <!-- IF FORUM_DESC --><div style="display: none !important;">{FORUM_DESC}<br /></div><!-- ENDIF -->
 
@@ -218,15 +226,17 @@
 				<!-- ENDIF -->
 				
 				<!-- IF not postrow.U_POST_AUTHOR --><strong>{postrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{postrow.POST_AUTHOR_FULL}<!-- ENDIF -->
+				<!-- IF postrow.S_TOPIC_POSTER --> ( {L_AUTHOR_TOPIC} )<!-- ENDIF -->
 			</dt>
 
 			<!-- IF postrow.RANK_TITLE or postrow.RANK_IMG --><dd>{postrow.RANK_TITLE}<!-- IF postrow.RANK_TITLE and postrow.RANK_IMG --><br /><!-- ENDIF -->{postrow.RANK_IMG}</dd><!-- ENDIF -->
 
 		<dd>&nbsp;</dd>
-	
+
 		<!-- IF postrow.POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {postrow.POSTER_POSTS}</dd><!-- ENDIF -->
 		<!-- IF postrow.POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {postrow.POSTER_JOINED}</dd><!-- ENDIF -->
 		<!-- IF postrow.POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {postrow.POSTER_FROM}</dd><!-- ENDIF -->
+		<!-- IF not postrow.POSTER_WARNINGS eq 0 --><dd><strong>{L_WARNINGS}:</strong> {postrow.POSTER_WARNINGS}</dd><!-- ENDIF --> 
 
 		<!-- IF postrow.S_PROFILE_FIELD1 -->
 			<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
@@ -404,7 +414,9 @@
 <!-- ENDIF -->
 
 <!-- INCLUDE jumpbox.html -->
-
+	</td>
+	</tr></table>
+	
 <!-- IF S_TOPIC_MOD -->
 	<form method="post" action="{S_MOD_ACTION}">
 	<fieldset class="quickmod">

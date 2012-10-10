@@ -27,7 +27,7 @@
 <!-- DEFINE $FLY_COLOUR_SWITCHER = '1' -->
 <!-- DEFINE $FLY_TAB_MENU = '1' -->
 <!-- DEFINE $FLY_WARNING_FOR_ALL = '1' -->
-<!-- DEFINE $FLY_RIGHT_MENU = '0' -->
+<!-- DEFINE $FLY_RIGHT_MENU = '1' -->
 
 <!--
 	phpBB style name: prosilver
@@ -229,7 +229,7 @@
 
 			<ul class="linklist rightside">
 				<li class="icon-news"><a href="{U_NEWS}" title="{L_NEWS}"><strong>{L_NEWS}</strong></a></li>
-				<li class="icon-faq"><a href="{U_UFAQ}" title="{L_UFAQ_ADD_ANSWERS}"><strong>{L_UFAQ_ADD_ANSWERS}</strong></a></li>
+				<li class="icon-ufaq"><a href="{U_UFAQ}" title="{L_UFAQ_ADD_ANSWERS}" ><strong>{L_UFAQ_ADD_ANSWERS}</strong></a> (<strong>{UFAQ_Q_COUNT}</strong>/<strong>{UFAQ_A_COUNT}</strong>)</li>
 				<li class="icon-faq"><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}">{L_FAQ}</a></li>
 				<!-- IF not S_IS_BOT -->
 					<!-- IF S_DISPLAY_MEMBERLIST --><li class="icon-members"><a href="{U_MEMBERLIST}" title="{L_MEMBERLIST_EXPLAIN}">{L_MEMBERLIST}</a></li><!-- ENDIF -->
@@ -237,7 +237,7 @@
 					<li class="icon-logout"><a href="{U_LOGIN_LOGOUT}" title="{L_LOGIN_LOGOUT}" accesskey="x">{L_LOGIN_LOGOUT}</a></li>
 				<!-- ENDIF -->
 			</ul>
-
+			
 			<span class="corners-bottom"><span></span></span></div>
 		</div>
 

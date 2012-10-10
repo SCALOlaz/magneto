@@ -390,6 +390,10 @@ dl.faq dt {
 	margin-left: 3em;
 }
 
+.content br {
+    clear: both;
+}
+
 .posthilit {
 	background-color: #f3f3f3;
 	color: #BCBCBC;
@@ -579,6 +583,7 @@ dl.codebox code {
 	padding-top: 4px;
 	clear: left;
 	border-top: 1px solid #d8d8d8;
+	float: left;
 }
 
 .attachbox dd dd {
@@ -631,6 +636,10 @@ div.inline-attachment dl.thumbnail, div.inline-attachment dl.file {
 
 div.inline-attachment p {
 	font-size: 100%;
+}
+
+.inline-attachment {
+    float: left;
 }
 
 dl.file {

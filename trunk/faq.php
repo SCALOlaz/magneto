@@ -36,7 +36,12 @@ switch ($mode)
 		$user->add_lang('faq', false, true);
 	break;
 }
-
+	// Хлебные крошки
+	$template->assign_block_vars('navlinks',array(
+		'FORUM_NAME'		=> $l_title,
+		'U_VIEW_FORUM'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx"),
+	)
+	);
 // Pull the array data from the lang pack
 $switch_column = $found_switch = false;
 $help_blocks = array();

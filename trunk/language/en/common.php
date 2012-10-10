@@ -77,6 +77,7 @@ $lang = array_merge($lang, array(
 	'ATTACHMENTS'					=> 'Attachments',
 	'ATTACHED_IMAGE_NOT_IMAGE'		=> 'The image file you tried to attach is invalid.',
 	'AUTHOR'						=> 'Author',
+	'AUTHOR_TOPIC'					=> 'Author topic',
 	'AUTH_NO_PROFILE_CREATED'		=> 'The creation of a user profile was unsuccessful.',
 	'AVATAR_DISALLOWED_CONTENT'		=> 'The upload was rejected because the uploaded file was identified as a possible attack vector.',
 	'AVATAR_DISALLOWED_EXTENSION'	=> 'This file cannot be displayed because the extension <strong>%s</strong> is not allowed.',
