@@ -652,6 +652,7 @@ elseif($mode == 'q' && $id)
 	'U_RATE_PLUS'	=> $q['q_mode'] == 0 && $user_id != $q['q_user_id'] && !in_array($user_id, explode(",",$q['q_raters'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=rate&amp;id='.$q['q_id']) : '',
 	'U_RATE_MINUS'	=> $q['q_mode'] == 0 && $user_id != $q['q_user_id'] && !in_array($user_id, explode(",",$q['q_raters_minus'])) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=unrate&amp;id='.$q['q_id']) : '',
 
+	'POSTER_WARNINGS' => (isset($q['user_warnings'])) ? $q['user_warnings'] : 0,
 	'POSTER_IP'		=> ($auth->acl_get('m_') || $auth->acl_get('a_')) && isset($q['q_user_ip']) ? $q['q_user_ip'] : '',
 	'POSTER_FAKENICK'	=> isset($q['q_subj_author']) || (isset($q['q_subj_author']) && $q['q_user_hidenick'] != 0) ? $q['q_subj_author'] : '',
 	'POSTER_HIDENICK'	=> $q['q_user_hidenick'] != 0 ? true : false,
@@ -682,6 +683,9 @@ elseif($mode == 'q' && $id)
 	'S_CAT_MOD' 			=> ($cat_mod != '') ? '<select name="cat_action" >' . $cat_mod . '</select>' : '',
 	
 	'S_MODE'	=> $q['q_mode'],
+
+//	'ONLINE_IMG'			=> ($poster_id == ANONYMOUS || !$config['load_onlinetrack']) ? '' : (($user_cache[$poster_id]['online']) ? $user->img('icon_user_online', 'ONLINE') : $user->img('icon_user_offline', 'OFFLINE')),
+//	'S_ONLINE'				=> ($q['q_user_id'] == ANONYMOUS || !$config['load_onlinetrack']) ? false : (($user_cache[$poster_id]['online']) ? true : false),
 	)
 	);
 

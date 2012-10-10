@@ -4603,6 +4603,17 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
    }
 // Generate bots list end.
 
+// Generate UFAQ Staticstics begin
+	$sql_ufaq = "SELECT COUNT(q_id) AS quest_count FROM " . Q_QUESTION_TABLE . " q WHERE q.q_type = 1";
+		$result_ufaq = $db->sql_query($sql_ufaq);
+		$ufaq_quest_count = (int) $db->sql_fetchfield('quest_count');
+		$db->sql_freeresult($result_ufaq);
+	$sql_ufaq = "SELECT COUNT(q_id) AS answers_count FROM " . Q_QUESTION_TABLE . " q WHERE q.q_type = 0";
+		$result = $db->sql_query($sql_ufaq);
+		$ufaq_answers_count = (int) $db->sql_fetchfield('answers_count');
+		$db->sql_freeresult($result_ufaq);
+// Generate UFAQ Staticstics end
+
 	// The following assigns all _common_ variables that may be used at any point in a template.
 	$template->assign_vars(array(
 		'ONLINE_BOTLIST' 				=> $online_botlist,
@@ -4647,6 +4658,13 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		'U_PROFILE'				=> append_sid("{$phpbb_root_path}ucp.$phpEx"),
 		'U_MODCP'				=> append_sid("{$phpbb_root_path}mcp.$phpEx", false, true, $user->session_id),
 		'U_FAQ'					=> append_sid("{$phpbb_root_path}faq.$phpEx"),
+		
+		'UFAQ_Q_COUNT'	=> $ufaq_quest_count,
+		'UFAQ_A_COUNT'	=> $ufaq_answers_count,
+		'U_UFAQ_FSEARCH_TOP'	=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=search_top'),
+		'U_UFAQ_FSEARCH_NEW'	=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=search_new'),
+		'U_UFAQ_FSEARCH_ANSWERED'	=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=search_answered'),
+	
 		'U_SEARCH_SELF'			=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=egosearch'),
 		'U_SEARCH_NEW'			=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=newposts'),
 		'U_SEARCH_UNANSWERED'	=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=unanswered'),

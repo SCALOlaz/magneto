@@ -77,6 +77,7 @@ $lang = array_merge($lang, array(
 	'ATTACHMENTS'					=> 'Вложения',
 	'ATTACHED_IMAGE_NOT_IMAGE'		=> 'Вы попытались отправить недопустимый тип файла изображения.',
 	'AUTHOR'						=> 'Автор',
+	'AUTHOR_TOPIC'					=> 'Автор темы',
 	'AUTH_NO_PROFILE_CREATED'		=> 'Не удалось создать профиль пользователя.',
 	'AVATAR_DISALLOWED_CONTENT'		=> 'Закачка была отклонена, так как вложение было определено как возможная атака.',
 	'AVATAR_DISALLOWED_EXTENSION'	=> 'Данный файл не может быть отображён, поскольку расширение <strong>%s</strong> не разрешено',

@@ -38,6 +38,13 @@ $sql_single_news = $sql_archive_news = $archive_name = '';
 $attachments = $attach_list = array();
 $has_attachments = false;
 
+	// Хлебные крошки
+	$template->assign_block_vars('navlinks',array(
+		'FORUM_NAME'		=> $user->lang['NEWS'],
+		'U_VIEW_FORUM'		=> append_sid("{$phpbb_root_path}newspage.$phpEx"),
+	)
+	);
+	
 if ($archive_var)
 {
 	$archive = explode('_', $archive_var);

@@ -1,6 +1,15 @@
 <!-- INCLUDE overall_header.html -->
 <!-- IF U_MCP --><p>[<!-- IF U_ACP -->&nbsp;<a href="{U_ACP}" target="_blank">{L_ACP}</a>,&nbsp;<!-- ENDIF -->&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ENDIF -->
 
+	<table width="100%"><tr>
+	<!-- IF $FLY_RIGHT_MENU -->
+		<td width="190px" valign=top>
+		<!-- INCLUDE overall_right_menu.html -->
+		</td>
+		<td width="0.1%">&nbsp;</td>	
+	<!-- ENDIF -->
+	<td width="100%" style="float: {S_CONTENT_FLOW_BEGIN}">
+
 <!-- IF UFAQ_ENABLE -->
 
 					<script language="javascript" type="text/javascript">
@@ -19,7 +28,7 @@
 								return;
 						}
 					</script>
-					
+	
 <!-- IF S_INDEX -->
 <br clear="all" />
 		<ul class="linklist">
@@ -181,7 +190,7 @@
 <div id="page-body">
 <h2>&nbsp;<a href="{U_LINK}">{QUEST}</a></h2>
 </div>
-	<div id="p1" class="post <!-- IF S_MODE != 1 -->bg2<!-- ELSE IF S_MODE == 1 -->ufaq_bg_mod<!-- ENDIF -->">
+	<div id="p1" class="post <!-- IF S_MODE != 1 -->bg2<!-- ELSE IF S_MODE == 1 -->ufaq_bg_mod<!-- ENDIF --><!-- IF S_ONLINE --> online<!-- ENDIF -->">
 		<div class="inner"><span class="corners-top"><span></span></span>
 		<div class="postbody" id="p1">
 				<!-- IF not S_IS_BOT -->
@@ -276,6 +285,7 @@
 					<!-- IF POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {POSTER_POSTS}</dd><!-- ENDIF -->
 					<!-- IF POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
 					<!-- IF POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {POSTER_FROM}</dd><!-- ENDIF -->
+					<!-- IF not POSTER_WARNINGS eq 0 --><dd><strong>{L_WARNINGS}:</strong> {POSTER_WARNINGS}</dd><!-- ENDIF -->
 
 					<!-- IF S_PROFILE_FIELD1 -->
 						<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
@@ -463,10 +473,14 @@
 <!-- ELSE -->
 	<div class="rules">
 		<div class="inner"><span class="corners-top"><span></span></span>
-		<center>{L_UFAQ}<br /><br />{L_UFAQ_DISABLED}</center>
+		<center><strong>{L_UFAQ}</strong><br /><br />{L_UFAQ_DISABLED}</center>
 		<span class="corners-bottom"><span></span></span></div>
 	</div>
 <!-- ENDIF -->
+
+	</td>
+	</tr></table>
+
 <br clear="all" />
 <!-- IF S_DISPLAY_ONLINE_LIST -->
 	<h3><!-- IF U_VIEWONLINE --><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a><!-- ELSE -->{L_WHO_IS_ONLINE}<!-- ENDIF --></h3>

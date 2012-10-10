@@ -1,9 +1,24 @@
 <!-- INCLUDE overall_header.html -->
-
+	<table width="100%"><tr>
+	<!-- IF $FLY_RIGHT_MENU -->	
+		<td width="190px" valign=top>
+		<!-- INCLUDE overall_right_menu.html -->
+		</td>
+		<td width="0.1%">&nbsp;</td>
+	<!-- ENDIF -->	
+	<td width="100%" style="float: {S_CONTENT_FLOW_BEGIN}">
+<br clear=all/>
+		<div class="navbar" id="faqlinks">
+			<div class="inner"><span class="corners-top"><span></span></span>
+			<ul class="linklist">
+				<li><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}"><strong>{L_FAQ_EXPLAIN}</strong></a>&nbsp;&bull;</li>
+				<li><a href="{U_FAQ}?mode=bbcode" title="{L_BBCODE_GUIDE}"><strong>{L_BBCODE_GUIDE}</strong></a></li>
+			</ul>
+			<span class="corners-bottom"><span></span></span></div>
+		</div>
 <h2>{L_FAQ_TITLE}</h2>
 
-
-<div class="panel bg1" id="faqlinks">
+<div class="panel bg1">
 	<div class="inner"><span class="corners-top"><span></span></span>
 		<div class="column1">
 		<!-- BEGIN faq_block -->
@@ -23,8 +38,6 @@
 		</div>
 	<span class="corners-bottom"><span></span></span></div>
 </div>
-
-
 
 <div class="clear"></div>
 
@@ -49,4 +62,10 @@
 <!-- END faq_block -->
 
 <!-- INCLUDE jumpbox.html -->
+	</td>
+	</tr></table>
+<!-- IF S_DISPLAY_ONLINE_LIST -->
+	<h3><!-- IF U_VIEWONLINE --><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a><!-- ELSE -->{L_WHO_IS_ONLINE}<!-- ENDIF --></h3>
+	<p>{LOGGED_IN_USER_LIST}</p>
+<!-- ENDIF -->
 <!-- INCLUDE overall_footer.html -->
