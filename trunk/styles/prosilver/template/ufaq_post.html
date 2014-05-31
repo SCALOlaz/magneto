@@ -4,6 +4,7 @@
 					<h2><!-- IF TEXT -->{L_UFAQ_EDIT}<!-- ELSEIF REPLY -->{L_UFAQ_ADD_ANSWER}<!-- ELSE -->{L_UFAQ_ADD_QUEST}<!-- ENDIF --></h2>
 					<fieldset class="fields1">
 						<!-- IF not REPLY -->
+						<dl>
 							<!-- IF S_CHOOSE_CAT -->
 								<dl>
 									<dt><label for="cat">{L_UFAQ_CAT}:</label></dt>
@@ -12,7 +13,7 @@
 							<!-- ENDIF -->
 						<dl>
 							<dt><label for="subject">{L_UFAQ_SUBJ}:</label></dt>
-							<dd><input type="text" name="subj" size="45" maxlength="64" value="{Q_SUBJ}" class="inputbox autowidth" /></dd>
+							<dd><input type="text" name="subj" size="60" maxlength="64" value="{Q_SUBJ}" class="inputbox autowidth" /></dd>
 						</dl>
 							<!-- IF WATCHING_USE -->
 							<dl>
@@ -25,13 +26,13 @@
 					<!-- IF not S_IS_BOT -->
 						<!-- IF ADD_QUEST or not S_USER_LOGGED_IN -->
 							<dl>
-								<dt><label for="subj_author">Укажите Имя:</label></dt>
-								<dd><input type="text" name="subj_author" size="40" maxlength="36" value="<!-- IF Q_QUESTNAME -->{Q_QUESTNAME}<!-- ELSE -->{L_GUEST}<!-- ENDIF -->"/></dd>
+								<dt><label for="subj_author"><!-- IF not S_USER_LOGGED_IN -->{L_USER_NAME_ABS}<!-- ELSE -->{L_USER_NAME}<!-- ENDIF -->:</label></dt>
+								<dd><input type="text" name="subj_author" class="inputbox autowidth" size="60" maxlength="32" <!-- IF S_USER_LOGGED_IN -->placeholder<!-- ELSE -->value<!-- ENDIF -->="<!-- IF Q_QUESTNAME -->{Q_QUESTNAME}<!-- ELSE -->{L_GUEST}<!-- ENDIF -->"/></dd>
 							</dl>
 						<!-- ENDIF -->
 						<!-- IF S_USER_LOGGED_IN and ADD_QUEST -->
 							<dl>
-								<dt><label for="authorhide">Скрыть меня под указанным именем:</label></dt>
+								<dt><label for="authorhide">{L_USER_SECORITE}:</label></dt>
 								<dd><input type="checkbox" name="authorhide" value="1" <!-- IF Q_HIDENICK -->checked="checked" <!-- ENDIF -->/></dd>
 							</dl>						
 						<!-- ENDIF -->
