@@ -195,7 +195,7 @@
 		</ul>
 	<!-- ENDIF -->
 	
-	<!-- IF not S_IS_BOT and U_ADD_QUEST -->
+	<!-- IF not S_IS_BOT and U_ADD_QUEST and not SEARCH -->
 		<div class="buttons"><div class="question-new-icon"><a href="{U_ADD_QUEST}" title="{L_UFAQ_ADD_QUEST}"><span></span>{L_UFAQ_ADD_QUEST}</a></div></div>
 	<!-- ENDIF -->
 
@@ -241,13 +241,15 @@
 						<td class="ufaq_ex">X</td>
 						<td class="ufaq_ex_2">				
 						{L_UFAQ_MOD_CLOSED}
+						</td>
 					<!-- ENDIF -->
 					<!-- IF S_MODE == 1 -->
 						<td class="ufaq_ex">M</td>
 						<td class="ufaq_ex_2">				
 						{L_UFAQ_MOD_PREMODERATION}
+						</td>
 					<!-- ENDIF -->
-					</td> 
+
 				</tr> 
 			</table><br />
 			<!-- ENDIF -->

@@ -4,7 +4,7 @@
 * phpBB Users FAQ [English]
 *
 * @package language
-* @version 1.0.3 $
+* @version 1.0.6 $
 * @copyright (c) 2012 Axel aka Garret_Dark ( http://www.phpbbstyle.ru/ )
 * @license http://www.opensource.org/licenses/rpl1.5.txt Reciprocal Public License 1.5
 *
@@ -132,11 +132,11 @@ $lang = array_merge($lang, array(
 	'UFAQ_SET_SAVED'	=> 'UFAQ settings sucessfully saved',
 	'UFAQ_USE_RATING'	=> 'Enable ratio system',
 	'UFAQ_USE_WATCHING'	=> 'Enable category and topics watching system',
-	'UFAQ_USE_AVATAR_QUESTOR'	=> 'Показывать аватар пользователя, автора вопроса',
-	'UFAQ_USE_AVATAR_ANSWER'	=> 'Показывать аватары ответивших пользователей',
+	'UFAQ_USE_AVATAR_QUESTOR'	=> 'Show avatar for author question',
+	'UFAQ_USE_AVATAR_ANSWER'	=> 'Show avatars answered users',
 	'UFAQ_TOOLTIP_LEN'	=> 'Tooltips lenght (question, last answers)',
-	'UFAQ_GUEST_PREMODE'	=> 'Премодерация вопросов от Гостей',
-	'UFAQ_GUEST_PREMODE_EXPLAIN'	=> 'Если включено, то все новые вопросы от незарегистрированных пользователей автоматически будут поставлены на модерацию, в них будут недоступны функции рейтингов, ответа, подписки.',
+	'UFAQ_GUEST_PREMODE'	=> 'Moderation questions from guests',
+	'UFAQ_GUEST_PREMODE_EXPLAIN'	=> 'If enabled, all new questions from unregistered users will automatically be placed on moderation, they will not perform the ratings, response and subscription.',
 	'UFAQ_SEARCH_ANSWERED'		=> 'Answered',
 	'UFAQ_CATS_COUNT'	=> 'Categoryes',
 
@@ -150,7 +150,11 @@ $lang = array_merge($lang, array(
 	'UFAQ_MOD_MOVED'	=> 'Topic moved',	
 	'UFAQ_MOD_CLOSED'	=> 'Topic closed. Answering, watching and rating is disabled.',
 	'UFAQ_MOD_PREMODERATION'	=> 'Premoderation... Answering, watching and rating is disabled.',
+	'USER_NAME'               	=> 'If you need to enter any name here',
+	'USER_NAME_ABS'				=> 'Be sure to include your name',
+	'USER_SECORITE'            	=> 'Hide me under the specified nickname',
+	'GUEST'                   	=> 'UFAQ Guest',
 	'UFAQ_OUTSIDE_LINK'	=> 'Link to Question',
-	'UFAQ_OUTSIDE_LINK_EXPLAIN'	=> 'Используйте одну из этих ссылок для публикации в форуме или в чате.<br> Получатель ссылки сможет сразу задать вопрос, выбрав нужный Раздел.',
+	'UFAQ_OUTSIDE_LINK_EXPLAIN'	=> 'Use one of these links for publication in the forum or chat. <br> Recipient will be immediately ask a question, choose the desired partition. ',
 ));
 ?>

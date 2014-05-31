@@ -4,7 +4,7 @@
 * phpBB Shop Auction [Русский]
 *
 * @package language
-* @version 1.0.3 $
+* @version 1.0.6 $
 * @copyright (c) 2012 Axel aka Garret_Dark ( http://www.phpbbstyle.ru/ )
 * @license http://www.opensource.org/licenses/rpl1.5.txt Reciprocal Public License 1.5
 *
@@ -39,7 +39,7 @@ $lang = array_merge($lang, array(
 	'acl_u_add_answers'    => array('lang' => 'Может давать ответы на вопросы (UFAQ)', 'cat' => 'misc'),
     'acl_u_add_question'    => array('lang' => 'Может задавать вопросы (UFAQ)', 'cat' => 'misc'),
 	'UFAQ'			=> 'Пользовательский FAQ',
-	'UFAQ_SUBJ'			=> 'Заголовок вопроса',
+	'UFAQ_SUBJ'		    	=> 'Введите здесь заголовок своего вопроса',
 	'UFAQ_VIEWS'		=> 'Просмотров',
 	'UFAQ_CAT'			=> 'Раздел',
 	'UFAQ_CATS'			=> 'Конфигурация',
@@ -137,7 +137,7 @@ $lang = array_merge($lang, array(
 	'UFAQ_TOOLTIP_LEN'	=> 'Длина текста подсказок (вопрос, последние ответы)',
 	'UFAQ_GUEST_PREMODE'	=> 'Премодерация вопросов от Гостей',
 	'UFAQ_GUEST_PREMODE_EXPLAIN'	=> 'Если включено, то все новые вопросы от незарегистрированных пользователей автоматически будут поставлены на модерацию, в них будут недоступны функции рейтингов, ответа, подписки.',
-	'UFAQ_SEARCH_ANSWERED'		=> 'Отвеченные',
+	'UFAQ_SEARCH_ANSWERED'		=> 'Вопросы с ответами',
 	'UFAQ_CATS_COUNT'	=> 'Разделов',
 
 	'UFAQ_MOD_OPEN'	=>	'Открыть тему',
@@ -150,6 +150,10 @@ $lang = array_merge($lang, array(
 	'UFAQ_MOD_MOVED'	=> 'Тема перемещена',
 	'UFAQ_MOD_CLOSED'	=> 'Тема закрыта. Ответы, голосование и подписка недоступны.',
 	'UFAQ_MOD_PREMODERATION'	=> 'Тема находится на Премодерации. Ответы, голосование и подписка пока недоступны.',
+	'USER_NAME'               	=> 'Введите здесь любое имя, если это вам необходимо',
+	'USER_NAME_ABS'				=> 'Обязательно укажите ваше имя',
+	'USER_SECORITE'            	=> 'Скрыть меня под указанным ником',
+	'GUEST'                   	=> 'UFAQ Гость',
 	'UFAQ_OUTSIDE_LINK'	=> 'Прямая ссылка для Вопроса',
 	'UFAQ_OUTSIDE_LINK_EXPLAIN'	=> 'Используйте одну из этих ссылок для публикации в форуме или в чате.<br> Получатель ссылки сможет сразу задать вопрос, выбрав нужный Раздел.',
 ));

@@ -130,6 +130,7 @@ if(!$mode)
 
 			while($row = $db->sql_fetchrow($result))
 			{
+					$an_fakenick = '';
 					$qu_user = $an_user = $an_time = $an_id = $qu_text = $an_text = '';
 					
 				    $sql_a = 'SELECT u.username, u.user_colour, q.*
@@ -284,6 +285,8 @@ $an_user = $an_time = $an_id = $an_text = '';
 
 			while($row = $db->sql_fetchrow($result))
 			{
+				$an_fakenick = '';
+				
 				    $sql_c = 'SELECT u.username, u.user_colour, q.*
 							FROM ' . USERS_TABLE . ' u, ' . Q_QUESTION_TABLE . " q
 							WHERE q_parent_q = " . $row['q_id'] . "
@@ -439,6 +442,8 @@ $an_user = $an_time = $an_id = $an_text = '';
 			$result = $db->sql_query_limit($sql, $limit, $start);    }
 			while($row = $db->sql_fetchrow($result))
 			{
+				$an_fakenick = '';
+				
 				$sql_ca = 'SELECT u.username, u.user_colour, q.*
 					FROM ' . USERS_TABLE . ' u, ' . Q_QUESTION_TABLE . " q
 					WHERE q_parent_q = " . $row['q_id'] . "
@@ -1658,7 +1663,11 @@ elseif( $mode == 'mod' && $id && !$user->data['is_bot'] && ($auth->acl_get('m_')
 }
 
 else
-{	trigger_error($user->lang['NO_MODE']);}
+	{
+		$var_tech = '';
+		//Uncomment this string, refresh page and give screenshot with data list to authors
+		//$var_tech = 'mode: <b>'.$mode.'</b><br />id: <b>'.$id.'</b><br />'  .  'is_bot: <b>'.$user->data['is_bot'] .'</b><br />u_add_question: <b>'. $auth->acl_get('u_add_question').'</b><br />u_add_answers: <b>'. $auth->acl_get('u_add_answers') .'</b>'.'<br /><br />';
+		trigger_error($var_tech.$user->lang['GENERAL_ERROR']);	// Too often we fall here	}
 
 }	// UFAQ_ENABLE END
 else
