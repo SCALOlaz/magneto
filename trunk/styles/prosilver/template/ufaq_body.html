@@ -46,56 +46,73 @@
 				</li>
 			</ul>
 			<ul class="topiclist forums">
-<!-- BEGIN cats -->
-		<li class="row">
-			<dl>
-				<dt style="width: 46%;"><!-- IF cats.CAT_IMG --><div style="float: left; padding-right: 5px;"><img src="{cats.CAT_IMG}" alt="{cats.TITLE}" /></div><!-- ENDIF --><a class="forumtitle" href="{cats.U_CAT}">{cats.TITLE}</a></dt>
-					<dd class="topics" width="5%">{cats.COUNT}</dd>
-					<dd class="lastpost" style="width: 42%;"><span><!-- IF cats.LAST_Q --><a href="{cats.U_LAST_Q}" title="{cats.QUESTION_TEXT}">{cats.LAST_Q}</a>
-					<span>
-					
-					<!-- IF cats.QUESTOR_HIDENICK or cats.QUESTOR_FAKENICK -->
-						<!-- IF cats.VIEW_RIGHTS -->
-							({cats.QUESTER_USER})
+	<!-- BEGIN cats -->
+			<li class="row">
+				<dl>
+					<dt style="width: 46%;"><!-- IF cats.CAT_IMG --><div style="float: left; padding-right: 5px;"><img src="{cats.CAT_IMG}" alt="{cats.TITLE}" /></div><!-- ENDIF --><a class="forumtitle" href="{cats.U_CAT}">{cats.TITLE}</a></dt>
+						<dd class="topics" width="5%">{cats.COUNT}</dd>
+						<dd class="lastpost" style="width: 42%;"><span><!-- IF cats.LAST_Q --><a href="{cats.U_LAST_Q}" title="{cats.QUESTION_TEXT}">{cats.LAST_Q}</a>
+						<span>
+						
+						<!-- IF cats.QUESTOR_HIDENICK or cats.QUESTOR_FAKENICK -->
+							<!-- IF cats.VIEW_RIGHTS -->
+								({cats.QUESTER_USER})
+							<!-- ENDIF -->
+							{cats.QUESTOR_FAKENICK}
+						<!-- ELSE -->
+							{cats.QUESTER_USER}
 						<!-- ENDIF -->
-						{cats.QUESTOR_FAKENICK}
-					<!-- ELSE -->
-						{cats.QUESTER_USER}
-					<!-- ENDIF -->
-					
- &raquo; {cats.QUESTER_TIME}
-					
-					<!-- IF cats.ANSWERS > 0 -->
-						( {L_UFAQ_ANSWERS}: {cats.ANSWERS} &raquo;
-						<!-- IF not S_IS_BOT --><a href="{cats.U_LAST_Q}#{cats.ANSWER_ID}" title="{cats.ANSWER_TEXT}"><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/></a><!-- ELSE --><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/><!-- ENDIF -->
-						)
-					<!-- ENDIF -->
-					
-					</span><!-- ELSE -->{L_UFAQ_EMPTY_CAT}<!-- ENDIF --></span></dd>
-			</dl>
-		</li>
-<!-- BEGINELSE -->
-		<li class="row">
-			<dl class="icon">
-				<dt>{L_UFAQ_EMPTY_CAT}</dt>
-			</dl>
-		</li>
-<!-- END cats -->
+						
+	 &raquo; {cats.QUESTER_TIME}
+						
+						<!-- IF cats.ANSWERS > 0 -->
+							( {L_UFAQ_ANSWERS}: {cats.ANSWERS} &raquo;
+							<!-- IF not S_IS_BOT --><a href="{cats.U_LAST_Q}#{cats.ANSWER_ID}" title="{cats.ANSWER_TEXT}"><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/></a><!-- ELSE --><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/><!-- ENDIF -->
+							)
+						<!-- ENDIF -->
+						
+						</span><!-- ELSE -->{L_UFAQ_EMPTY_CAT}<!-- ENDIF --></span></dd>
+				</dl>
+			</li>
+	<!-- BEGINELSE -->
+			<li class="row">
+				<dl class="icon">
+					<dt>{L_UFAQ_EMPTY_CAT}</dt>
+				</dl>
+			</li>
+	<!-- END cats -->
 		</ul>
 			<span class="corners-bottom"><span></span></span></div>
 		</div>
+
+		<div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}<br />
+		<!-- IF U_ADD_QUESTION -->			
+			<br /><a href="#" onclick="if(document.getElementById('quoting_link').style.display=='none') document.getElementById('quoting_link').style.display='block'; else document.getElementById('quoting_link').style.display='none'; return false;" title="{L_UFAQ_OUTSIDE_LINK}"><span>{L_UFAQ_OUTSIDE_LINK}</span></a>
+			<div align="right" id="quoting_link" style="display: none; cursor: hand; width=50%;">
+				<table width="auto" cellspacing="0" border="0"> 
+					<tr class="ufaq_ex_style" align="left"> 
+						<td class="ufaq_ex_3">{L_UFAQ_OUTSIDE_LINK_EXPLAIN}</td>
+					</tr>
+					<tr class="ufaq_ex_style" align="left">
+						<td class="ufaq_ex_2" style="font-size : 1.4em;">[URL={U_ADD_QUESTION}]{L_UFAQ_ADD_QUEST}[/URL]<br /><br />{U_ADD_QUESTION} &nbsp;<a href="{U_ADD_QUESTION}"><strong>@</strong></a></td>
+					</tr> 
+				</table>
+			</div>
+		<!-- ENDIF -->		
+		</div>
+		
 <!-- ELSEIF S_LIST_Q -->
 <br clear="all" />
-<!-- IF not S_IS_BOT -->
-		<div class="search-box">
-			<form method="post" action="{S_SEARCHBOX_ACTION}">
-			<fieldset>
-				<input class="inputbox search tiny"  type="text" name="search" size="30" value="<!-- IF HIDDEN -->{HIDDEN}<!-- ELSE -->{L_SEARCH}<!-- ENDIF -->"<!-- IF not HIDDEN --> onclick="if(this.value=='{L_SEARCH}')this.value='';" onblur="if(this.value=='')this.value='{L_SEARCH}';"<!-- ENDIF --> />
-				<input class="button2" type="submit" value="{L_SEARCH}" />
-			</fieldset>
-			</form>
-		</div>
-<!-- ENDIF -->
+	<!-- IF not S_IS_BOT -->
+			<div class="search-box">
+				<form method="post" action="{S_SEARCHBOX_ACTION}">
+				<fieldset>
+					<input class="inputbox search tiny"  type="text" name="search" size="30" value="<!-- IF HIDDEN -->{HIDDEN}<!-- ELSE -->{L_SEARCH}<!-- ENDIF -->"<!-- IF not HIDDEN --> onclick="if(this.value=='{L_SEARCH}')this.value='';" onblur="if(this.value=='')this.value='{L_SEARCH}';"<!-- ENDIF --> />
+					<input class="button2" type="submit" value="{L_SEARCH}" />
+				</fieldset>
+				</form>
+			</div>
+	<!-- ENDIF -->
 
 		<ul class="linklist">
 			<li class="leftside">&nbsp;<a href="{U_FSEARCH_TOP}">{L_UFAQ_SEARCH_TOP}</a>&nbsp;&bull;&nbsp;<a href="{U_FSEARCH_NEW}">{L_UFAQ_SEARCH_NEW}</a>&nbsp;&bull;&nbsp;<a href="{U_FSEARCH_ANSWERED}">{L_UFAQ_SEARCH_ANSWERED}</a></li>
@@ -121,41 +138,41 @@
 				</li>
 			</ul>
 			<ul class="topiclist topics">
-<!-- BEGIN q -->
-		<li class="row<!-- IF q.S_MODE == 0 --><!-- IF q.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF --><!-- ELSE --> ufaq_bg_mod<!-- ENDIF -->">
-			<dl>
-				<dd class="pic">&nbsp;
-				<!-- IF q.S_MODE == 9 --><img title="{L_UFAQ_MOD_CLOSED}" src="{T_IMAGESET_PATH}/topic_read_locked.gif"/><!-- ENDIF -->
-				<!-- IF q.S_MODE == 1 --><img title="{L_UFAQ_MOD_PREMODERATION}" src="{T_IMAGESET_PATH}/topic_unread_locked_mine.gif"/><!-- ENDIF -->
-				<!-- IF q.S_MODE == 0 --><!-- IF q.ANSWERS == 0 --><img src="{T_IMAGESET_PATH}/forum_read.gif"/><!-- ELSE --><img src="{T_IMAGESET_PATH}/forum_read_subforum.gif"/><!-- ENDIF --><!-- ENDIF -->
-				</dd>
-				<dt style="width: 35%;"><!-- IF SEARCH --><a class="topictitle" href="{q.U_CAT_URL}">{q.PARENT}</a><br /><!-- ENDIF --><a class="topictitle" href="{q.U_QUESTION}" title="{q.QUESTION_TEXT}">{q.SUBJ}</a><br />
-				<span>
-					<!-- IF q.QUESTOR_HIDENICK or q.QUESTOR_FAKENICK -->
-						<!-- IF q.VIEW_RIGHTS -->
-							({q.QUESTOR})
-						<!-- ENDIF -->
-						{q.QUESTOR_FAKENICK}
-					<!-- ELSE -->
-						{q.QUESTOR}
-					<!-- ENDIF --> &raquo; {q.TIME}
-				</span></dt>
-				
-				<!-- IF RATING_USE --><dd class="topics"><b style="color: <!-- IF q.RATING > 0 -->green<!-- ELSEIF q.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF q.RATING > 0 -->+<!-- ENDIF -->{q.RATING}</b></dd><!-- ENDIF -->
-				<dd class="views">{q.VIEWS}</dd>				
-				<dd class="posts">{q.ANSWERS}</dd>		
-				<dd class="lastpost" style="width: 25%;"><span><!-- IF q.ANSWERS == 0 -->{L_UFAQ_EMPTY_Q}<!-- ELSE --><!-- IF q.ANSWER_FAKENICK -->{q.ANSWER_FAKENICK} <!-- ELSE -->{q.ANSWER_USER} <!-- ENDIF -->
-				<!-- IF not S_IS_BOT --><a href="{q.U_QUESTION}#{q.ANSWER_ID}" title="{q.ANSWER_TEXT}"><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/></a><!-- ELSE --><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/><!-- ENDIF -->
-				<br />{q.ANSWER_TIME}<!-- ENDIF --></span></dd>
-			</dl>
-		</li>
-<!-- BEGINELSE -->
-		<li class="row bg1">
-			<dl class="icon">
-				<dt>{L_UFAQ_EMPTY_CAT}</dt>
-			</dl>
-		</li>
-<!-- END q -->
+		<!-- BEGIN q -->
+				<li class="row<!-- IF q.S_MODE == 0 --><!-- IF q.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF --><!-- ELSE --> ufaq_bg_mod<!-- ENDIF -->">
+					<dl>
+						<dd class="pic">&nbsp;
+						<!-- IF q.S_MODE == 9 --><img title="{L_UFAQ_MOD_CLOSED}" src="{T_IMAGESET_PATH}/topic_read_locked.gif"/><!-- ENDIF -->
+						<!-- IF q.S_MODE == 1 --><img title="{L_UFAQ_MOD_PREMODERATION}" src="{T_IMAGESET_PATH}/topic_unread_locked_mine.gif"/><!-- ENDIF -->
+						<!-- IF q.S_MODE == 0 --><!-- IF q.ANSWERS == 0 --><img src="{T_IMAGESET_PATH}/forum_read.gif"/><!-- ELSE --><img src="{T_IMAGESET_PATH}/forum_read_subforum.gif"/><!-- ENDIF --><!-- ENDIF -->
+						</dd>
+						<dt style="width: 35%;"><!-- IF SEARCH --><a class="topictitle" href="{q.U_CAT_URL}">{q.PARENT}</a><br /><!-- ENDIF --><a class="topictitle" href="{q.U_QUESTION}" title="{q.QUESTION_TEXT}">{q.SUBJ}</a><br />
+						<span>
+							<!-- IF q.QUESTOR_HIDENICK or q.QUESTOR_FAKENICK -->
+								<!-- IF q.VIEW_RIGHTS -->
+									({q.QUESTOR})
+								<!-- ENDIF -->
+								{q.QUESTOR_FAKENICK}
+							<!-- ELSE -->
+								{q.QUESTOR}
+							<!-- ENDIF --> &raquo; {q.TIME}
+						</span></dt>
+						
+						<!-- IF RATING_USE --><dd class="topics"><b style="color: <!-- IF q.RATING > 0 -->green<!-- ELSEIF q.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF q.RATING > 0 -->+<!-- ENDIF -->{q.RATING}</b></dd><!-- ENDIF -->
+						<dd class="views">{q.VIEWS}</dd>				
+						<dd class="posts">{q.ANSWERS}</dd>		
+						<dd class="lastpost" style="width: 25%;"><span><!-- IF q.ANSWERS == 0 -->{L_UFAQ_EMPTY_Q}<!-- ELSE --><!-- IF q.ANSWER_FAKENICK -->{q.ANSWER_FAKENICK} <!-- ELSE -->{q.ANSWER_USER} <!-- ENDIF -->
+						<!-- IF not S_IS_BOT --><a href="{q.U_QUESTION}#{q.ANSWER_ID}" title="{q.ANSWER_TEXT}"><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/></a><!-- ELSE --><img src="{T_IMAGESET_PATH}/icon_topic_latest.gif"/><!-- ENDIF -->
+						<br />{q.ANSWER_TIME}<!-- ENDIF --></span></dd>
+					</dl>
+				</li>
+		<!-- BEGINELSE -->
+				<li class="row bg1">
+					<dl class="icon">
+						<dt>{L_UFAQ_EMPTY_CAT}</dt>
+					</dl>
+				</li>
+		<!-- END q -->
 		</ul>
 			<span class="corners-bottom"><span></span></span></div>
 		</div>
@@ -178,13 +195,11 @@
 		</ul>
 	<!-- ENDIF -->
 	
-<!-- IF not S_IS_BOT and U_ADD_QUEST -->
-	<div class="buttons"><div class="question-new-icon"><a href="{U_ADD_QUEST}" title="{L_UFAQ_ADD_QUEST}"><span></span>{L_UFAQ_ADD_QUEST}</a></div></div>
-<!-- ENDIF -->
+	<!-- IF not S_IS_BOT and U_ADD_QUEST -->
+		<div class="buttons"><div class="question-new-icon"><a href="{U_ADD_QUEST}" title="{L_UFAQ_ADD_QUEST}"><span></span>{L_UFAQ_ADD_QUEST}</a></div></div>
+	<!-- ENDIF -->
 
-<!-- IF U_SORT_RATING -->
-<div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div>
-<!-- ENDIF -->
+	<div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div>
 
 <!-- ELSEIF QUEST -->
 <div id="page-body">
@@ -359,87 +374,85 @@
 				
 <!-- IF .answers -->
 	<h2>{L_UFAQ_ANSWERS_V} ( {COUNT} ):</h2>
-<!-- BEGIN answers -->
-	<table><tr width="98%"><td valign="top" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="99%">
-	<div id="post{answers.ID}" class="post <!-- IF answers.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
-		<div class="inner"><span class="corners-top"><span></span></span>
-		<div class="ufaqbody">
-				<ul class="profile-icons">
-				<!-- IF not S_IS_BOT and RATING_USE -->				
-					<li class="rightside"><b style="color: <!-- IF answers.RATING > 0 -->green<!-- ELSEIF answers.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF answers.RATING > 0 -->+<!-- ENDIF -->{answers.RATING}</b></li>
-					<!-- IF answers.U_RATE_PLUS and S_USER_LOGGED_IN -->			
-						<li class="plus-icon"><a href="{answers.U_RATE_PLUS}" title="{L_UFAQ_RATE_A}"><span>{L_UFAQ_RATE_A}</span></a></li>						
-					<!-- ELSE -->
-						<li class="plus-icon" style="opacity:0.4; background-position: 0 0%;"></li>	
+	<!-- BEGIN answers -->
+		<table><tr width="98%"><td valign="top" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="99%">
+		<div id="post{answers.ID}" class="post <!-- IF answers.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+			<div class="inner"><span class="corners-top"><span></span></span>
+			<div class="ufaqbody">
+					<ul class="profile-icons">
+					<!-- IF not S_IS_BOT and RATING_USE -->				
+						<li class="rightside"><b style="color: <!-- IF answers.RATING > 0 -->green<!-- ELSEIF answers.RATING < 0 -->red<!-- ELSE -->gray<!-- ENDIF -->;"><!-- IF answers.RATING > 0 -->+<!-- ENDIF -->{answers.RATING}</b></li>
+						<!-- IF answers.U_RATE_PLUS and S_USER_LOGGED_IN -->			
+							<li class="plus-icon"><a href="{answers.U_RATE_PLUS}" title="{L_UFAQ_RATE_A}"><span>{L_UFAQ_RATE_A}</span></a></li>						
+						<!-- ELSE -->
+							<li class="plus-icon" style="opacity:0.4; background-position: 0 0%;"></li>	
+						<!-- ENDIF -->
+						<!-- IF answers.U_RATE_MINUS and S_USER_LOGGED_IN -->	
+							<li class="minus-icon"><a href="{answers.U_RATE_MINUS}" title="{L_UFAQ_RATE_A_MINUS}"><span>{L_UFAQ_RATE_A_MINUS}</span></a></li>						
+						<!-- ELSE -->
+							<li class="minus-icon" style="opacity:0.4; background-position: 0 0%;"></li>
+						<!-- ENDIF -->
+							<li>&nbsp;&nbsp;&nbsp;</li>
 					<!-- ENDIF -->
-					<!-- IF answers.U_RATE_MINUS and S_USER_LOGGED_IN -->	
-						<li class="minus-icon"><a href="{answers.U_RATE_MINUS}" title="{L_UFAQ_RATE_A_MINUS}"><span>{L_UFAQ_RATE_A_MINUS}</span></a></li>						
-					<!-- ELSE -->
-						<li class="minus-icon" style="opacity:0.4; background-position: 0 0%;"></li>
+					
+					<!-- IF not S_IS_BOT -->
+						<!-- IF answers.S_QUOTE and answers.S_QUICK_REPLY -->
+							<li class="quote-icon">
+								<a href="#postform" onclick="if(!(window.getSelection && window.getSelection().toString() == '') && !(document.getSelection && document.getSelection() == '') && !(document.selection && document.selection.createRange().text == '')){dE('qr_editor_div', 1);addquote('post{answers.ID}','{answers.POSTER_QUOTE}'); insert_text('\r\n'); return false; }else{ insert_text('[quote={answers.POSTER_QUOTE}]...[/quote]\r\n'); return false;}" title="{L_REPLY_WITH_QUOTE}">
+								<span>{L_REPLY_WITH_QUOTE}</span>
+								</a>
+							</li>
+						<!-- ENDIF -->
+							<!-- IF S_USER_LOGGED_IN -->
+							<!-- IF answers.U_EDIT --><li class="edit-icon"><a href="{answers.U_EDIT}" title="{L_UFAQ_EDIT}"><span>{L_UFAQ_EDIT}</span></a></li><!-- ENDIF -->
+							<!-- IF answers.U_DEL --><li class="delete-icon"><a href="{answers.U_DEL}" title="{L_DELETE}"><span>{L_DELETE}</span></a></li><!-- ENDIF -->
+						<!-- ENDIF -->
 					<!-- ENDIF -->
-						<li>&nbsp;&nbsp;&nbsp;</li>
+					</ul>
+
+				<p class="author">
+				<!-- IF S_IS_BOT -->{answers.MINI_POST_IMG}<!-- ELSE --><a name="{answers.ID}" href="{answers.U_LINK}#{answers.ID}">{answers.MINI_POST_IMG}</a><!-- ENDIF -->
+				<!-- IF answers.AVATAR && not answers.POSTER_HIDENICK --><a href="{answers.U_USER}"><span class="ufaq2">{answers.AVATAR}</span></a> <!-- ENDIF -->
+				
+				<!-- IF answers.POSTER_HIDENICK or answers.POSTER_FAKENICK -->
+				<!-- IF answers.VIEW_RIGHTS --> ( {answers.USER} )<!-- ENDIF -->
 				<!-- ENDIF -->
 				
-				<!-- IF not S_IS_BOT -->
-					<!-- IF answers.S_QUOTE and answers.S_QUICK_REPLY -->
-						<li class="quote-icon">
-							<a href="#postform" onclick="if(!(window.getSelection && window.getSelection().toString() == '') && !(document.getSelection && document.getSelection() == '') && !(document.selection && document.selection.createRange().text == '')){dE('qr_editor_div', 1);addquote('post{answers.ID}','{answers.POSTER_QUOTE}'); insert_text('\r\n'); return false; }else{ insert_text('[quote={answers.POSTER_QUOTE}]...[/quote]\r\n'); return false;}" title="{L_REPLY_WITH_QUOTE}">
-							<span>{L_REPLY_WITH_QUOTE}</span>
-							</a>
-						</li>
+				<!-- IF answers.POSTER_HIDENICK -->
+					<!-- IF answers.POSTER_FAKENICK -->
+						{answers.POSTER_FAKENICK}
+					<!-- ELSE -->
+						<!-- IF answers.S_QUICK_REPLY and answers.S_QUOTE --><a href="#postform" onclick="dE('qr_editor_div', 1); insert_text('[b]{answers.POSTER_QUOTE}[/b]'); return false;" <!-- IF answers.POST_AUTHOR_COLOUR --> style="color: {answers.POST_AUTHOR_COLOUR}" <!-- ENDIF -->><strong> {answers.POSTER_QUOTE}</strong></a><!-- ELSE --> {answers.USER}<!-- ENDIF -->
 					<!-- ENDIF -->
-						<!-- IF S_USER_LOGGED_IN -->
-						<!-- IF answers.U_EDIT --><li class="edit-icon"><a href="{answers.U_EDIT}" title="{L_UFAQ_EDIT}"><span>{L_UFAQ_EDIT}</span></a></li><!-- ENDIF -->
-						<!-- IF answers.U_DEL --><li class="delete-icon"><a href="{answers.U_DEL}" title="{L_DELETE}"><span>{L_DELETE}</span></a></li><!-- ENDIF -->
-					<!-- ENDIF -->
-				<!-- ENDIF -->
-				</ul>
-
-			<p class="author">
-			<!-- IF S_IS_BOT -->{answers.MINI_POST_IMG}<!-- ELSE --><a name="{answers.ID}" href="{answers.U_LINK}#{answers.ID}">{answers.MINI_POST_IMG}</a><!-- ENDIF -->
-			<!-- IF answers.AVATAR && not answers.POSTER_HIDENICK --><a href="{answers.U_USER}"><span class="ufaq2">{answers.AVATAR}</span></a> <!-- ENDIF -->
-			
-			<!-- IF answers.POSTER_HIDENICK or answers.POSTER_FAKENICK -->
-			<!-- IF answers.VIEW_RIGHTS --> ( {answers.USER} )<!-- ENDIF -->
-			<!-- ENDIF -->
-			
-			<!-- IF answers.POSTER_HIDENICK -->
-				<!-- IF answers.POSTER_FAKENICK -->
-					{answers.POSTER_FAKENICK}
 				<!-- ELSE -->
 					<!-- IF answers.S_QUICK_REPLY and answers.S_QUOTE --><a href="#postform" onclick="dE('qr_editor_div', 1); insert_text('[b]{answers.POSTER_QUOTE}[/b]'); return false;" <!-- IF answers.POST_AUTHOR_COLOUR --> style="color: {answers.POST_AUTHOR_COLOUR}" <!-- ENDIF -->><strong> {answers.POSTER_QUOTE}</strong></a><!-- ELSE --> {answers.USER}<!-- ENDIF -->
 				<!-- ENDIF -->
-			<!-- ELSE -->
-				<!-- IF answers.S_QUICK_REPLY and answers.S_QUOTE --><a href="#postform" onclick="dE('qr_editor_div', 1); insert_text('[b]{answers.POSTER_QUOTE}[/b]'); return false;" <!-- IF answers.POST_AUTHOR_COLOUR --> style="color: {answers.POST_AUTHOR_COLOUR}" <!-- ENDIF -->><strong> {answers.POSTER_QUOTE}</strong></a><!-- ELSE --> {answers.USER}<!-- ENDIF -->
-			<!-- ENDIF -->
 
-			&raquo; {answers.TIME} <!-- IF answers.POSTER_IP -->&raquo; {L_IP}: {answers.POSTER_IP}<!-- ENDIF -->
-			</p>
-			<hr/>
+				&raquo; {answers.TIME} <!-- IF answers.POSTER_IP -->&raquo; {L_IP}: {answers.POSTER_IP}<!-- ENDIF -->
+				</p>
+				<hr/>
 
-			<div id="{answers.ID}" class="ufaq_answer_content" <!-- IF answers.COLOR != 0 -->style="opacity: {answers.COLOR}" onMouseOut="document.getElementById('{answers.ID}').style.opacity='{answers.COLOR}';" onMouseOver="document.getElementById('{answers.ID}').style.opacity='1';" <!-- ENDIF -->>
-			<!-- IF answers.COLOR == 230 --><span style="opacity: {answers.COLOR}"><!-- ENDIF -->
-			{answers.TEXT}
-			<!-- IF answers.COLOR == 0 --></span><!-- ENDIF -->
+				<div id="{answers.ID}" class="ufaq_answer_content" <!-- IF answers.COLOR != 0 -->style="opacity: {answers.COLOR}" onMouseOut="document.getElementById('{answers.ID}').style.opacity='{answers.COLOR}';" onMouseOver="document.getElementById('{answers.ID}').style.opacity='1';" <!-- ENDIF -->>
+				<!-- IF answers.COLOR == 230 --><span style="opacity: {answers.COLOR}"><!-- ENDIF -->
+				{answers.TEXT}
+				<!-- IF answers.COLOR == 0 --></span><!-- ENDIF -->
+				</div>
+
 			</div>
 
-		</div>
-
-		<span class="corners-bottom"><span></span></span></div>
-	</div>
-	<td valign="top" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	</td></tr></table>
-	<hr class="divider" />
-<!-- END answers -->
-
-	<tr><td class="cat" colspan="2">&nbsp;</td></tr>
-	</table>
-<!-- ELSE -->
-		<div class="rules">
-			<div class="inner"><span class="corners-top"><span></span></span>
-			{L_UFAQ_EMPTY_Q}
 			<span class="corners-bottom"><span></span></span></div>
 		</div>
+		<td valign="top" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		</td></tr></table>
+		<hr class="divider" />
+	<!-- END answers -->
+
+<!-- ELSE -->
+	<div class="rules">
+		<div class="inner"><span class="corners-top"><span></span></span>
+		{L_UFAQ_EMPTY_Q}
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
 <!-- ENDIF -->
 
 	<!-- IF S_MODE == 0 -->
@@ -459,7 +472,7 @@
 		<!-- ENDIF -->
 	<!-- ENDIF -->
 	
-<div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div>
+	<div align="right">{S_CAN_QUEST}<br />{S_CAN_ANSWER}</div>
 <!-- ELSEIF ADD_QUEST -->
 	<!-- INCLUDE ufaq_post.html -->
 <!-- ELSE -->

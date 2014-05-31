@@ -38,6 +38,20 @@ $template->assign_vars(array(
 
 if ($ufaq_enable)	// UFAQ_ENABLE_BEGIN
 {
+
+	if ($config['enable_post_confirm'] && !$user->data['is_registered'])
+	{
+		include($phpbb_root_path . 'includes/captcha/captcha_factory.' . $phpEx);
+		$captcha =& phpbb_captcha_factory::get_instance($config['captcha_plugin']);
+		$captcha->init(CONFIRM_POST);
+
+		$confirm_code = 1;
+	}
+	else
+	{
+		$confirm_code = 0;
+	}
+
 	$ufaq_use_rating = $config['ufaq_use_rating'];
 	$ufaq_use_watching = $config['ufaq_use_watching'];
 	
@@ -50,7 +64,20 @@ if ($ufaq_enable)	// UFAQ_ENABLE_BEGIN
 	{
 		login_box('', $user->lang['LOGIN']);
 	}
-
+	
+	 // CAPTCHA
+	if ($config['enable_post_confirm'] && !$user->data['is_registered'] && ($mode == 'save_q' || $mode == 'add_a') )
+	{
+		$captcha_data = array(
+			'message'	=> utf8_normalize_nfc(request_var('message', '', true)),
+		);
+		$vc_response = $captcha->validate($captcha_data);
+	}
+	else
+	{
+		$vc_response = '';
+	}
+	
 	// Хлебные крошки
 	$template->assign_block_vars('navlinks',array(
 		'FORUM_NAME'		=> $user->lang['UFAQ'],
@@ -90,7 +117,7 @@ if ($ufaq_enable)	// UFAQ_ENABLE_BEGIN
 			$cat_mod_limiter = 19;
 			while($row = $db->sql_fetchrow($result))
 			{
-				$cat_mod .= '<option value="cat_'.$row['cat_id'].'">' . ( utf8_strlen($row['cat_name']) > $cat_mod_limiter + 3 ? utf8_substr($row['cat_name'], 0, $cat_mod_limiter) . '...' : $row['cat_name'] ) . '</option>';
+				$cat_mod .= '<option value="cat_'.$row['cat_id'].'">' . ( $id && $id > 0 ? (utf8_strlen($row['cat_name']) > $cat_mod_limiter + 3 ? utf8_substr($row['cat_name'], 0, $cat_mod_limiter) . '...' : $row['cat_name'] ) : $row['cat_name'] ). '</option>';
 			}
 			$db->sql_freeresult($result);	
 	
@@ -180,7 +207,10 @@ if(!$mode)
 
 	$template->assign_vars(array(
 	'S_INDEX'	=> true,
-	//'MINI_POST_IMG'			=> $user->img('icon_post_target', 'POST'),
+	'S_CAN_QUEST'		=> $auth->acl_get('u_add_question') ? $user->lang['UFAQ_CAN_QUEST'] : $user->lang['UFAQ_CANT_QUEST'],
+	'S_CAN_ANSWER'		=> $auth->acl_get('u_add_answers') ? $user->lang['UFAQ_CAN_ANSWER'] : $user->lang['UFAQ_CANT_ANSWER'],
+
+	'U_ADD_QUESTION'	=> 'http://' . $config['server_name'] . $config['script_path'] . '/u_faq.'.$phpEx.'?mode=add_q',
 	)
 	);
 
@@ -617,7 +647,15 @@ elseif($mode == 'q' && $id)
 	{
 		$quoted_username = get_username_string('username', $q['q_user_id'], $q['username'], $q['user_colour']);
 	}
-					
+
+	// CAPTCHA
+	if ( $config['enable_post_confirm'] && !$user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === false) )
+	{
+		$captcha_template = $captcha->get_template();
+	}
+	else
+		$captcha_template = '';
+		
 	$template->assign_vars(array(
 	'QUEST'	=> $q['q_subj'],
 	'AVATAR'	=> $config['ufaq_avatar_questors'] ? ($user->optionget('viewavatars') ? get_user_avatar($q['user_avatar'], $q['user_avatar_type'], $q['user_avatar_width'], $q['user_avatar_height']) : '') : '',
@@ -640,6 +678,9 @@ elseif($mode == 'q' && $id)
 	'S_ADD_A_ACTION'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=add_a&amp;id='.$q['q_id']),
 	'S_SHOW_SMILEY_LINK' 	=> true,
 	'U_MORE_SMILIES' 		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=smilies'),
+	'S_CONFIRM_CODE'			=> $confirm_code,
+	'CAPTCHA_TEMPLATE'			=> $captcha_template,
+
 	'REPLY'		=> $user->data['is_bot'] || !$auth->acl_get('u_add_answers') ? '' : $user->img('button_question_reply', 'UFAQ_ADD_ANSWER'),
 	'U_EDIT'	=> ($auth->acl_get('u_add_question') && $user->data['user_id'] == $q['q_user_id'] && $q['q_mode'] != 9) || ($auth->acl_get('m_') && $auth->acl_get('u_add_answers') && $q['q_mode'] != 9) ? append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=edit&amp;id='.$q['q_id']) : '',
 
@@ -684,8 +725,6 @@ elseif($mode == 'q' && $id)
 	
 	'S_MODE'	=> $q['q_mode'],
 
-//	'ONLINE_IMG'			=> ($poster_id == ANONYMOUS || !$config['load_onlinetrack']) ? '' : (($user_cache[$poster_id]['online']) ? $user->img('icon_user_online', 'ONLINE') : $user->img('icon_user_offline', 'OFFLINE')),
-//	'S_ONLINE'				=> ($q['q_user_id'] == ANONYMOUS || !$config['load_onlinetrack']) ? false : (($user_cache[$poster_id]['online']) ? true : false),
 	)
 	);
 
@@ -709,23 +748,39 @@ elseif($mode == 'q' && $id)
 	$template->set_filenames(array(
 	   'body' => 'ufaq_body.html')
 	);}
-elseif($mode == 'add_q' && $id && !$user->data['is_bot'] && $auth->acl_get('u_add_question'))
-{	if(!$auth->acl_get('u_add_question'))
+elseif($mode == 'add_q' && !$user->data['is_bot'] && $auth->acl_get('u_add_question'))
+{
+	if(!$auth->acl_get('u_add_question'))
 	{
 		trigger_error($user->lang['UFAQ_NO_PERMISSION']);
 	}
-
 	$user->setup('posting');
-	$sql = 'SELECT cat_name, cat_count
-			FROM ' . Q_CATS_TABLE . '
-			WHERE cat_id = '.$id;
-			$result = $db->sql_query($sql);
-			$row = $db->sql_fetchrow($result);
-			$db->sql_freeresult($result);
 
-	if(!$row)
+	// CAPTCHA
+	if ( $config['enable_post_confirm'] && !$user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === false) )
 	{
-		trigger_error($user->lang['UFAQ_NO_CAT']);
+		$captcha_template = $captcha->get_template();
+	}
+	else
+		$captcha_template = '';
+
+	if ($id && $id > 0)
+	{
+		$sql = 'SELECT cat_name, cat_count
+				FROM ' . Q_CATS_TABLE . '
+				WHERE cat_id = '.$id;
+				$result = $db->sql_query($sql);
+				$row = $db->sql_fetchrow($result);
+				$db->sql_freeresult($result);
+
+		if(!$row)
+		{
+			trigger_error($user->lang['UFAQ_NO_CAT']);
+		}
+	}
+	else
+	{
+		$id = -1;
 	}
 
 	$template->assign_vars(array(
@@ -738,12 +793,18 @@ elseif($mode == 'add_q' && $id && !$user->data['is_bot'] && $auth->acl_get('u_ad
 	'S_SHOW_SMILEY_LINK' 	=> true,
 	'U_MORE_SMILIES' 		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=smilies'),
 	'S_ADD_A_ACTION'	=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=save_q&amp;id='.$id),
+
+	'S_CONFIRM_CODE'			=> $confirm_code,
+	'CAPTCHA_TEMPLATE'			=> $captcha_template,
+	
+	'S_CHOOSE_CAT'	=> $id > 0 ? false : true,
+	'S_CAT_MOD' 			=> ($cat_mod != '') ? '<select name="cat_action" >' . $cat_mod . '</select>' : '',
 	)
 	);
 
 	// Хлебные крошки
 	$template->assign_block_vars('navlinks',array(
-		'FORUM_NAME'		=> $row['cat_name'],
+		'FORUM_NAME'		=> $row['cat_name'] ? $row['cat_name'] : $user->lang['UFAQ_ADD_QUEST'],
 		'U_VIEW_FORUM'		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=cat&amp;id='.$id),
 	)
 	);
@@ -753,7 +814,7 @@ elseif($mode == 'add_q' && $id && !$user->data['is_bot'] && $auth->acl_get('u_ad
 	display_custom_bbcodes();
 
 	// Output page
-	page_header($user->lang['UFAQ_ADD_QUEST'].' &bull; '.$row['cat_name']);
+	page_header($user->lang['UFAQ_ADD_QUEST']. ($row['cat_name'] ? ' &bull; '.$row['cat_name'] : ''));
 
 	$template->set_filenames(array(
 	   'body' => 'ufaq_body.html')
@@ -769,6 +830,13 @@ elseif($mode == 'add_a' && $id && !$user->data['is_bot'] && $auth->acl_get('u_ad
 	if(!$text)
 	{		trigger_error($user->lang['UFAQ_NO_ANSWER']);	}
 
+	 // CAPTCHA
+		if ($vc_response)
+		{
+			// $error[] = $vc_response;
+			trigger_error($vc_response);
+		}
+	
 	if ($user_id == ANONYMOUS)
 	{
 		$subj_author = utf8_normalize_nfc(request_var('subj_author', '', true));
@@ -872,6 +940,21 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'] && $auth->acl_get('u_a
 		trigger_error($user->lang['UFAQ_NO_PERMISSION']);
 	}
 
+	 // CAPTCHA
+	if ($vc_response)
+	{
+		trigger_error($vc_response);
+	}
+
+	if (!$id || $id < 1)
+	{
+		$cat_action = request_var('cat_action', '');
+		if ( strcmp($cat_action, "cat_") )
+		{
+			$id = str_replace('cat_', '', $cat_action);
+		}
+	}
+
 	// Проверяем есть ли такой раздел
 	$sql = 'SELECT cat_count, cat_users_watch
 		FROM ' . Q_CATS_TABLE . '
@@ -904,6 +987,10 @@ elseif($mode == 'save_q' && $id && !$user->data['is_bot'] && $auth->acl_get('u_a
 			{
 				$subj_authorhide = 0;
 			}
+		}
+		else
+		{
+			$subj_author = '';
 		}
 	}
 	
@@ -1100,6 +1187,14 @@ elseif($mode == 'edit' && $id && !$user->data['is_bot'])
     $user->setup('posting');
     decode_message($row['q_text'], $row['bbcode_uid']);
 
+	// CAPTCHA
+	if ( $config['enable_post_confirm'] && !$user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === false) )
+	{
+		$captcha_template = $captcha->get_template();
+	}
+	else
+		$captcha_template = '';
+
 	$template->assign_vars(array(
 	'ADD_QUEST'	=> true,
 	'REPLY'	=> $row['q_type'] ? false : true,
@@ -1115,6 +1210,9 @@ elseif($mode == 'edit' && $id && !$user->data['is_bot'])
 	'U_MORE_SMILIES' 		=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=smilies'),
 	'S_ADD_A_ACTION'	=> append_sid("{$phpbb_root_path}u_faq.$phpEx", 'mode=save_edit&amp;id='.$id),
 	'WATCHING_USE'	=> $ufaq_use_watching,
+	
+	'S_CONFIRM_CODE'			=> $confirm_code,
+	'CAPTCHA_TEMPLATE'			=> $captcha_template,
 	)
 	);
 

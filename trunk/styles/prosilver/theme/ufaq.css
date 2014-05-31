@@ -111,3 +111,12 @@ span.ufaq2 img {
 	background-color: #f0f0f0;
 	border-radius: 0 2px 9px 0
 }
+
+.ufaq_ex_3 {
+	padding: 2px 6px 2px 6px;
+	font-size : 1.3em;
+	line-height: 100%;
+	color: black;
+	background-color: #c0c0c0;
+	border-radius: 9px 0px 0px 2px
+}

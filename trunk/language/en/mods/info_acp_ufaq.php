@@ -150,5 +150,7 @@ $lang = array_merge($lang, array(
 	'UFAQ_MOD_MOVED'	=> 'Topic moved',	
 	'UFAQ_MOD_CLOSED'	=> 'Topic closed. Answering, watching and rating is disabled.',
 	'UFAQ_MOD_PREMODERATION'	=> 'Premoderation... Answering, watching and rating is disabled.',
+	'UFAQ_OUTSIDE_LINK'	=> 'Link to Question',
+	'UFAQ_OUTSIDE_LINK_EXPLAIN'	=> 'Используйте одну из этих ссылок для публикации в форуме или в чате.<br> Получатель ссылки сможет сразу задать вопрос, выбрав нужный Раздел.',
 ));
 ?>
