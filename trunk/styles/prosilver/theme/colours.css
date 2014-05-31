@@ -455,6 +455,13 @@ dl.faq dt {
 	color: #333333;
 }
 
+.faq_row {
+	border: 1px solid transparent;
+	border-color:#CCCCCC;
+	box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
+	padding: 5px 15px 5px 20px;
+}
+
 .posthilit {
 	background-color: #F3BFCC;
 	color: #BC2A4D;
