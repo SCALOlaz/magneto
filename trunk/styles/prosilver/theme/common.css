@@ -197,12 +197,14 @@ a#logo:hover {
 	color: #FFFFFF;
 	margin-bottom: 4px;
 	padding: 0 5px;
+	border-radius: 7px;
 	/* height: 90px; */
 }
 
 .navbar {
 	background-color: #ebebeb;
 	padding: 0 10px;
+	border-radius: 7px;
 }
 
 .navbar2 {
@@ -215,6 +217,7 @@ a#logo:hover {
 	margin-bottom: 4px;
 	padding: 0 5px;
 	clear: both;
+	border-radius: 7px;
 }
 
 .forumbg {
@@ -222,6 +225,7 @@ a#logo:hover {
 	margin-bottom: 4px;
 	padding: 0 5px;
 	clear: both;
+	border-radius: 7px;
 }
 
 .panel {
@@ -229,6 +233,7 @@ a#logo:hover {
 	padding: 0 10px;
 	background-color: #f3f3f3;
 	color: #3f3f3f;
+	border-radius: 7px;
 }
 
 .post {
@@ -236,6 +241,7 @@ a#logo:hover {
 	margin-bottom: 4px;
 	background-repeat: no-repeat;
 	background-position: 100% 0;
+	border-radius: 7px;
 }
 
 .post:target .content {
