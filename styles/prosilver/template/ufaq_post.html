@@ -3,7 +3,14 @@
 			<div class="inner"><span class="corners-top"><span></span></span>
 					<h2><!-- IF TEXT -->{L_UFAQ_EDIT}<!-- ELSEIF REPLY -->{L_UFAQ_ADD_ANSWER}<!-- ELSE -->{L_UFAQ_ADD_QUEST}<!-- ENDIF --></h2>
 					<fieldset class="fields1">
-						<!-- IF not REPLY --><dl>
+						<!-- IF not REPLY -->
+							<!-- IF S_CHOOSE_CAT -->
+								<dl>
+									<dt><label for="cat">{L_UFAQ_CAT}:</label></dt>
+									<dd>{S_CAT_MOD}</dd>
+								</dl>							
+							<!-- ENDIF -->
+						<dl>
 							<dt><label for="subject">{L_UFAQ_SUBJ}:</label></dt>
 							<dd><input type="text" name="subj" size="45" maxlength="64" value="{Q_SUBJ}" class="inputbox autowidth" /></dd>
 						</dl>
@@ -29,6 +36,12 @@
 							</dl>						
 						<!-- ENDIF -->
 					<!-- ENDIF -->
+
+	<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_CODE -->
+		<!-- DEFINE $CAPTCHA_TAB_INDEX = 3 -->
+		<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+	<!-- ENDIF -->
+
 					<!-- INCLUDE posting_buttons.html -->
 					<div id="smiley-box">
 						<strong>{L_SMILIES}</strong><br />
@@ -40,7 +53,7 @@
 					<!-- ENDIF -->
 					</div>
 					<div id="message-box">
-						<textarea style="height: 9em;" name="message" rows="7" cols="76" class="inputbox">{TEXT}</textarea>
+						<textarea style="height: 9em;" name="message" rows="<!-- IF not REPLY -->12<!-- ELSE -->7<!-- ENDIF -->" cols="76" class="inputbox">{TEXT}</textarea>
 					</div>
 					</fieldset>
 					<fieldset class="submit-buttons">
