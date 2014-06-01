@@ -22,6 +22,7 @@ $auth->acl($user->data);
 $user->setup();
 
 $mode = request_var('mode', '');
+$anchor = request_var('a', '');
 
 // Load the appropriate faq file
 switch ($mode)
@@ -80,6 +81,10 @@ $template->assign_vars(array(
 	'L_BACK_TO_TOP'				=> $user->lang['BACK_TO_TOP'],
 
 	'SWITCH_COLUMN_MANUALLY'	=> (!$found_switch) ? true : false,
+	
+	'U_LINK'					=> 'faq.'.$phpEx.($mode!='' ? '?mode='.$mode : ''),
+	'U_ANCHOR'					=> $anchor ? $anchor : '',
+	'U_MODE'					=> $mode ? $mode : '',
 ));
 
 page_header($l_title, false);
