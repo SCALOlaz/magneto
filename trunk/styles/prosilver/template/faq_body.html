@@ -18,6 +18,16 @@
 		</div>
 <h2>{L_FAQ_TITLE}</h2>
 
+<!-- IF U_ANCHOR -->
+<script type="text/javascript" src="{T_SUPER_TEMPLATE_PATH}/jquery.scrollTo-min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery.scrollTo('#a{U_ANCHOR}');
+});
+</script>
+
+<!-- ENDIF -->
+
 <div class="panel bg1">
 	<div class="inner"><span class="corners-top"><span></span></span>
 		<div class="column1">
@@ -31,15 +41,15 @@
 			<dl class="faq">
 				<dt><strong>{faq_block.BLOCK_TITLE}</strong></dt>
 				<!-- BEGIN faq_row -->
-					<dd>
-						<a href="#" onclick="if(document.getElementById('{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}').style.display=='none') document.getElementById('{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}').style.display='block'; else document.getElementById('{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}').style.display='none'; return false;" title="{faq_block.faq_row.FAQ_QUESTION}">{faq_block.faq_row.FAQ_QUESTION}</a>
+					<dd id="af{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}">
+						<a href="{U_LINK}<!-- IF not U_MODE -->?<!-- ELSE -->&amp;<!-- ENDIF -->a=f{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}" onclick="if(document.getElementById('f{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}').style.display=='none') document.getElementById('f{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}').style.display='block'; else document.getElementById('f{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}').style.display='none'; return false;" title="{faq_block.faq_row.FAQ_QUESTION}">{faq_block.faq_row.FAQ_QUESTION}</a>
 					</dd>
-	
-						<dd class="panel faq_row <!-- IF faq_block.faq_row.S_ROW_COUNT is odd -->bg3<!-- ELSE -->bg3<!-- ENDIF -->" id="{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}" align="left" style="display: none; cursor: hand; width=50%;">
-							<!-- <hr class="dashed" /> -->
+<!-- DEFINE $SO = 'f{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}' -->
+						<dd class="panel faq_row <!-- IF faq_block.faq_row.S_ROW_COUNT is odd -->bg3<!-- ELSE -->bg3<!-- ENDIF -->" id="f{faq_block.S_ROW_COUNT}r{faq_block.faq_row.S_ROW_COUNT}" align="left" style="display: <!-- IF U_ANCHOR and U_ANCHOR == $SO -->block<!-- ELSE -->none<!-- ENDIF -->; cursor: hand; width=50%;">
 							{faq_block.faq_row.FAQ_ANSWER}
 							<br />
 						</dd>
+<!-- UNDEFINE $SO -->
 				<!-- END faq_row -->
 			</dl>
 		<!-- END faq_block -->
