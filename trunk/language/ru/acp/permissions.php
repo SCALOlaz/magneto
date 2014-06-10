@@ -53,7 +53,7 @@ $lang = array_merge($lang, array(
 
 		<br />
 
-		<p>Для получения более подробной информации по настройке и управлению правами доступа на вашей конференции phpBB3 смотрите <a href="http://www.phpbb.com/support/documentation/3.0/quickstart/quick_permissions.html">Раздел 1.5 нашего руководства</a>.</p>
+		<p>Для получения более подробной информации по настройке и управлению правами доступа на вашей конференции phpBB3 смотрите <a href="https://www.phpbb.com/support/documentation/3.0/quickstart/quick_permissions.html">Раздел 1.5 нашего руководства</a>.</p>
 	',
 
 	'ACL_NEVER'				=> 'Никогда',
@@ -171,7 +171,7 @@ $lang = array_merge($lang, array(
 	'ROLE_FORUM_POLLS'			=> 'Стандартный доступ с опросами',
 	'ROLE_FORUM_READONLY'		=> 'Доступ только для чтения',
 	'ROLE_FORUM_STANDARD'		=> 'Стандартный доступ',
-	'ROLE_FORUM_NEW_MEMBER'		=> 'Вновь зарегистрированные пользователи',
+	'ROLE_FORUM_NEW_MEMBER'		=> 'Доступ вновь зарегистрированных пользователей',
 	'ROLE_MOD_FULL'				=> 'Супермодератор',
 	'ROLE_MOD_QUEUE'			=> 'Премодератор',
 	'ROLE_MOD_SIMPLE'			=> 'Простой модератор',
@@ -181,7 +181,7 @@ $lang = array_merge($lang, array(
 	'ROLE_USER_NOAVATAR'		=> 'Без аватары',
 	'ROLE_USER_NOPM'			=> 'Без личных сообщений',
 	'ROLE_USER_STANDARD'		=> 'Стандартные возможности',
-	'ROLE_USER_NEW_MEMBER'		=> 'Вновь зарегистрированные пользователи',
+	'ROLE_USER_NEW_MEMBER'		=> 'Возможности вновь зарегистрированных пользователей',
 
 	'ROLE_DESCRIPTION_ADMIN_FORUM'			=> 'Имеет доступ к управлению форумом и к настройкам прав доступа к форуму.',
 	'ROLE_DESCRIPTION_ADMIN_FULL'			=> 'Имеет доступ ко всем администраторским возможностям конференции.<br />Не рекомендуется.',
