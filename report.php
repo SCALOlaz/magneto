@@ -133,9 +133,28 @@ else
 	}
 }
 
+if ($config['enable_post_confirm'] && !$user->data['is_registered'])
+{
+	include($phpbb_root_path . 'includes/captcha/captcha_factory.' . $phpEx);
+	$captcha =& phpbb_captcha_factory::get_instance($config['captcha_plugin']);
+	$captcha->init(CONFIRM_REPORT);
+}
+
+$error	= array();
+$s_hidden_fields = '';
+
 // Submit report?
 if ($submit && $reason_id)
 {
+	if (isset($captcha))
+	{
+		$visual_confirmation_response = $captcha->validate();
+		if ($visual_confirmation_response)
+		{
+			$error[] = $visual_confirmation_response;
+		}
+	}
+
 	$sql = 'SELECT *
 		FROM ' . REPORTS_REASONS_TABLE . "
 		WHERE reason_id = $reason_id";
@@ -145,7 +164,14 @@ if ($submit && $reason_id)
 
 	if (!$row || (!$report_text && strtolower($row['reason_title']) == 'other'))
 	{
-		trigger_error('EMPTY_REPORT');
+		$error[] = $user->lang('EMPTY_REPORT');
+	}
+
+	if (!sizeof($error))
+	{
+		if (isset($captcha))
+		{
+			$captcha->reset();
 	}
 
 	$sql_ary = array(
@@ -218,16 +244,31 @@ if ($submit && $reason_id)
 	}
 	trigger_error($message);
 }
+	else if (isset($captcha) && $captcha->is_solved() !== false)
+	{
+		$s_hidden_fields .= build_hidden_fields($captcha->get_hidden_fields());
+	}
+}
 
 // Generate the reasons
 display_reasons($reason_id);
 
 $page_title = ($pm_id) ? $user->lang['REPORT_MESSAGE'] : $user->lang['REPORT_POST'];
 
+if (isset($captcha) && $captcha->is_solved() === false)
+{
+	$template->assign_vars(array(
+		'S_CONFIRM_CODE'	=> true,
+		'CAPTCHA_TEMPLATE'	=> $captcha->get_template(),
+	));
+}
+
 $template->assign_vars(array(
+	'ERROR'				=> (sizeof($error)) ? implode('<br />', $error) : '',
 	'S_REPORT_POST'		=> ($pm_id) ? false : true,
 	'REPORT_TEXT'		=> $report_text,
 	'S_REPORT_ACTION'	=> append_sid("{$phpbb_root_path}report.$phpEx", 'f=' . $forum_id . '&amp;p=' . $post_id . '&amp;pm=' . $pm_id),
+	'S_HIDDEN_FIELDS'	=> (sizeof($s_hidden_fields)) ? $s_hidden_fields : null,
 
 	'S_NOTIFY'			=> $user_notify,
 	'S_CAN_NOTIFY'		=> ($user->data['is_registered']) ? true : false)

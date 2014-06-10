@@ -25,11 +25,19 @@ include_once($phpbb_root_path . 'includes/db/dbal.' . $phpEx);
 */
 class dbal_mssql extends dbal
 {
+	var $connect_error = '';
+
 	/**
 	* Connect to server
 	*/
 	function sql_connect($sqlserver, $sqluser, $sqlpassword, $database, $port = false, $persistency = false, $new_link = false)
 	{
+		if (!function_exists('mssql_connect'))
+		{
+			$this->connect_error = 'mssql_connect function does not exist, is mssql extension installed?';
+			return $this->sql_error('');
+		}
+
 		$this->persistency = $persistency;
 		$this->user = $sqluser;
 		$this->dbname = $database;
@@ -355,9 +363,11 @@ class dbal_mssql extends dbal
 	*/
 	function _sql_error()
 	{
+		if (function_exists('mssql_get_last_message'))
+		{
 		$error = array(
 			'message'	=> @mssql_get_last_message(),
-			'code'		=> ''
+				'code'		=> '',
 		);
 
 		// Get error code number
@@ -383,6 +393,14 @@ class dbal_mssql extends dbal
 				$error['message'] .= '<br />' . $row['message'];
 			}
 			@mssql_free_result($result_id);
+		}
+		}
+		else
+		{
+			$error = array(
+				'message'	=> $this->connect_error,
+				'code'		=> '',
+			);
 		}
 
 		return $error;

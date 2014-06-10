@@ -111,7 +111,7 @@ include($phpbb_root_path . 'common.' . $phpEx);
 
 $download_id = request_var('id', 0);
 $mode = request_var('mode', '');
-$thumbnail = request_var('t', 0);
+$thumbnail = request_var('t', false);
 
 // Start session management, do not update session page.
 $user->session_begin(false);
@@ -176,7 +176,7 @@ else
 	if (!$attachment['in_message'])
 	{
 		//
-		$sql = 'SELECT p.forum_id, f.forum_password, f.parent_id
+		$sql = 'SELECT p.forum_id, f.forum_name, f.forum_password, f.parent_id
 			FROM ' . POSTS_TABLE . ' p, ' . FORUMS_TABLE . ' f
 			WHERE p.post_id = ' . $attachment['post_msg_id'] . '
 				AND p.forum_id = f.forum_id';
@@ -308,7 +308,7 @@ else if (($display_cat == ATTACHMENT_CATEGORY_NONE/* || $display_cat == ATTACHME
 	$db->sql_query($sql);
 }
 
-if ($display_cat == ATTACHMENT_CATEGORY_IMAGE && $mode === 'view' && (strpos($attachment['mimetype'], 'image') === 0) && ((strpos(strtolower($user->browser), 'msie') !== false) && (strpos(strtolower($user->browser), 'msie 8.0') === false)))
+if ($display_cat == ATTACHMENT_CATEGORY_IMAGE && $mode === 'view' && (strpos($attachment['mimetype'], 'image') === 0) && (strpos(strtolower($user->browser), 'msie') !== false) && !phpbb_is_greater_ie_version($user->browser, 7))
 {
 	wrap_img_in_html(append_sid($phpbb_root_path . 'download/file.' . $phpEx, 'id=' . $attachment['attach_id']), $attachment['real_filename']);
 	file_gc();
@@ -367,7 +367,7 @@ function send_avatar_to_browser($file, $browser)
 		$image_data = @getimagesize($file_path);
 		header('Content-Type: ' . image_type_to_mime_type($image_data[2]));
 
-		if (strpos(strtolower($browser), 'msie') !== false && strpos(strtolower($browser), 'msie 8.0') === false)
+		if ((strpos(strtolower($browser), 'msie') !== false) && !phpbb_is_greater_ie_version($browser, 7))
 		{
 			header('Content-Disposition: attachment; ' . header_filename($file));
 
@@ -500,10 +500,9 @@ function send_file_to_browser($attachment, $upload_dir, $category)
 	*/
 
 	// Send out the Headers. Do not set Content-Disposition to inline please, it is a security measure for users using the Internet Explorer.
-	$is_ie8 = (strpos(strtolower($user->browser), 'msie 8.0') !== false);
 	header('Content-Type: ' . $attachment['mimetype']);
 
-	if ($is_ie8)
+	if (phpbb_is_greater_ie_version($user->browser, 7))
 	{
 		header('X-Content-Type-Options: nosniff');
 	}
@@ -515,7 +514,7 @@ function send_file_to_browser($attachment, $upload_dir, $category)
 	}
 	else
 	{
-		if (empty($user->browser) || (!$is_ie8 && (strpos(strtolower($user->browser), 'msie') !== false)))
+		if (empty($user->browser) || ((strpos(strtolower($user->browser), 'msie') !== false) && !phpbb_is_greater_ie_version($user->browser, 7)))
 		{
 			header('Content-Disposition: attachment; ' . header_filename(htmlspecialchars_decode($attachment['real_filename'])));
 			if (empty($user->browser) || (strpos(strtolower($user->browser), 'msie 6.0') !== false))
@@ -526,7 +525,7 @@ function send_file_to_browser($attachment, $upload_dir, $category)
 		else
 		{
 			header('Content-Disposition: ' . ((strpos($attachment['mimetype'], 'image') === 0) ? 'inline' : 'attachment') . '; ' . header_filename(htmlspecialchars_decode($attachment['real_filename'])));
-			if ($is_ie8 && (strpos($attachment['mimetype'], 'image') !== 0))
+			if (phpbb_is_greater_ie_version($user->browser, 7) && (strpos($attachment['mimetype'], 'image') !== 0))
 			{
 				header('X-Download-Options: noopen');
 			}
@@ -703,7 +702,8 @@ function set_modified_headers($stamp, $browser)
 {
 	// let's see if we have to send the file at all
 	$last_load 	=  isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? strtotime(trim($_SERVER['HTTP_IF_MODIFIED_SINCE'])) : false;
-	if ((strpos(strtolower($browser), 'msie 6.0') === false) && (strpos(strtolower($browser), 'msie 8.0') === false))
+		
+	if (strpos(strtolower($browser), 'msie 6.0') === false && !phpbb_is_greater_ie_version($browser, 7))
 	{
 		if ($last_load !== false && $last_load >= $stamp)
 		{
@@ -730,6 +730,27 @@ function file_gc()
 	}
 	$db->sql_close();
 	exit;
+}
+
+/**
+* Check if the browser is internet explorer version 7+
+*
+* @param string $user_agent	User agent HTTP header
+* @param int $version IE version to check against
+*
+* @return bool true if internet explorer version is greater than $version
+*/
+function phpbb_is_greater_ie_version($user_agent, $version)
+{
+	if (preg_match('/msie (\d+)/', strtolower($user_agent), $matches))
+	{
+		$ie_version = (int) $matches[1];
+		return ($ie_version > $version);
+	}
+	else
+	{
+		return false;
+	}
 }
 
 ?>
